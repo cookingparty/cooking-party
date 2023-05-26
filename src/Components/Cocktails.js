@@ -1,17 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../store";
-import { Link } from "react-router-dom";
 
-const Home = () => {
+const Cocktails = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
   return (
     <div>
-      <h1>Home</h1>
-      {/*<Link to="/login">Login</Link>*/}
+      <h1>Cocktails</h1>
     </div>
   );
 };
 
-export default Home;
+export default Cocktails;
