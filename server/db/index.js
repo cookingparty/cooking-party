@@ -53,6 +53,7 @@ const syncAndSeed = async () => {
 
   await Membership.create({
     member_id: lucy.id,
+    groupId: cookingParty.id,
     role: "Group Admin",
   });
 
@@ -99,4 +100,9 @@ const syncAndSeed = async () => {
 module.exports = {
   syncAndSeed,
   User,
+  Recipe,
+  Comment,
+  Friendship,
+  Membership,
+  Group,
 };

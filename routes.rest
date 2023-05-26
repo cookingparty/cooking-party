@@ -1,0 +1,74 @@
+GET   http://localhost:3000/api/recipes
+
+###
+
+GET  http://localhost:3000/api/memberships
+
+###
+
+GET  http://localhost:3000/api/groups
+
+###
+
+GET  http://localhost:3000/api/friendships
+
+###
+
+GET  http://localhost:3000/api/comments
+
+###
+
+GET  http://localhost:3000/api/users
+
+###
+
+POST  http://localhost:3000/api/groups
+Content-Type: application/json
+
+{
+    "name": "TestPost",
+    "description": "PREMIUM"
+}
+
+###
+
+POST  http://localhost:3000/api/memberships
+Content-Type: application/json
+
+{
+    "groupId": "1",
+    "userId": "1"
+}
+
+###
+
+POST  http://localhost:3000/api/friendships
+Content-Type: application/json
+
+{
+    "friender_id": "1",
+    "friendee_id": "2"
+}
+
+###
+
+POST  http://localhost:3000/api/comments
+Content-Type: application/json
+
+{
+    "body": "I LOVE IT"
+}
+
+###
+
+DELETE  http://localhost:3000/api/recipes/
+
+###
+
+PUT  http://localhost:3000/api/subscribers/8
+Content-Type: application/json
+
+{
+    "name": "Mr. TestPost",
+    "subscription": "PREMIUM"
+}
