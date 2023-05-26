@@ -19,8 +19,6 @@ const App = () => {
   return (
     <div>
       <h1>Cooking Party</h1>
-      {auth.id ? <Recipes /> : <Home />}
-      {!!auth.id && (
         <div>
           <Nav />
           <Routes>
@@ -29,9 +27,14 @@ const App = () => {
             <Route path="/recipes" element={<Recipes />} />
             <Route path="/meals" element={<Meals />} />
             <Route path="/cocktails" element={<Cocktails />} />
+
+
+            {!!auth.id}
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           </Routes>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 };
