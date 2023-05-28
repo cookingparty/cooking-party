@@ -15,3 +15,8 @@ nav {
   display: flex;
   justify-content: space-around;
 }
+
+.dashboard {
+  display: flex;
+  justify-content: end;
+}
