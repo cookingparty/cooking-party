@@ -1,8 +1,7 @@
 const app = require("./app");
 const { syncAndSeed, User } = require("./db");
 const ws = require("ws");
-
-const socketMap = {};
+const socketMap = require("./socketMap");
 
 const init = async () => {
   try {

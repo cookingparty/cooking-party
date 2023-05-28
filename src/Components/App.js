@@ -6,7 +6,7 @@ import Recipes from "./Recipes";
 import Meals from "./Meals";
 import Cocktails from "./Cocktails";
 import { useSelector, useDispatch } from "react-redux";
-import { loginWithToken } from "../store";
+import { loginWithToken, fetchOnlineUsers } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -31,8 +31,12 @@ const App = () => {
       });
       window.socket.addEventListener("message", (ev) => {
         const message = JSON.parse(ev.data);
+        if (message.type) {
+          dispatch(message);
+        }
         console.log(message);
       });
+      dispatch(fetchOnlineUsers());
     }
     if (prevAuth.current.id && !auth.id) {
       console.log("logged out");
