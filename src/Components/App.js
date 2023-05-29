@@ -6,7 +6,7 @@ import Recipes from "./Recipes";
 import Meals from "./Meals";
 import Cocktails from "./Cocktails";
 import { useSelector, useDispatch } from "react-redux";
-import { loginWithToken, fetchOnlineUsers } from "../store";
+import { loginWithToken, fetchOnlineUsers, fetchFriends } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -37,6 +37,7 @@ const App = () => {
         console.log(message);
       });
       dispatch(fetchOnlineUsers());
+      dispatch(fetchFriends());
     }
     if (prevAuth.current.id && !auth.id) {
       console.log("logged out");

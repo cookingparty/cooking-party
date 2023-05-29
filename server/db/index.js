@@ -18,11 +18,13 @@ Recipe.hasMany(Comment);
 User.belongsToMany(User, {
   as: "friender",
   foreignKey: "friender_id",
+  otherKey: "friendee_id",
   through: Friendship,
 });
 User.belongsToMany(User, {
   as: "friendee",
   foreignKey: "friendee_id",
+  otherKey: "friender_id",
   through: Friendship,
 });
 
@@ -42,7 +44,17 @@ const syncAndSeed = async () => {
     User.create({ username: "ethyl", password: "123", isAdmin: true }),
   ]);
 
-  await Friendship.create({ friender_id: moe.id, friendee_id: lucy.id });
+  await Friendship.create({
+    friender_id: moe.id,
+    friendee_id: lucy.id,
+    status: "CONFIRMED",
+  });
+
+  await Friendship.create({
+    friender_id: ethyl.id,
+    friendee_id: moe.id,
+    status: "PENDING",
+  });
 
   const cookingParty = await Group.create({
     name: "cooking party",

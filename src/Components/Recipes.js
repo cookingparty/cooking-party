@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store";
 import OnlineUsers from "./OnlineUsers";
+import Friends from "./Friends";
 
 const Recipes = () => {
   const { auth } = useSelector((state) => state);
@@ -13,6 +14,7 @@ const Recipes = () => {
         Welcome {auth.username}!!
         <button onClick={() => dispatch(logout())}>Logout</button>
         {!!auth.id && <OnlineUsers />}
+        {!!auth.id && <Friends />}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const onlineUsers = (state = [], action) => {
   if (action.type === "SET_ONLINE_USERS") {
     return action.onlineUsers;
