@@ -76,6 +76,8 @@ export const addFriend = (id) => {
           },
         }
       );
+      //i'm getting the friendship back here, not the friend.
+      console.log(response.data);
       dispatch({
         type: "ADD_FRIEND",
         friend: response.data,
