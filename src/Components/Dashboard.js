@@ -2,6 +2,9 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../store";
 
 export default function Dashboard() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -9,10 +12,24 @@ export default function Dashboard() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  const updateUser = () => {
+    handleClose();
+    navigate("/update");
+  };
+
+  const logOut = () => {
+    handleClose();
+    dispatch(logout());
+    navigate("/");
+  };
   return (
     <div className="dashboard">
       <Button
@@ -40,8 +57,8 @@ export default function Dashboard() {
         }}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Edit account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={updateUser}>Edit account</MenuItem>
+        <MenuItem onClick={logOut}>Logout</MenuItem>
       </Menu>
     </div>
   );
