@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateFriend, unfriend, fetchFriends } from "../store";
+import { updateFriend, unfriend } from "../store";
 
 const Friends = () => {
   const { friends, auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const accept = (id) => {
-    dispatch(updateFriend({ id, status: "CONFIRMED", ignored: false }));
+  const acceptRequest = (id) => {
+    dispatch(updateFriend({ id, status: "CONFIRMED" }));
   };
 
-  const ignore = (id) => {
+  const ignoreRequest = (id) => {
     dispatch(updateFriend({ id, status: "IGNORED" }));
   };
 
-  const remove = (id) => {
+  const removeFriend = (id) => {
     dispatch(unfriend(id));
   };
 
@@ -28,7 +28,7 @@ const Friends = () => {
             return (
               <li key={friend.id}>
                 {friend.username}
-                <button onClick={() => remove(friend.friendship.id)}>
+                <button onClick={() => removeFriend(friend.friendship.id)}>
                   unfriend
                 </button>
               </li>
@@ -47,10 +47,10 @@ const Friends = () => {
             return (
               <li key={friend.id}>
                 {friend.username}
-                <button onClick={() => accept(friend.friendship.id)}>
+                <button onClick={() => acceptRequest(friend.friendship.id)}>
                   accept
                 </button>
-                <button onClick={() => ignore(friend.friendship.id)}>
+                <button onClick={() => ignoreRequest(friend.friendship.id)}>
                   ignore
                 </button>
               </li>
