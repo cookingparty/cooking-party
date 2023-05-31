@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Search from './Search'
-import { Container } from "@mui/material";
+import { Container, TextField } from "@mui/material";
 
 export default function Nav() {
   const { auth, recipes } = useSelector(state => state);
@@ -112,7 +112,8 @@ export default function Nav() {
 
         {/* Search bar */}
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', paddingLeft: '20px'}}>
-          <Search onSearch={handleSearch} />
+          <Search 
+          onSearch={handleSearch} />
         </Box>
 
          {/* Logo */}
