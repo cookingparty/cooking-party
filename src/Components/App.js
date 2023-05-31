@@ -18,7 +18,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Cooking Party</h1>
+  
     
         <div>
           <Nav />
