@@ -17,6 +17,7 @@ export default function Nav() {
   const { auth } = useSelector(state => state);
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const pages = [
     'Recipes',
@@ -28,13 +29,22 @@ export default function Nav() {
     'My Saved Recipes',
     'Add Recipe'
   ];
+  const settings = ['Profile', 'Settings', 'Logout'];
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
 
+  const handleOpenUserMenu = event => {
+    setAnchorElUser(event.currentTarget);
+  };
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   const navigateTo = page => {
@@ -48,36 +58,41 @@ export default function Nav() {
   return (
     <AppBar position="static" style={{ background: '#F9F6EE', margin: 0, padding: 0 }}>
       <Toolbar disableGutters>
-        {/* Dropdown menu */}
-        <Box sx={{ flexGrow: 1 }}>
-          <IconButton
-            size="large"
-            aria-label="menu"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
-            color="black"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            PaperProps={{
-              style: {
-                background: 'white'
-              }
-            }}
-          >
-            {pages.map((page) => (
-              <MenuItem key={page} onClick={() => navigateTo(page)} style={{ color: 'black' }}>
-                <Typography variant="body1">{page}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
-        </Box>
+        {/* Dropdown menu (Nav) */}
+        {auth && (
+          <Box sx={{ flexGrow: 1 }}>
+            <IconButton
+              size="large"
+              aria-label="menu"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="black"
+              style={{
+                paddingLeft: '20px',
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              PaperProps={{
+                style: {
+                  background: 'white'
+                }
+              }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={() => navigateTo(page)} style={{ color: 'black' }}>
+                  <Typography variant="body1">{page}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        )}
 
         {/* Logo */}
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -91,39 +106,77 @@ export default function Nav() {
         </Box>
 
         {/* Favorite icon */}
-        <IconButton
-          component={Link}
-          to="/my-saved-recipes"
-          aria-label="favorite recipes"
-          color="inherit"
-        >
-          <FavoriteIcon style={{ color: '#ed6fb7' }} />
-        </IconButton>
+        {auth && (
+          <IconButton
+            component={Link}
+            to="/my-saved-recipes"
+            aria-label="favorite recipes"
+            color="inherit"
+          >
+            <FavoriteIcon style={{ color: '#ed6fb7' }} />
+          </IconButton>
+        )}
 
         {/* Chat icon */}
-        <IconButton
-          component={Link}
-          to="/chat"
-          aria-label="chat"
-          color="inherit"
-        >
-          <ChatIcon style={{ color: '#6fc5ed' }} />
-        </IconButton>
+        {auth && (
+          <IconButton
+            component={Link}
+            to="/chat"
+            aria-label="chat"
+            color="inherit"
+          >
+            <ChatIcon style={{ color: '#6fc5ed' }} />
+          </IconButton>
+        )}
+
+        {/* Dropdown menu (User) */}
+        {auth && (
+          <Box>
+            <IconButton
+              size="large"
+              aria-label="user menu"
+              aria-controls="user-menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenUserMenu}
+              color="black"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="user-menu-appbar"
+              anchorEl={anchorElUser}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+              PaperProps={{
+                style: {
+                  background: 'white'
+                }
+              }}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={() => navigateTo(setting.toLowerCase())} style={{ color: 'black' }}>
+                  <Typography variant="body1">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        )}
 
         {/* Login link */}
-        <Typography
-          variant="button"
-          component={Link}
-          to="/login"
-          style={{
-            color: '#0C090A',
-            textDecoration: 'none',
-            fontWeight: 'bold',
-            paddingRight: '20px', // Add padding on the right
-          }}
-        >
-          Login / Register
-        </Typography>
+        {!auth && (
+          <Typography
+            variant="button"
+            component={Link}
+            to="/login"
+            style={{
+              color: '#0C090A',
+              textDecoration: 'none',
+              paddingRight: '20px',
+            }}
+          >
+            Login / Register
+          </Typography>
+        )}
       </Toolbar>
     </AppBar>
   );
