@@ -149,15 +149,23 @@ User.prototype.getFriends = async function () {
       {
         model: User,
         as: "friender",
-        attributes: ["id", "username", "avatar"],
+        attributes: ["id", "username"],
       },
       {
         model: User,
         as: "friendee",
-        attributes: ["id", "username", "avatar"],
+        attributes: ["id", "username"],
       },
     ],
   });
+};
+
+User.prototype.addFriend = async function ({ id }) {
+  await conn.models.friendship.create({
+    friender_id: this.id,
+    friendee_id: id,
+  });
+  return this.getFriends();
 };
 
 User.prototype.updateFriend = async function (updated) {
@@ -169,14 +177,6 @@ User.prototype.updateFriend = async function (updated) {
 User.prototype.unfriend = async function (id) {
   const friendship = await conn.models.friendship.findByPk(id);
   await friendship.destroy();
-  return this.getFriends();
-};
-
-User.prototype.addFriend = async function ({ id }) {
-  await conn.models.friendship.create({
-    friender_id: this.id,
-    friendee_id: id,
-  });
   return this.getFriends();
 };
 

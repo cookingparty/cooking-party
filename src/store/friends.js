@@ -25,6 +25,28 @@ export const fetchFriends = () => {
   };
 };
 
+export const addFriend = (id) => {
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem("token");
+    if (getState().auth.id) {
+      const response = await axios.post(
+        "/api/friends/",
+        { id },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+
+      dispatch({
+        type: "SET_FRIENDS",
+        friends: [...response.data.friender, ...response.data.friendee],
+      });
+    }
+  };
+};
+
 export const updateFriend = (updated) => {
   return async (dispatch, getState) => {
     const token = window.localStorage.getItem("token");
@@ -42,7 +64,7 @@ export const updateFriend = (updated) => {
   };
 };
 
-export const removeFriend = (id) => {
+export const unfriend = (id) => {
   return async (dispatch, getState) => {
     const token = window.localStorage.getItem("token");
     if (getState().auth.id) {
@@ -51,28 +73,6 @@ export const removeFriend = (id) => {
           authorization: token,
         },
       });
-      dispatch({
-        type: "SET_FRIENDS",
-        friends: [...response.data.friender, ...response.data.friendee],
-      });
-    }
-  };
-};
-
-export const addFriend = (id) => {
-  return async (dispatch, getState) => {
-    const token = window.localStorage.getItem("token");
-    if (getState().auth.id) {
-      const response = await axios.post(
-        "/api/friends/",
-        { id },
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-
       dispatch({
         type: "SET_FRIENDS",
         friends: [...response.data.friender, ...response.data.friendee],

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateFriend, removeFriend, fetchFriends } from "../store";
+import { updateFriend, unfriend, fetchFriends } from "../store";
 
 const Friends = () => {
   const { friends, auth } = useSelector((state) => state);
@@ -15,7 +15,7 @@ const Friends = () => {
   };
 
   const remove = (id) => {
-    dispatch(removeFriend(id));
+    dispatch(unfriend(id));
   };
 
   return (
