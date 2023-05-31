@@ -4,6 +4,8 @@ const { Friendship } = require("../db");
 
 module.exports = app;
 
+//possible we are not using these routes. delete? -sarah 5/31/23
+
 app.get("/", async (req, res, next) => {
   try {
     res.send(await Friendship.findAll());

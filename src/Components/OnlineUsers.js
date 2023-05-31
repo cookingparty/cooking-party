@@ -3,11 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { addFriend } from "../store";
 
 const OnlineUsers = () => {
-  const { onlineUsers } = useSelector((state) => state);
+  const { onlineUsers, friends } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const sendRequest = (id) => {
     dispatch(addFriend(id));
+  };
+
+  const isRequested = (user) => {
+    if (!!friends.find((f) => f.id === user.id)) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -18,7 +25,9 @@ const OnlineUsers = () => {
           return (
             <li key={user.id}>
               {user.username}
-              <button onClick={() => sendRequest(user.id)}>+friend</button>
+              {!isRequested(user) && (
+                <button onClick={() => sendRequest(user.id)}>+friend</button>
+              )}
             </li>
           );
         })}

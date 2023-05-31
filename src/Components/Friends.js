@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateFriend, removeFriend } from "../store";
+import { updateFriend, removeFriend, fetchFriends } from "../store";
 
 const Friends = () => {
   const { friends, auth } = useSelector((state) => state);
