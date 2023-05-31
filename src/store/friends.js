@@ -11,7 +11,7 @@ export const fetchFriends = () => {
   return async (dispatch, getState) => {
     const token = window.localStorage.getItem("token");
     if (getState().auth.id) {
-      const response = await axios.get("/api/users/friends", {
+      const response = await axios.get("/api/friends", {
         headers: {
           authorization: token,
         },
@@ -29,7 +29,7 @@ export const updateFriend = (updated) => {
   return async (dispatch, getState) => {
     const token = window.localStorage.getItem("token");
     if (getState().auth.id) {
-      const response = await axios.put("/api/users/friends", updated, {
+      const response = await axios.put("/api/friends", updated, {
         headers: {
           authorization: token,
         },
@@ -46,7 +46,7 @@ export const removeFriend = (id) => {
   return async (dispatch, getState) => {
     const token = window.localStorage.getItem("token");
     if (getState().auth.id) {
-      const response = await axios.delete(`/api/users/friends/${id}`, {
+      const response = await axios.delete(`/api/friends/${id}`, {
         headers: {
           authorization: token,
         },
@@ -64,7 +64,7 @@ export const addFriend = (id) => {
     const token = window.localStorage.getItem("token");
     if (getState().auth.id) {
       const response = await axios.post(
-        "/api/users/friends/",
+        "/api/friends/",
         { id },
         {
           headers: {

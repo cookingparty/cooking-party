@@ -16,7 +16,7 @@ app.use("/api/auth", require("./api/auth"));
 app.use("/api/recipes", require("./api/recipes"));
 app.use("/api/memberships", require("./api/memberships"));
 app.use("/api/groups", require("./api/groups"));
-app.use("/api/friendships", require("./api/friendships"));
+app.use("/api/friends", require("./api/friends"));
 app.use("/api/comments", require("./api/comments"));
 app.use("/api/users", require("./api/users"));
 

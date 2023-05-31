@@ -1,11 +1,43 @@
 const express = require("express");
 const app = express.Router();
-const { Friendship } = require("../db");
+const { isLoggedIn } = require("./middleware.js");
 
 module.exports = app;
 
-//possible we are not using these routes. delete? -sarah 5/31/23
+app.get("/", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await req.user.getFriends());
+  } catch (ex) {
+    next(ex);
+  }
+});
 
+app.put("/", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await req.user.updateFriend(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.delete("/:id", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await req.user.removeFriend(req.params.id));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.post("/", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await req.user.addFriend(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+//possible we are not using these friendship routes. delete? -sarah 5/31/23
+/*
 app.get("/", async (req, res, next) => {
   try {
     res.send(await Friendship.findAll());
@@ -43,4 +75,4 @@ app.put("/:id", async (req, res, next) => {
   } catch (ex) {
     next(ex);
   }
-});
+});*/
