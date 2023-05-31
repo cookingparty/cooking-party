@@ -4,9 +4,6 @@ const friends = (state = [], action) => {
   if (action.type === "SET_FRIENDS") {
     return action.friends;
   }
-  if (action.type === "ADD_FRIEND") {
-    return [...state, action.friend];
-  }
   return state;
 };
 
@@ -65,22 +62,20 @@ export const removeFriend = (id) => {
 export const addFriend = (id) => {
   return async (dispatch, getState) => {
     const token = window.localStorage.getItem("token");
-    const authId = getState().auth.id;
-    if (authId) {
+    if (getState().auth.id) {
       const response = await axios.post(
-        "/api/friendships",
-        { friender_id: authId, friendee_id: id },
+        "/api/users/friends/",
+        { id },
         {
           headers: {
             authorization: token,
           },
         }
       );
-      //i'm getting the friendship back here, not the friend.
-      console.log(response.data);
+
       dispatch({
-        type: "ADD_FRIEND",
-        friend: response.data,
+        type: "SET_FRIENDS",
+        friends: [...response.data.friender, ...response.data.friendee],
       });
     }
   };

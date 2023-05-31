@@ -173,7 +173,10 @@ User.prototype.removeFriend = async function (id) {
 };
 
 User.prototype.addFriend = async function ({ id }) {
-  await conn.models.friendship.create({ frienderId: this.id, friendingId: id });
+  await conn.models.friendship.create({
+    friender_id: this.id,
+    friendee_id: id,
+  });
   return this.getFriends();
 };
 
