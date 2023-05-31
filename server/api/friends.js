@@ -22,7 +22,7 @@ app.put("/", isLoggedIn, async (req, res, next) => {
 
 app.delete("/:id", isLoggedIn, async (req, res, next) => {
   try {
-    res.send(await req.user.removeFriend(req.params.id));
+    res.send(await req.user.unfriend(req.params.id));
   } catch (ex) {
     next(ex);
   }
