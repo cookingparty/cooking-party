@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Nav from "./Nav";
+import FooterNav from "./FooterNav";
 import Home from "./Home";
 import Login from "./Login";
 import Logout from "./Logout";
@@ -41,7 +42,7 @@ const App = () => {
             </Routes>
           
         </div>
-      
+        <FooterNav />
     </div>
   );
 };

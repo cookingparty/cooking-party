@@ -12,6 +12,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 export default function Nav() {
   const { auth } = useSelector(state => state);
@@ -107,6 +109,28 @@ export default function Nav() {
             />
           </Link>
         </Box>
+
+        {!auth.id && (
+          <IconButton
+          component={Link}
+          to="/facebook/cookingparty"
+          aria-label="facebook page"
+          color="inherit"
+          >
+            <FacebookIcon style={{ color: '#4688fa'}} />
+          </IconButton>
+        )} 
+
+{!auth.id && (
+          <IconButton
+          component={Link}
+          to="/instagram/cookingparty"
+          aria-label="instagram page"
+          color="inherit"
+          >
+            <InstagramIcon style={{ color: '#fa4c46'}} />
+          </IconButton>
+        )} 
 
         {/* Favorite icon */}
         {!!auth.id && (
