@@ -29,6 +29,9 @@ export default function Nav() {
     'My Saved Recipes',
     'Add Recipe'
   ];
+
+
+  
   const settings = ['Profile', 'Settings', 'Logout'];
 
   const handleOpenNavMenu = event => {
@@ -59,7 +62,7 @@ export default function Nav() {
     <AppBar position="static" style={{ background: '#F9F6EE', margin: 0, padding: 0 }}>
       <Toolbar disableGutters>
         {/* Dropdown menu (Nav) */}
-        {auth && (
+        {!!auth && (
           <Box sx={{ flexGrow: 1 }}>
             <IconButton
               size="large"
@@ -106,7 +109,7 @@ export default function Nav() {
         </Box>
 
         {/* Favorite icon */}
-        {auth && (
+        {!!auth && (
           <IconButton
             component={Link}
             to="/my-saved-recipes"
@@ -118,7 +121,7 @@ export default function Nav() {
         )}
 
         {/* Chat icon */}
-        {auth && (
+        {!!auth && (
           <IconButton
             component={Link}
             to="/chat"
@@ -130,7 +133,7 @@ export default function Nav() {
         )}
 
         {/* Dropdown menu (User) */}
-        {auth && (
+        {!!auth && (
           <Box>
             <IconButton
               size="large"
@@ -164,18 +167,20 @@ export default function Nav() {
 
         {/* Login link */}
         {!auth && (
-          <Typography
-            variant="button"
-            component={Link}
-            to="/login"
-            style={{
-              color: '#0C090A',
-              textDecoration: 'none',
-              paddingRight: '20px',
-            }}
-          >
-            Login / Register
-          </Typography>
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
+            <Typography
+              variant="button"
+              component={Link}
+              to="/login"
+              style={{
+                color: '#0C090A',
+                textDecoration: 'none',
+                paddingRight: '20px',
+              }}
+            >
+              Login / Register
+            </Typography>
+          </Box>
         )}
       </Toolbar>
     </AppBar>
