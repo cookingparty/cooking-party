@@ -16,31 +16,49 @@ export default function FooterNav() {
         bottom: 0,
         left: 0,
         width: '100%',
+        maxWidth: '100%',
         display: 'flex',
         background: '#F9F6EE',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         py: 2,
         fontFamily: 'helvetica',
         zIndex: 10,
         marginTop: '30px',
+        padding: '10px 20px', 
+        margin: '20px auto', 
+        boxSizing: 'border-box', // Ensure padding and border are included in width calculation
       }}
     >
+      <Typography
+        variant="subtitle2"
+        component={Link}
+        to="/about"
+        sx={{
+          fontSize: 10, 
+          ml: 2,
+          textTransform: 'uppercase',
+          textDecoration: 'none',
+          color: '#0C090A',
+        }}
+      >
+        About
+      </Typography>
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'flex-end',
           alignItems: 'center',
           gap: '1rem',
         }}
       >
-        {pages.map((page) => (
+        {pages.slice(1).map((page) => (
           <Typography
             key={page}
             variant="subtitle2"
             component={Link}
-            to={`/${page.toLowerCase()}`}
+            to={`/${page.toLowerCase().replace(' ', '-')}`}
             sx={{
-              fontSize: 12,
+              fontSize: 10, 
               ml: 2,
               textTransform: 'uppercase',
               textDecoration: 'none',
