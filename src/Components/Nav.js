@@ -1,9 +1,9 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, {useState} from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatIcon from '@mui/icons-material/Chat';
-
+import Button from "@mui/material/Button";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,12 +14,16 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import Search from './Search'
+import { Container } from "@mui/material";
 
 export default function Nav() {
-  const { auth } = useSelector(state => state);
+  const { auth, recipes } = useSelector(state => state);
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
 
   const pages = [
     'Recipes',
@@ -58,6 +62,11 @@ export default function Nav() {
 
   const handleLoginClick = () => {
     navigate('/login');
+  };
+
+  const handleSearch = (filteredRecipes) => {
+    // Handle the filtered recipes here
+    console.log(filteredRecipes);
   };
 
   return (
@@ -99,6 +108,13 @@ export default function Nav() {
           </Box>
         )}
 
+{/* Search bar */}
+<div style={{  paddingLeft: '20px' }}>
+  <Search onSearch={handleSearch} />
+  
+</div>
+
+
         {/* Logo */}
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <Link to="/">
@@ -110,30 +126,9 @@ export default function Nav() {
           </Link>
         </Box>
 
-        {!auth.id && (
-          <IconButton
-          component={Link}
-          to="/facebook/cookingparty"
-          aria-label="facebook page"
-          color="inherit"
-          >
-            <FacebookIcon style={{ color: '#4688fa'}} />
-          </IconButton>
-        )} 
-
-{!auth.id && (
-          <IconButton
-          component={Link}
-          to="/instagram/cookingparty"
-          aria-label="instagram page"
-          color="inherit"
-          >
-            <InstagramIcon style={{ color: '#fa4c46'}} />
-          </IconButton>
-        )} 
-
-        {/* Favorite icon */}
-        {!!auth.id && (
+      
+ {/* Favorite icon */}
+ {!!auth.id && (
           <IconButton
             component={Link}
             to="/my-saved-recipes"
@@ -143,6 +138,7 @@ export default function Nav() {
             <FavoriteIcon style={{ color: '#ed6fb7' }} />
           </IconButton>
         )}
+
 
         {/* Chat icon */}
         {!!auth.id && (
@@ -188,24 +184,48 @@ export default function Nav() {
             </Menu>
           </Box>
         )}
+<Box sx={{ display: 'flex', alignItems: 'center' }}>
+  {!auth.id && (
+    <>
+      <IconButton
+        component={Link}
+        to="/instagram/cookingparty"
+        aria-label="instagram page"
+        color="inherit"
+      >
+        <InstagramIcon style={{ color: '#fa4c46' }} />
+      </IconButton>
 
-        {/* Login link */}
-        {!auth.id && (
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-            <Typography
-              variant="button"
-              component={Link}
-              to="/login"
-              style={{
-                color: '#0C090A',
-                textDecoration: 'none',
-                paddingRight: '20px',
-              }}
-            >
-              Login / Register
-            </Typography>
-          </Box>
-        )}
+      <IconButton
+        component={Link}
+        to="/facebook/cookingparty"
+        aria-label="facebook page"
+        color="inherit"
+      >
+        <FacebookIcon style={{ color: '#4688fa' }} />
+      </IconButton>
+    </>
+  )}
+
+  {/* Login link */}
+  {!auth.id && (
+    <Typography
+      variant="button"
+      component={Link}
+      to="/login"
+      style={{
+        color: '#0C090A',
+        textDecoration: 'none',
+        paddingLeft: '10px',
+        paddingRight: '20px',
+        fontFamily: 'Helvetica'
+      }}
+    >
+      Login / Register
+    </Typography>
+  )}
+</Box>
+
       </Toolbar>
     </AppBar>
   );

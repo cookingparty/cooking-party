@@ -30,6 +30,7 @@ const App = () => {
           {!!auth.id}
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/shop/search/:filterString" element={<Recipes />} />
           
           {!auth.id}
             <Route path="/" element={<Home />} />
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/meals" element={<Meals />} />
             <Route path="/cocktails" element={<Cocktails />} />
             <Route path="/logout" element={<Logout />} />
+            <Route path="/shop/search/:filterString" element={<Recipes />} />
 
             </Routes>
           
