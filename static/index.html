@@ -1,6 +1,48 @@
 <html>
   <head>
-    <title>Acme Shopping</title>
+    <title>Acme Meals</title>
+    <link rel='stylesheet' href='/static/styles.css' />
+  </head>
+  <body>
+    <div id='root'></div>
+
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1343102519572535',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v17.0'
+        });
+
+        FB.AppEvents.logPageView();
+      };
+
+      (function(d, s, id) {
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) return;
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <script src='/dist/main.js' defer></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+<!-- <html>
+  <head>
+    <title>Acme Meals</title>
     <script src='/dist/main.js' defer></script>
 
     <script>
@@ -26,7 +68,7 @@
     </script>
 
 
-    <!-- <script>
+    <script>
       window.fbAsyncInit = function() {
         FB.init({
           appId            : '1343102519572535',
@@ -38,11 +80,11 @@
     </script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
          -->
-    <link rel='stylesheet' href='/static/styles.css' />
+    <!-- <link rel='stylesheet' href='/static/styles.css' />
   </head>
   <body>
     <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0&appId=1343102519572535&autoLogAppEvents=1" nonce="Dlax4Qme"></script>
     <div id='root'></div>
   </body>
-</html>
+</html> --> 
