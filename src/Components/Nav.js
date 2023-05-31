@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -74,7 +74,7 @@ export default function Nav() {
       <Toolbar disableGutters>
         {/* Dropdown menu (Nav) */}
         {auth.id && (
-          <Box sx={{ flexGrow: 1 }}>
+          <Box>
             <IconButton
               size="large"
               aria-label="menu"
@@ -108,15 +108,15 @@ export default function Nav() {
           </Box>
         )}
 
-{/* Search bar */}
-<div style={{  paddingLeft: '20px' }}>
-  <Search onSearch={handleSearch} />
-  
-</div>
+       
 
+        {/* Search bar */}
+        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', paddingLeft: '20px'}}>
+          <Search onSearch={handleSearch} />
+        </Box>
 
-        {/* Logo */}
-        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+         {/* Logo */}
+         <Box sx={{  flexGrow: '1.3', display: 'flex', alignItems: 'center',  }}>
           <Link to="/">
             <img
               src="static/images/cooking-party-transparent.png"
@@ -126,9 +126,8 @@ export default function Nav() {
           </Link>
         </Box>
 
-      
- {/* Favorite icon */}
- {!!auth.id && (
+        {/* Favorite icon */}
+        {!!auth.id && (
           <IconButton
             component={Link}
             to="/my-saved-recipes"
@@ -138,7 +137,6 @@ export default function Nav() {
             <FavoriteIcon style={{ color: '#ed6fb7' }} />
           </IconButton>
         )}
-
 
         {/* Chat icon */}
         {!!auth.id && (
@@ -184,48 +182,49 @@ export default function Nav() {
             </Menu>
           </Box>
         )}
-<Box sx={{ display: 'flex', alignItems: 'center' }}>
-  {!auth.id && (
-    <>
-      <IconButton
-        component={Link}
-        to="/instagram/cookingparty"
-        aria-label="instagram page"
-        color="inherit"
-      >
-        <InstagramIcon style={{ color: '#fa4c46' }} />
-      </IconButton>
 
-      <IconButton
-        component={Link}
-        to="/facebook/cookingparty"
-        aria-label="facebook page"
-        color="inherit"
-      >
-        <FacebookIcon style={{ color: '#4688fa' }} />
-      </IconButton>
-    </>
-  )}
+        {/* Social media icons */}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {!auth.id && (
+            <>
+              <IconButton
+                component={Link}
+                to="/instagram/cookingparty"
+                aria-label="instagram page"
+                color="inherit"
+              >
+                <InstagramIcon style={{ color: '#fa4c46' }} />
+              </IconButton>
 
-  {/* Login link */}
-  {!auth.id && (
-    <Typography
-      variant="button"
-      component={Link}
-      to="/login"
-      style={{
-        color: '#0C090A',
-        textDecoration: 'none',
-        paddingLeft: '10px',
-        paddingRight: '20px',
-        fontFamily: 'Helvetica'
-      }}
-    >
-      Login / Register
-    </Typography>
-  )}
-</Box>
+              <IconButton
+                component={Link}
+                to="/facebook/cookingparty"
+                aria-label="facebook page"
+                color="inherit"
+              >
+                <FacebookIcon style={{ color: '#4688fa' }} />
+              </IconButton>
+            </>
+          )}
 
+          {/* Login link */}
+          {!auth.id && (
+            <Typography
+              variant="button"
+              component={Link}
+              to="/login"
+              style={{
+                color: '#0C090A',
+                textDecoration: 'none',
+                paddingLeft: '10px',
+                paddingRight: '20px',
+                fontFamily: 'Helvetica'
+              }}
+            >
+              Login / Register
+            </Typography>
+          )}
+        </Box>
       </Toolbar>
     </AppBar>
   );
