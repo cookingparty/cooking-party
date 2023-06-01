@@ -57,7 +57,7 @@ const App = () => {
   return (
     <div>
       <div>
-        <Dashboard className="dashboard" />
+        {!!auth.id && <Dashboard className="dashboard" />}
 
         <Nav />
         <Routes>
