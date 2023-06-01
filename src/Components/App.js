@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import Nav from "./Nav";
+import FooterNav from "./FooterNav";
 import Home from "./Home";
 import Login from "./Login";
+import Logout from "./Logout";
 import Recipes from "./Recipes";
 import Meals from "./Meals";
 import Cocktails from "./Cocktails";
+
 import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
@@ -20,28 +23,37 @@ const App = () => {
 
   return (
     <div>
-      <h1>Cooking Party</h1>
-      {auth.id ? <Recipes /> : null}
-      {auth.id && (
+
         <div>
           <Dashboard className="dashboard" />
 
           <Nav />
           <Routes>
+
+          {!!auth.id}
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/shop/search/:filterString" element={<Recipes />} />
+           <Route path="/update" element={<UpdateUser />} />
+          {!auth.id}
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+          
             <Route path="/recipes" element={<Recipes />} />
             <Route path="/meals" element={<Meals />} />
             <Route path="/cocktails" element={<Cocktails />} />
-            {!!auth.id && (
-              <Route path="/update" element={<UpdateUser />} />
-            )}{" "}
-            {!!auth.id}
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
+
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/shop/search/:filterString" element={<Recipes />} />
+           
+            </Routes>
+          
         </div>
-      )}
+        <FooterNav />
+
+     
+        
+     
+
     </div>
   );
 };
