@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { Link, useNavigate } from "react-router-dom";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -69,7 +70,11 @@ export default function Nav() {
     console.log(filteredRecipes);
   };
 
+
+
+
   return (
+
     <AppBar position="static" style={{ background: '#F9F6EE', margin: 0, padding: 0 }}>
       <Toolbar disableGutters>
         {/* Dropdown menu (Nav) */}
@@ -138,6 +143,9 @@ export default function Nav() {
             <FavoriteIcon style={{ color: '#ed6fb7' }} />
           </IconButton>
         )}
+
+   
+
 
         {/* Chat icon */}
         {!!auth.id && (
