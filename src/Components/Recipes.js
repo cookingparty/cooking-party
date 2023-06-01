@@ -1,5 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store";
+import OnlineUsers from "./OnlineUsers";
 
 const Recipes = () => {
   const { auth } = useSelector((state) => state);
@@ -10,6 +12,7 @@ const Recipes = () => {
       <div>
         Welcome {auth.username}!!
         <button onClick={() => dispatch(logout())}>Logout</button>
+        {!!auth.id && <OnlineUsers />}
       </div>
     </div>
   );
