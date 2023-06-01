@@ -2,6 +2,8 @@ const express = require('express');
 const app = express.Router();
 const { User } = require('../db');
 const { isLoggedIn } = require('./middleware');
+const path = require('path')
+const jwt = require('jsonwebtoken');
 
 module.exports = app;
 

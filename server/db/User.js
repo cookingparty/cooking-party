@@ -71,63 +71,42 @@ User.findByToken = async function (token) {
     throw error;
   }
 };
+//I may need to switch this out:
+User.prototype.generateToken = function(){
+  return {
+    token: jwt.sign({ id: this.id }, process.env.JWT) 
+  };
+}
+// User.prototype.generateToken = function () {
+//   return jwt.sign({ id: this.id }, JWT);
+// };
 
-User.prototype.generateToken = function () {
-  return jwt.sign({ id: this.id }, JWT);
-};
-
-User.authenticateFacebook = async function (code) {
-  const response = await axios({
-    url: "https://graph.facebook.com/v17.0/oauth/access_token",
-    method: "get",
-    params: {
-      client_id: process.env.APP_ID_GOES_HERE,
-      client_secret: process.env.APP_SECRET_GOES_HERE,
-      redirect_url: "https://www.localhost/3000/",
-      code,
-    },
-  });
-
-  // // let response = await axios.post(
-  // //   'https://graph.facebook.com/v17.0/oauth/access_token',
-  // //   {
-  // //     client_id: process.env.client_id,
-  // //     client_secret: process.env.client_secret,
-  // //     code
-  // //   },
-  // //   {
-  // //     headers: {
-  // //       accept: 'application/json'
-  // //     }
-  // //   }
-  // // );
-  // // if(response.data.error){
-  // //   const error = Error(response.data.error);
-  // //   error.status = 401;
-  // //   throw error;
-  // // }
-  // response = await axios.get(
-  //   'https://graph.facebook.com/v17.0/oauth/access_token',
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${ response.data.access_token}`
-  //     }
-  //   }
-  // );
-
-  const login = response.data.login;
+User.authenticateFacebook = async function(code){
+  let response = await axios.get(
+    `https://graph.facebook.com/v17.0/oauth/access_token?client_id=${process.env.facebook_client_id}&client_secret=${process.env.facebook_client_secret}&code=${code}&redirect_uri=${process.env.facebook_redirect_uri}/api/auth/facebook`
+  );
+  if(response.data.error){
+    const error = Error(response.data.error);
+    error.status = 401;
+    throw error;
+  }
+  response = await axios.get(
+    `https://graph.facebook.com/me?access_token=${response.data.access_token}`);
+  console.log(response.data.name);
+  const id = response.data.id;
   let user = await User.findOne({
     where: {
-      username: login,
-    },
+      facebook_id: id
+    }
   });
-  if (!user) {
+  if(!user){
     user = await User.create({
-      username: login,
+      facebook_id: id,
+      facebook_username: response.data.name 
     });
   }
   return user.generateToken();
-};
+}
 
 User.authenticate = async function ({ username, password }) {
   const user = await this.findOne({
