@@ -2,7 +2,31 @@
   <head>
     <title>Acme Shopping</title>
     <script src='/dist/main.js' defer></script>
+
     <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1343102519572535',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v17.0'
+        });
+
+        FB.AppEvents.logPageView();
+
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
+    <!-- <script>
       window.fbAsyncInit = function() {
         FB.init({
           appId            : '1343102519572535',
@@ -14,9 +38,12 @@
     </script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 
+         -->
     <link rel='stylesheet' href='/static/styles.css' />
   </head>
   <body>
+    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0&appId=1343102519572535&autoLogAppEvents=1" nonce="Dlax4Qme"></script>
     <div id='root'></div>
   </body>
 </html>

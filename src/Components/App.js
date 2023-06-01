@@ -27,17 +27,21 @@ const App = () => {
           <Dashboard className="dashboard" />
 
           <Nav />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/recipes" element={<Recipes />} />
+            <Route path="/meals" element={<Meals />} />
+            <Route path="/cocktails" element={<Cocktails />} />
+            {!!auth.id && (
+              <Route path="/update" element={<UpdateUser />} />
+            )}{" "}
+            {!!auth.id}
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
         </div>
       )}
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/recipes" element={<Recipes />} />
-        <Route path="/meals" element={<Meals />} />
-        <Route path="/cocktails" element={<Cocktails />} />
-        {!!auth.id && <Route path="/update" element={<UpdateUser />} />}{" "}
-      </Routes>
     </div>
   );
 };
