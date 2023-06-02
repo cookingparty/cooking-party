@@ -18,6 +18,14 @@ const User = conn.define("user", {
     },
     unique: true,
   },
+  facebook_id: {
+    type: STRING,
+    unique: true
+  },
+  facebook_username: {
+    type: STRING,
+    unique: true
+  },
   password: {
     type: STRING,
     allowNull: false,
@@ -71,7 +79,7 @@ User.findByToken = async function (token) {
     throw error;
   }
 };
-//I may need to switch this out:
+// I may need to switch this out:
 User.prototype.generateToken = function(){
   return {
     token: jwt.sign({ id: this.id }, process.env.JWT) 
@@ -80,6 +88,7 @@ User.prototype.generateToken = function(){
 // User.prototype.generateToken = function () {
 //   return jwt.sign({ id: this.id }, JWT);
 // };
+
 
 User.authenticateFacebook = async function(code){
   let response = await axios.get(
@@ -107,20 +116,37 @@ User.authenticateFacebook = async function(code){
   }
   return user.generateToken();
 }
-
-User.authenticate = async function ({ username, password }) {
+User.authenticate = async function(credentials){
+  const { username, password } = credentials;
   const user = await this.findOne({
     where: {
-      username,
-    },
+      username
+    }
   });
-  if (user && (await bcrypt.compare(password, user.password))) {
-    return jwt.sign({ id: user.id }, JWT);
+  if(!user || !(await bcrypt.compare(password, user.password))){
+    const error = Error('bad credentials');
+    error.status = 401;
+    throw error;
   }
-  const error = new Error("bad credentials");
-  error.status = 401;
-  throw error;
-};
+  return user.generateToken();
+}
+
+
+
+// older code....
+// User.authenticate = async function ({ username, password }) {
+//   const user = await this.findOne({
+//     where: {
+//       username,
+//     },
+//   });
+//   if (user && (await bcrypt.compare(password, user.password))) {
+//     return jwt.sign({ id: user.id }, JWT);
+//   }
+//   const error = new Error("bad credentials");
+//   error.status = 401;
+//   throw error;
+// };
 
 User.prototype.getFriends = async function () {
   return await conn.models.user.findByPk(this.id, {
@@ -138,6 +164,11 @@ User.prototype.getFriends = async function () {
     ],
   });
 };
+
+User.register = async function(credentials){
+  const user = await this.create(credentials);
+  return user.generateToken();
+}
 
 User.prototype.addFriend = async function ({ id }) {
   await conn.models.friendship.create({

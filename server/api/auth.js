@@ -83,3 +83,12 @@ app.get('/facebook', async(req, res, next)=> {
     next(ex);
   }
 });
+
+app.get('/:token', async(req, res, next)=> {
+  try{
+    res.send(await User.findByToken(req.params.token));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
