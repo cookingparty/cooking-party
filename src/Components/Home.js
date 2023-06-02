@@ -12,7 +12,7 @@ const Home = () => {
     <div>
       <h1>Home</h1>
       {auth.id ? (
-        <p>Welcome, {auth.username}!</p>
+        <p>Welcome {auth.username || auth.facebook_username }!</p>
       ) : (
         <Button
           component={Link}

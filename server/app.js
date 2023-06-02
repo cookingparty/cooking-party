@@ -2,15 +2,25 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const socketMap = require("./socketMap");
-
+const jwt = require('jsonwebtoken');
+app.engine('html', require('ejs').renderFile);
 app.use(express.json({ limit: "50mb" }));
 
 app.use("/dist", express.static(path.join(__dirname, "../dist")));
 app.use("/static", express.static(path.join(__dirname, "../static")));
 
-app.get("/", (req, res) =>
-  res.sendFile(path.join(__dirname, "../static/index.html"))
-);
+
+app.get('/', (req, res) => {
+  res.render(
+    path.join(__dirname, '../static/index.html'),
+    {
+      client_id : process.env.client_id,
+      facebook_client_id : process.env.facebook_client_id,
+      facebook_redirect_uri : process.env.facebook_redirect_uri,
+
+    });
+}); 
+
 
 app.use("/api/auth", require("./api/auth"));
 app.use("/api/recipes", require("./api/recipes"));
