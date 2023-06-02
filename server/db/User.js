@@ -115,37 +115,37 @@ User.authenticateFacebook = async function(code){
   }
   return user.generateToken();
 }
-User.authenticate = async function(credentials){
-  const { username, password } = credentials;
-  const user = await this.findOne({
-    where: {
-      username
-    }
-  });
-  if(!user || !(await bcrypt.compare(password, user.password))){
-    const error = Error('bad credentials');
-    error.status = 401;
-    throw error;
-  }
-  return user.generateToken();
-}
+// User.authenticate = async function(credentials){
+//   const { username, password } = credentials;
+//   const user = await this.findOne({
+//     where: {
+//       username
+//     }
+//   });
+//   if(!user || !(await bcrypt.compare(password, user.password))){
+//     const error = Error('bad credentials');
+//     error.status = 401;
+//     throw error;
+//   }
+//   return user.generateToken();
+// }
 
 
 
 // older code....
-// User.authenticate = async function ({ username, password }) {
-//   const user = await this.findOne({
-//     where: {
-//       username,
-//     },
-//   });
-//   if (user && (await bcrypt.compare(password, user.password))) {
-//     return jwt.sign({ id: user.id }, JWT);
-//   }
-//   const error = new Error("bad credentials");
-//   error.status = 401;
-//   throw error;
-// };
+User.authenticate = async function ({ username, password }) {
+  const user = await this.findOne({
+    where: {
+      username,
+    },
+  });
+  if (user && (await bcrypt.compare(password, user.password))) {
+    return jwt.sign({ id: user.id }, JWT);
+  }
+  const error = new Error("bad credentials");
+  error.status = 401;
+  throw error;
+};
 
 User.prototype.getFriends = async function () {
   return await conn.models.user.findByPk(this.id, {
