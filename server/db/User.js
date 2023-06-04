@@ -176,7 +176,6 @@ User.prototype.addFriend = async function ({ id }) {
     friender_id: this.id,
     friendee_id: id,
   });
-  console.log("HERE IS THE SOCKETMAP AFTER A FRIEND REQUEST", socketMap);
   return this.getFriends();
 };
 
