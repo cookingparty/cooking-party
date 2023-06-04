@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store";
 import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
+import Chat from "./Chat";
 
 const Recipes = () => {
   const { auth } = useSelector((state) => state);
@@ -15,6 +16,7 @@ const Recipes = () => {
         <button onClick={() => dispatch(logout())}>Logout</button>
         {!!auth.id && <OnlineUsers />}
         {!!auth.id && <Friends />}
+        {!!auth.id && <Chat />}
       </div>
     </div>
   );

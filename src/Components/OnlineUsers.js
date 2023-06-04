@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addFriend } from "../store";
+import { addFriend, createMessage } from "../store";
 
 const OnlineUsers = () => {
-  const { onlineUsers, friends } = useSelector((state) => state);
+  const { onlineUsers, friends, messages } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const sendRequest = (id) => {
@@ -12,6 +12,25 @@ const OnlineUsers = () => {
 
   const isRequested = (user) => {
     if (!!friends.find((f) => f.id === user.id)) {
+      return true;
+    }
+    return false;
+  };
+
+  const confirmedFriend = (user) => {
+    const friend = friends.find((f) => f.id === user.id);
+    if (!!friend && friend.friendship.status === "CONFIRMED") {
+      return true;
+    }
+    return false;
+  };
+
+  const hasChat = (user) => {
+    if (
+      messages.find(
+        (message) => message.fromId === user.id || message.toId === user.id
+      )
+    ) {
       return true;
     }
     return false;
@@ -27,6 +46,17 @@ const OnlineUsers = () => {
               {user.username}
               {!isRequested(user) && (
                 <button onClick={() => sendRequest(user.id)}>+friend</button>
+              )}
+              {!hasChat(user) && !!confirmedFriend(user) && (
+                <button
+                  onClick={() => {
+                    dispatch(
+                      createMessage({ toId: user.id, txt: "let's chat" })
+                    );
+                  }}
+                >
+                  start chat
+                </button>
               )}
             </li>
           );

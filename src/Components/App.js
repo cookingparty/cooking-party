@@ -9,7 +9,12 @@ import Meals from "./Meals";
 import Cocktails from "./Cocktails";
 
 import { useSelector, useDispatch } from "react-redux";
-import { loginWithToken, fetchOnlineUsers, fetchFriends } from "../store";
+import {
+  loginWithToken,
+  fetchOnlineUsers,
+  fetchFriends,
+  fetchMessages,
+} from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import UpdateUser from "./UpdateUser";
@@ -43,6 +48,7 @@ const App = () => {
       });
       dispatch(fetchOnlineUsers());
       dispatch(fetchFriends());
+      dispatch(fetchMessages());
     }
     if (prevAuth.current.id && !auth.id) {
       console.log("logged out");
