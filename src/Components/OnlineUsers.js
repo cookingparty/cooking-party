@@ -19,8 +19,10 @@ const OnlineUsers = () => {
 
   const confirmedFriend = (user) => {
     const friend = friends.find((f) => f.id === user.id);
-    if (!!friend && friend.friendship.status === "CONFIRMED") {
-      return true;
+    if (!!friend && friend.friendship) {
+      if (friend.friendship.status === "CONFIRMED") {
+        return true;
+      }
     }
     return false;
   };

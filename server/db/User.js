@@ -171,11 +171,33 @@ User.register = async function (credentials) {
   return user.generateToken();
 };
 
+//this needs work
 User.prototype.addFriend = async function ({ id }) {
-  await conn.models.friendship.create({
+  const friendship = await conn.models.friendship.create({
     friender_id: this.id,
     friendee_id: id,
   });
+  const friend = await conn.models.user.findByPk(friendship.friender_id, {
+    include: [
+      {
+        model: User,
+        as: "friender",
+        attributes: ["id", "username"],
+      },
+      {
+        model: User,
+        as: "friendee",
+        attributes: ["id", "username"],
+      },
+    ],
+  });
+  //friend.friendship = friendship;
+  //console.log("new friend", friend);
+  if (socketMap[friendship.friendee_id]) {
+    socketMap[friendship.friendee_id].socket.send(
+      JSON.stringify({ type: "SET_FRIENDS", friends: [friend] })
+    );
+  }
   return this.getFriends();
 };
 

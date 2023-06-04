@@ -23,7 +23,9 @@ const Friends = () => {
       <h1>Friends</h1>
       <ul>
         {friends
-          .filter((friend) => friend.friendship.status === "CONFIRMED")
+          .filter((friend) => {
+            friend.friendship.status === "CONFIRMED";
+          })
           .map((friend) => {
             return (
               <li key={friend.id}>
