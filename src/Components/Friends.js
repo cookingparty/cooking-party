@@ -1,21 +1,56 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateFriend, unfriend } from "../store";
+import { updateFriendship, deleteFriendship } from "../store";
 
 const Friends = () => {
-  const { friends, auth } = useSelector((state) => state);
+  const { friendships, auth, users } = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const friends = friendships
+    .filter(
+      (friendship) =>
+        friendship.friendee_id === auth.id || friendship.friender_id === auth.id
+    )
+    .map((friendship) => {
+      if (friendship.friendee_id === auth.id) {
+        return users.find((user) => user.id === friendship.friender_id);
+      }
+      if (friendship.friender_id === auth.id) {
+        return users.find((user) => user.id === friendship.friendee_id);
+      }
+    });
+
+  const findFriendship = (friendId) => {
+    const friendship = friendships.find(
+      (friendship) =>
+        (friendship.friendee_id === friendId &&
+          friendship.friender_id === auth.id) ||
+        (friendship.friendee_id === auth.id &&
+          friendship.friender_id === friendId)
+    );
+    return friendship;
+  };
+
   const acceptRequest = (id) => {
-    dispatch(updateFriend({ id, status: "CONFIRMED" }));
+    const friendship = findFriendship(id);
+    const friendshipId = friendship.id;
+    dispatch(
+      updateFriendship({ friendshipId, status: "CONFIRMED" }, friendshipId)
+    );
   };
 
   const ignoreRequest = (id) => {
-    dispatch(updateFriend({ id, status: "IGNORED" }));
+    const friendship = findFriendship(id);
+    const friendshipId = friendship.id;
+    dispatch(
+      updateFriendship({ friendshipId, status: "IGNORED" }, friendshipId)
+    );
   };
 
   const removeFriend = (id) => {
-    dispatch(unfriend(id));
+    const friendship = findFriendship(id);
+    const friendshipId = friendship.id;
+    dispatch(deleteFriendship(friendshipId));
   };
 
   return (
@@ -23,14 +58,12 @@ const Friends = () => {
       <h1>Friends</h1>
       <ul>
         {friends
-          .filter((friend) => {
-            friend.friendship.status === "CONFIRMED";
-          })
+          .filter((friend) => findFriendship(friend.id).status === "CONFIRMED")
           .map((friend) => {
             return (
               <li key={friend.id}>
                 {friend.username}
-                <button onClick={() => removeFriend(friend.friendship.id)}>
+                <button onClick={() => removeFriend(friend.id)}>
                   unfriend
                 </button>
               </li>
@@ -42,19 +75,15 @@ const Friends = () => {
         {friends
           .filter(
             (friend) =>
-              friend.friendship.friendee_id === auth.id &&
-              friend.friendship.status === "PENDING"
+              findFriendship(friend.id).friendee_id === auth.id &&
+              findFriendship(friend.id).status === "PENDING"
           )
           .map((friend) => {
             return (
               <li key={friend.id}>
                 {friend.username}
-                <button onClick={() => acceptRequest(friend.friendship.id)}>
-                  accept
-                </button>
-                <button onClick={() => ignoreRequest(friend.friendship.id)}>
-                  ignore
-                </button>
+                <button onClick={() => acceptRequest(friend.id)}>accept</button>
+                <button onClick={() => ignoreRequest(friend.id)}>ignore</button>
               </li>
             );
           })}

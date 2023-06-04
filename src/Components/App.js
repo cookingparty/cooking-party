@@ -12,8 +12,9 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   loginWithToken,
   fetchOnlineUsers,
-  fetchFriends,
+  fetchFriendships,
   fetchMessages,
+  fetchUsers,
 } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
@@ -46,8 +47,9 @@ const App = () => {
         }
         console.log(message);
       });
+      dispatch(fetchUsers());
       dispatch(fetchOnlineUsers());
-      dispatch(fetchFriends());
+      dispatch(fetchFriendships());
       dispatch(fetchMessages());
     }
     if (prevAuth.current.id && !auth.id) {

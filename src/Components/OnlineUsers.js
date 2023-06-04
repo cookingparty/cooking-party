@@ -1,13 +1,29 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addFriend, createMessage } from "../store";
+import { createFriendship, createMessage } from "../store";
 
 const OnlineUsers = () => {
-  const { onlineUsers, friends, messages } = useSelector((state) => state);
+  const { onlineUsers, friendships, messages, auth, users } = useSelector(
+    (state) => state
+  );
   const dispatch = useDispatch();
 
+  const friends = friendships
+    .filter(
+      (friendship) =>
+        friendship.friendee_id === auth.id || friendship.friender_id === auth.id
+    )
+    .map((friendship) => {
+      if (friendship.friendee_id === auth.id) {
+        return users.find((user) => user.id === friendship.friender_id);
+      }
+      if (friendship.friender_id === auth.id) {
+        return users.find((user) => user.id === friendship.friendee_id);
+      }
+    });
+
   const sendRequest = (id) => {
-    dispatch(addFriend(id));
+    dispatch(createFriendship({ friender_id: auth.id, friendee_id: id }));
   };
 
   const isRequested = (user) => {

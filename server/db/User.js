@@ -193,11 +193,6 @@ User.prototype.addFriend = async function ({ id }) {
   });
   //friend.friendship = friendship;
   //console.log("new friend", friend);
-  if (socketMap[friendship.friendee_id]) {
-    socketMap[friendship.friendee_id].socket.send(
-      JSON.stringify({ type: "SET_FRIENDS", friends: [friend] })
-    );
-  }
   return this.getFriends();
 };
 
