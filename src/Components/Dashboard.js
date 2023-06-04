@@ -2,11 +2,13 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../store";
+import { Avatar } from "@mui/material";
 
 export default function Dashboard() {
+  const { auth } = useSelector((state) => state);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -27,20 +29,19 @@ export default function Dashboard() {
 
   const logOut = () => {
     handleClose();
-    dispatch(logout());
-    navigate("/");
+    navigate("/logout");
   };
   return (
     <div className="dashboard">
-      <Button
-        id="demo-positioned-button"
-        aria-controls={open ? "demo-positioned-menu" : undefined}
+      <Avatar
+        id="basic-button"
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-      >
-        Dashboard
-      </Button>
+        alt="avatar"
+        src={auth.avatar}
+      ></Avatar>
       <Menu
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"

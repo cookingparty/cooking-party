@@ -27,7 +27,6 @@ const Login = () => {
     navigate("/home");
   };
 
- 
   return (
     <div>
       <h2>Login</h2>
@@ -65,9 +64,12 @@ const Login = () => {
         </Button>
       </form>
 
+      <a
+        href={`https://www.facebook.com/v17.0/dialog/oauth?client_id=${window.facebook_client_id}&redirect_uri=${window.facebook_redirect_uri}/api/auth/facebook`}
+      >
+        Login With Facebook
+      </a>
 
-      <a href={`https://www.facebook.com/v17.0/dialog/oauth?client_id=${window.facebook_client_id}&redirect_uri=${window.facebook_redirect_uri}/api/auth/facebook`}>Login With Facebook</a>
-    
       {/* <FacebookLogin
         appId="189486938370592"
         autoLoad={false}
@@ -80,4 +82,3 @@ const Login = () => {
 };
 
 export default Login;
-
