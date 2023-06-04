@@ -1,4 +1,4 @@
-import axios from "axios";
+/*import axios from "axios";
 
 const friends = (state = [], action) => {
   if (action.type === "SET_FRIENDS") {
@@ -74,4 +74,4 @@ export const unfriend = (id) => {
   };
 };
 
-export default friends;
+export default friends;*/

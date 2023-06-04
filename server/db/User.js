@@ -149,7 +149,7 @@ User.authenticate = async function ({ username, password }) {
   throw error;
 };
 
-User.prototype.getFriends = async function () {
+/*User.prototype.getFriends = async function () {
   return await conn.models.user.findByPk(this.id, {
     include: [
       {
@@ -164,13 +164,14 @@ User.prototype.getFriends = async function () {
       },
     ],
   });
-};
+};*/
 
 User.register = async function (credentials) {
   const user = await this.create(credentials);
   return user.generateToken();
 };
 
+/*
 //this needs work
 User.prototype.addFriend = async function ({ id }) {
   const friendship = await conn.models.friendship.create({
@@ -206,7 +207,7 @@ User.prototype.unfriend = async function (id) {
   const friendship = await conn.models.friendship.findByPk(id);
   await friendship.destroy();
   return this.getFriends();
-};
+};*/
 
 User.prototype.sendMessage = async function (message) {
   message = await conn.models.message.create({ ...message, fromId: this.id });
