@@ -40,10 +40,12 @@ Group.hasMany(User);
 
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
-  const [moe, lucy, larry, ethyl] = await Promise.all([
+  const [moe, lucy, larry, curly, sarah, ethyl] = await Promise.all([
     User.create({ username: "moe", password: "123" }),
     User.create({ username: "lucy", password: "123" }),
     User.create({ username: "larry", password: "123" }),
+    User.create({ username: "curly", password: "123" }),
+    User.create({ username: "sarah", password: "123" }),
     User.create({ username: "ethyl", password: "123", isAdmin: true }),
   ]);
 
@@ -68,6 +70,18 @@ const syncAndSeed = async () => {
   await Friendship.create({
     friender_id: moe.id,
     friendee_id: lucy.id,
+    status: "CONFIRMED",
+  });
+
+  await Friendship.create({
+    friender_id: moe.id,
+    friendee_id: curly.id,
+    status: "CONFIRMED",
+  });
+
+  await Friendship.create({
+    friender_id: moe.id,
+    friendee_id: sarah.id,
     status: "CONFIRMED",
   });
 
