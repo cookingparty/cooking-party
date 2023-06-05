@@ -21,7 +21,10 @@ export default function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const profile = () => {
+    setAnchorEl(null);
+    navigate(`/users/${auth.id}`);
+  };
   const updateUser = () => {
     handleClose();
     navigate("/update");
@@ -57,7 +60,7 @@ export default function Dashboard() {
           horizontal: "left",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={profile}>Profile</MenuItem>
         <MenuItem onClick={updateUser}>Edit account</MenuItem>
         <MenuItem onClick={logOut}>Logout</MenuItem>
       </Menu>

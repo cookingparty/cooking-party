@@ -13,6 +13,7 @@ import { loginWithToken, fetchOnlineUsers, fetchFriends } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import UpdateUser from "./UpdateUser";
+import Profile from "./Profile";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
@@ -65,6 +66,7 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/shop/search/:filterString" element={<Recipes />} />
           <Route path="/update" element={<UpdateUser />} />
+          <Route path="/users/:authId" element={<Profile />} />
           <Route path="/:account" element={<Login />} />
 
           {!auth.id}
