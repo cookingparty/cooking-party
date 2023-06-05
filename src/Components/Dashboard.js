@@ -37,6 +37,9 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
       <Avatar
+      style={{
+        marginRight: "20px", marginLeft: "10px"
+      }}
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -61,7 +64,7 @@ export default function Dashboard() {
         }}
       >
         <MenuItem onClick={profile}>Profile</MenuItem>
-        <MenuItem onClick={updateUser}>Edit account</MenuItem>
+        <MenuItem onClick={updateUser}>Account</MenuItem>
         <MenuItem onClick={logOut}>Logout</MenuItem>
       </Menu>
     </div>
