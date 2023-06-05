@@ -69,14 +69,13 @@ const App = () => {
           <Route path="/update" element={<UpdateUser />} />
           <Route path="/users/:authId" element={<Profile />} />
           <Route path="/:account" element={<Login />} />
-          <Route path="/recipes/upload" element={<UploadRecipe />} />
 
           {!auth.id}
           <Route path="/" element={<Home />} />
           <Route path="/recipes" element={<Recipes />} />
+          <Route path="/recipes/upload" element={<UploadRecipe />} />
           <Route path="/meals" element={<Meals />} />
           <Route path="/cocktails" element={<Cocktails />} />
-
           <Route path="/logout" element={<Logout />} />
           <Route path="/shop/search/:filterString" element={<Recipes />} />
         </Routes>
