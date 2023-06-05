@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 // import FacebookLogin from "@greatsumini/react-facebook-login";
 // import CustomComponent from "@greatsumini/react-facebook-login";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { attemptLogin, updateAuth, logout } from "../store/auth";
+import { attemptLogin, updateAuth, logout, register } from "../store/auth";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { account } = useParams();
+
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -27,11 +30,19 @@ const Login = () => {
     navigate("/home");
   };
 
+  const _register = (ev) => {
+    ev.preventDefault();
+    dispatch(register(credentials));
+    navigate("/home");
+  };
+
   return (
     <div>
-      <h2>Login</h2>
-
-      <form style={{ margin: "10px 0" }}>
+      <h2>{account === "login" ? "Login" : "Register"}</h2>
+      <form
+        style={{ margin: "10px 0" }}
+        onSubmit={account === "login" ? login : _register}
+      >
         <TextField
           label="Username"
           value={credentials.username}
@@ -49,7 +60,6 @@ const Login = () => {
         />
         <Button
           type="submit"
-          onClick={login}
           variant="contained"
           color="primary"
           size="large"
@@ -60,16 +70,21 @@ const Login = () => {
             "&:hover": { backgroundColor: "#F5F5F5", color: "#888" },
           }}
         >
-          Login
+          {account === "login" ? "Login" : "Register"}{" "}
         </Button>
       </form>
-
-      <a
-        href={`https://www.facebook.com/v17.0/dialog/oauth?client_id=${window.facebook_client_id}&redirect_uri=${window.facebook_redirect_uri}/api/auth/facebook`}
-      >
-        Login With Facebook
-      </a>
-
+      {account === "login" ? (
+        <a
+          href={`https://www.facebook.com/v17.0/dialog/oauth?client_id=${window.facebook_client_id}&redirect_uri=${window.facebook_redirect_uri}/api/auth/facebook`}
+        >
+          Login With Facebook
+        </a>
+      ) : null}
+      {account === "login" ? (
+        <p>
+          No account? <Link to="/register">Sign up here</Link>
+        </p>
+      ) : null}
       {/* <FacebookLogin
         appId="189486938370592"
         autoLoad={false}
