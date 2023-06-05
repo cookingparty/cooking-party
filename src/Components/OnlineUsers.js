@@ -22,6 +22,17 @@ const OnlineUsers = () => {
       }
     });
 
+  const findFriendship = (friendId) => {
+    const friendship = friendships.find(
+      (friendship) =>
+        (friendship.friendee_id === friendId &&
+          friendship.friender_id === auth.id) ||
+        (friendship.friendee_id === auth.id &&
+          friendship.friender_id === friendId)
+    );
+    return friendship;
+  };
+
   const sendRequest = (id) => {
     dispatch(createFriendship({ friender_id: auth.id, friendee_id: id }));
   };
@@ -35,8 +46,8 @@ const OnlineUsers = () => {
 
   const confirmedFriend = (user) => {
     const friend = friends.find((f) => f.id === user.id);
-    if (!!friend && friend.friendship) {
-      if (friend.friendship.status === "CONFIRMED") {
+    if (!!friend && findFriendship(friend.id)) {
+      if (findFriendship(friend.id).status === "CONFIRMED") {
         return true;
       }
     }
