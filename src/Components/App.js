@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Nav from "./Nav";
 import FooterNav from "./FooterNav";
 import Home from "./Home";
-import Login from "./Login";
+import Login from "./LoginRegister";
 import Logout from "./Logout";
 import Recipes from "./Recipes";
 import Meals from "./Meals";
@@ -63,12 +63,12 @@ const App = () => {
         <Routes>
           {!!auth.id}
           <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/shop/search/:filterString" element={<Recipes />} />
           <Route path="/update" element={<UpdateUser />} />
+          <Route path="/:account" element={<Login />} />
+
           {!auth.id}
           <Route path="/" element={<Home />} />
-
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/meals" element={<Meals />} />
           <Route path="/cocktails" element={<Cocktails />} />
