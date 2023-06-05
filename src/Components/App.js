@@ -14,6 +14,7 @@ import { Link, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import UpdateUser from "./UpdateUser";
 import Profile from "./Profile";
+import UploadRecipe from "./UploadRecipe";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
@@ -68,6 +69,7 @@ const App = () => {
           <Route path="/update" element={<UpdateUser />} />
           <Route path="/users/:authId" element={<Profile />} />
           <Route path="/:account" element={<Login />} />
+          <Route path="/recipes/upload" element={<UploadRecipe />} />
 
           {!auth.id}
           <Route path="/" element={<Home />} />
