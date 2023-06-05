@@ -9,7 +9,7 @@ const Profile = () => {
   return (
     <>
       <div> {auth.avatar ? <img src={auth.avatar} /> : "no avatar yet!"}</div>
-      <h2>{auth.username}</h2>
+      <h2>{auth.username || auth.facebook_username}</h2>
       <p>{auth.about}</p>
     </>
   );
