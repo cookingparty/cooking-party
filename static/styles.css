@@ -20,3 +20,9 @@ nav {
   display: flex;
   justify-content: end;
 }
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
