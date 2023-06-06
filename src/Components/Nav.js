@@ -18,6 +18,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import Search from "./Search";
 import { Container, TextField } from "@mui/material";
 import Dashboard from "./Dashboard";
+import SearchAll from "./SearchALL";
 
 export default function Nav() {
   const { auth, recipes } = useSelector((state) => state);
@@ -123,7 +124,7 @@ export default function Nav() {
             paddingLeft: "20px",
           }}
         >
-          <Search onSearch={handleSearch} />
+          <SearchAll onSearch={handleSearch} />
         </Box>
 
         {/* Logo */}
