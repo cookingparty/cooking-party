@@ -5,6 +5,7 @@ const Comment = require("./Comment");
 const Friendship = require("./Friendship");
 const Membership = require("./Membership");
 const Group = require("./Group");
+const Message = require("./Message");
 
 Recipe.belongsTo(User);
 User.hasMany(Recipe);
@@ -14,7 +15,9 @@ Comment.belongsTo(User);
 User.hasMany(Comment);
 Recipe.hasMany(Comment);
 
-// come back to this
+Message.belongsTo(User, { as: "from" });
+Message.belongsTo(User, { as: "to" });
+
 User.belongsToMany(User, {
   as: "friender",
   foreignKey: "friender_id",
@@ -37,16 +40,48 @@ Group.hasMany(User);
 
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
-  const [moe, lucy, larry, ethyl] = await Promise.all([
+  const [moe, lucy, larry, curly, sarah, ethyl] = await Promise.all([
     User.create({ username: "moe", password: "123" }),
     User.create({ username: "lucy", password: "123" }),
     User.create({ username: "larry", password: "123" }),
+    User.create({ username: "curly", password: "123" }),
+    User.create({ username: "sarah", password: "123" }),
     User.create({ username: "ethyl", password: "123", isAdmin: true }),
   ]);
+
+  await Promise.all([
+    Message.create({
+      txt: "can you talk me through the cookie recipe you sent? my dough is coming out super thin",
+      fromId: moe.id,
+      toId: lucy.id,
+    }),
+    Message.create({
+      txt: "what should i even make tonight?? out of ideas",
+      fromId: moe.id,
+      toId: ethyl.id,
+    }),
+  ]);
+  await Message.create({
+    txt: "sure moe! did you try adding a little extra flour?",
+    fromId: lucy.id,
+    toId: moe.id,
+  });
 
   await Friendship.create({
     friender_id: moe.id,
     friendee_id: lucy.id,
+    status: "CONFIRMED",
+  });
+
+  await Friendship.create({
+    friender_id: moe.id,
+    friendee_id: curly.id,
+    status: "CONFIRMED",
+  });
+
+  await Friendship.create({
+    friender_id: moe.id,
+    friendee_id: sarah.id,
     status: "CONFIRMED",
   });
 

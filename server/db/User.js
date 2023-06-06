@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const JWT = process.env.JWT;
 const axios = require("axios");
+const socketMap = require("../socketMap");
 
 const User = conn.define("user", {
   id: {
@@ -148,7 +149,7 @@ User.authenticate = async function ({ username, password }) {
   throw error;
 };
 
-User.prototype.getFriends = async function () {
+/*User.prototype.getFriends = async function () {
   return await conn.models.user.findByPk(this.id, {
     include: [
       {
@@ -163,18 +164,36 @@ User.prototype.getFriends = async function () {
       },
     ],
   });
-};
+};*/
 
 User.register = async function (credentials) {
   const user = await this.create(credentials);
   return user.generateToken();
 };
 
+/*
+//this needs work
 User.prototype.addFriend = async function ({ id }) {
-  await conn.models.friendship.create({
+  const friendship = await conn.models.friendship.create({
     friender_id: this.id,
     friendee_id: id,
   });
+  const friend = await conn.models.user.findByPk(friendship.friender_id, {
+    include: [
+      {
+        model: User,
+        as: "friender",
+        attributes: ["id", "username"],
+      },
+      {
+        model: User,
+        as: "friendee",
+        attributes: ["id", "username"],
+      },
+    ],
+  });
+  //friend.friendship = friendship;
+  //console.log("new friend", friend);
   return this.getFriends();
 };
 
@@ -188,6 +207,58 @@ User.prototype.unfriend = async function (id) {
   const friendship = await conn.models.friendship.findByPk(id);
   await friendship.destroy();
   return this.getFriends();
+};*/
+
+User.prototype.sendMessage = async function (message) {
+  message = await conn.models.message.create({ ...message, fromId: this.id });
+  message = await conn.models.message.findByPk(message.id, {
+    include: [
+      {
+        model: User,
+        as: "from",
+        attributes: ["id", "username"],
+      },
+      {
+        model: User,
+        as: "to",
+        attributes: ["id", "username"],
+      },
+    ],
+  });
+  if (socketMap[message.toId]) {
+    socketMap[message.toId].socket.send(
+      JSON.stringify({ type: "CREATE_MESSAGE", message })
+    );
+  }
+  return message;
+};
+
+User.prototype.messagesForUser = function () {
+  return conn.models.message.findAll({
+    order: [["createdAt"]],
+    where: {
+      [conn.Sequelize.Op.or]: [
+        {
+          toId: this.id,
+        },
+        {
+          fromId: this.id,
+        },
+      ],
+    },
+    include: [
+      {
+        model: User,
+        as: "from",
+        attributes: ["username", "id"],
+      },
+      {
+        model: User,
+        as: "to",
+        attributes: ["username", "id"],
+      },
+    ],
+  });
 };
 
 module.exports = User;
