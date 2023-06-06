@@ -18,6 +18,7 @@ const Login = () => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
+   
   });
 
   const onChange = (ev) => {
@@ -28,6 +29,13 @@ const Login = () => {
     ev.preventDefault();
     await dispatch(attemptLogin(credentials));
     navigate("/home");
+  };
+
+  const handleLogin = () => {
+    const redirectUri = `${window.facebook_redirect_uri}/api/auth/facebook`;
+    const facebookAuthUrl = `https://www.facebook.com/v17.0/dialog/oauth?client_id=${window.facebook_client_id}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+
+    window.location.href = facebookAuthUrl;
   };
 
   const _register = (ev) => {
@@ -58,6 +66,9 @@ const Login = () => {
           value={credentials.password}
           onChange={onChange}
         />
+
+
+
         <Button
           type="submit"
           variant="contained"
@@ -74,24 +85,43 @@ const Login = () => {
         </Button>
       </form>
       {account === "login" ? (
-        <a
-          href={`https://www.facebook.com/v17.0/dialog/oauth?client_id=${window.facebook_client_id}&redirect_uri=${window.facebook_redirect_uri}/api/auth/facebook`}
-        >
-          Login With Facebook
-        </a>
+           <Button
+           type="submit"
+           onClick={handleLogin}
+           variant="contained"
+           color="primary"
+           size="large"
+           sx={{
+             mt: 2,
+             color: "#333",
+             backgroundColor: "#F9F6EE",
+             "&:hover": { backgroundColor: "#F5F5F5", color: "#888" },
+           }}
+         >
+           Login with Facebook
+         </Button>
       ) : null}
       {account === "login" ? (
         <p>
-          No account? <Link to="/register">Sign up here</Link>
-        </p>
+        No account? <br/>
+        <Button
+          component={Link}
+          to="/register"
+          variant="contained"
+          color="primary"
+          size="large"
+          sx={{
+            mt: 2,
+            color: "#333",
+            backgroundColor: "#F9F6EE",
+            "&:hover": { backgroundColor: "#F5F5F5", color: "#888" },
+          }}
+        >
+          Sign up here
+        </Button>
+      </p>
       ) : null}
-      {/* <FacebookLogin
-        appId="189486938370592"
-        autoLoad={false}
-        fields="name,email,picture"
-        onClick={responseFacebook}
-        callback={responseFacebook}
-      /> */}
+     
     </div>
   );
 };
