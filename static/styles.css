@@ -59,3 +59,10 @@ nav {
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
 }
+
+#instafeed-container img{
+  width: 18em;
+  border-style: solid;
+  border-color: white;
+  border-bottom: 10px;
+}
