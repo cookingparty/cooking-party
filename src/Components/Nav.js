@@ -65,7 +65,7 @@ export default function Nav() {
   };
 
   const handleLoginClick = () => {
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   const handleSearch = (filteredRecipes) => {
@@ -167,9 +167,13 @@ export default function Nav() {
         )}
 
         {/* Dropdown menu (User) */}
-        {!!auth.id && <Dashboard style={{
-                marginRight: "20px",
-              }} />}
+        {!!auth.id && (
+          <Dashboard
+            style={{
+              marginRight: "20px",
+            }}
+          />
+        )}
 
         {/* Social media icons */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -202,7 +206,7 @@ export default function Nav() {
             <Typography
               variant="button"
               component={Link}
-              to="/login"
+              to="/auth/login"
               style={{
                 color: "#0C090A",
                 textDecoration: "none",
