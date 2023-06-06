@@ -9,6 +9,7 @@ import Meals from "./Meals";
 import Cocktails from "./Cocktails";
 import Groups from "./Groups";
 import Group from "./Group";
+import GroupCreate from "./GroupCreate";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -84,6 +85,7 @@ const App = () => {
           <Route path="/users/:authId" element={<Profile />} />
           <Route path="/auth/:account" element={<Login />} />
           <Route path="/groups" element={<Groups />} />
+          <Route path="/groups/create" element={<GroupCreate />} />
           <Route path="/groups/:id" element={<Group />} />
 
           {!auth.id}

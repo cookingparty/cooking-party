@@ -16,6 +16,7 @@ const Groups = () => {
           );
         })}
       </ul>
+      <Link to={"/groups/create"}>Create New Group</Link>
     </div>
   );
 };
