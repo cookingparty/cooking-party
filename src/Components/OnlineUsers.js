@@ -1,17 +1,65 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addFriend } from "../store";
+import { createFriendship, createMessage } from "../store";
 
 const OnlineUsers = () => {
-  const { onlineUsers, friends } = useSelector((state) => state);
+  const { onlineUsers, friendships, messages, auth, users } = useSelector(
+    (state) => state
+  );
   const dispatch = useDispatch();
 
+  const friends = friendships
+    .filter(
+      (friendship) =>
+        friendship.friendee_id === auth.id || friendship.friender_id === auth.id
+    )
+    .map((friendship) => {
+      if (friendship.friendee_id === auth.id) {
+        return users.find((user) => user.id === friendship.friender_id);
+      }
+      if (friendship.friender_id === auth.id) {
+        return users.find((user) => user.id === friendship.friendee_id);
+      }
+    });
+
+  const findFriendship = (friendId) => {
+    const friendship = friendships.find(
+      (friendship) =>
+        (friendship.friendee_id === friendId &&
+          friendship.friender_id === auth.id) ||
+        (friendship.friendee_id === auth.id &&
+          friendship.friender_id === friendId)
+    );
+    return friendship;
+  };
+
   const sendRequest = (id) => {
-    dispatch(addFriend(id));
+    dispatch(createFriendship({ friender_id: auth.id, friendee_id: id }));
   };
 
   const isRequested = (user) => {
     if (!!friends.find((f) => f.id === user.id)) {
+      return true;
+    }
+    return false;
+  };
+
+  const confirmedFriend = (user) => {
+    const friend = friends.find((f) => f.id === user.id);
+    if (!!friend && findFriendship(friend.id)) {
+      if (findFriendship(friend.id).status === "CONFIRMED") {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const hasChat = (user) => {
+    if (
+      messages.find(
+        (message) => message.fromId === user.id || message.toId === user.id
+      )
+    ) {
       return true;
     }
     return false;
@@ -27,6 +75,17 @@ const OnlineUsers = () => {
               {user.username}
               {!isRequested(user) && (
                 <button onClick={() => sendRequest(user.id)}>+friend</button>
+              )}
+              {!hasChat(user) && !!confirmedFriend(user) && (
+                <button
+                  onClick={() => {
+                    dispatch(
+                      createMessage({ toId: user.id, txt: "let's chat" })
+                    );
+                  }}
+                >
+                  start chat
+                </button>
               )}
             </li>
           );

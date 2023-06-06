@@ -1,8 +1,11 @@
-import axios from "axios";
+/*import axios from "axios";
 
 const friends = (state = [], action) => {
   if (action.type === "SET_FRIENDS") {
     return action.friends;
+  }
+  if (action.type === "ADD_FRIEND") {
+    return [...state, action.friend];
   }
   return state;
 };
@@ -34,8 +37,6 @@ export const addFriend = (id) => {
         },
       }
     );
-    console.log("response.data.friender", response.data.friender);
-    console.log("response.data.friendee", response.data.friendee);
     dispatch({
       type: "SET_FRIENDS",
       friends: [...response.data.friender, ...response.data.friendee],
@@ -73,4 +74,4 @@ export const unfriend = (id) => {
   };
 };
 
-export default friends;
+export default friends;*/
