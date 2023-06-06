@@ -7,6 +7,8 @@ import Logout from "./Logout";
 import Recipes from "./Recipes";
 import Meals from "./Meals";
 import Cocktails from "./Cocktails";
+import Groups from "./Groups";
+import Group from "./Group";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -15,6 +17,8 @@ import {
   fetchFriendships,
   fetchMessages,
   fetchUsers,
+  fetchGroups,
+  fetchMemberships,
 } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
@@ -53,6 +57,8 @@ const App = () => {
       dispatch(fetchOnlineUsers());
       dispatch(fetchFriendships());
       dispatch(fetchMessages());
+      dispatch(fetchGroups());
+      dispatch(fetchMemberships());
     }
     if (prevAuth.current.id && !auth.id) {
       console.log("logged out");
@@ -77,6 +83,8 @@ const App = () => {
           <Route path="/update" element={<UpdateUser />} />
           <Route path="/users/:authId" element={<Profile />} />
           <Route path="/auth/:account" element={<Login />} />
+          <Route path="/groups" element={<Groups />} />
+          <Route path="/groups/:id" element={<Group />} />
 
           {!auth.id}
           <Route path="/" element={<Home />} />

@@ -104,6 +104,22 @@ const syncAndSeed = async () => {
     role: "Group Admin",
   });
 
+  const weLoveSushi = await Group.create({
+    name: "we love sushi!!!",
+    description: "for sushi lovers",
+    status: "APPROVED",
+  });
+
+  await Membership.create({
+    member_id: moe.id,
+    groupId: weLoveSushi.id,
+  });
+
+  await Membership.create({
+    member_id: lucy.id,
+    groupId: weLoveSushi.id,
+  });
+
   await Recipe.create({
     title: "Classic Chocolate Brownies",
     ingredients:
