@@ -6,6 +6,7 @@ import onlineUsers from "./onlineUsers";
 import friendships from "./friendships";
 import messages from "./messages";
 import users from "./users";
+import recipes from "./recipes";
 
 const reducer = combineReducers({
   auth,
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   messages,
   friendships,
   users,
+  recipes,
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -24,3 +26,4 @@ export * from "./onlineUsers";
 export * from "./messages";
 export * from "./friendships";
 export * from "./users";
+export * from "./recipes";

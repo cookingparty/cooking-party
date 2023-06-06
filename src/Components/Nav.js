@@ -56,7 +56,11 @@ export default function Nav() {
   };
 
   const navigateTo = (page) => {
-    navigate(`/${page.toLowerCase()}`);
+    if (page === `Add Recipe`) {
+      navigate("/recipes/upload");
+    } else {
+      navigate(`/${page.toLowerCase()}`);
+    }
   };
 
   const handleLoginClick = () => {
@@ -162,7 +166,9 @@ export default function Nav() {
         )}
 
         {/* Dropdown menu (User) */}
-        {!!auth.id && <Dashboard />}
+        {!!auth.id && <Dashboard style={{
+                marginRight: "20px",
+              }} />}
 
         {/* Social media icons */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -170,18 +176,20 @@ export default function Nav() {
             <>
               <IconButton
                 component={Link}
-                to="/instagram/cookingparty"
+                to="https://www.instagram.com/thecookingparty/"
                 aria-label="instagram page"
                 color="inherit"
+                target="_blank"
               >
                 <InstagramIcon style={{ color: "#fa4c46" }} />
               </IconButton>
 
               <IconButton
                 component={Link}
-                to="/facebook/cookingparty"
+                to="https://www.facebook.com/profile.php?id=100093276614788"
                 aria-label="facebook page"
                 color="inherit"
+                target="_blank"
               >
                 <FacebookIcon style={{ color: "#4688fa" }} />
               </IconButton>

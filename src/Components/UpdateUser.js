@@ -2,6 +2,7 @@ import { TextField } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { updateAuth } from "../store";
 
 const UpdateUser = () => {
   const { auth } = useSelector((state) => state);
