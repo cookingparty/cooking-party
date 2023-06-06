@@ -56,7 +56,11 @@ export default function Nav() {
   };
 
   const navigateTo = (page) => {
-    navigate(`/${page.toLowerCase()}`);
+    if (page === `Add Recipe`) {
+      navigate("/recipes/upload");
+    } else {
+      navigate(`/${page.toLowerCase()}`);
+    }
   };
 
   const handleLoginClick = () => {
