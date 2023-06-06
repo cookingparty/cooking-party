@@ -2,6 +2,7 @@ const express = require("express");
 const app = express.Router();
 const { Membership, Group, User } = require("../db");
 const socketMap = require("../socketMap");
+const { isLoggedIn } = require("./middleware");
 
 module.exports = app;
 
@@ -13,7 +14,7 @@ app.get("/", async (req, res, next) => {
   }
 });
 
-app.post("/", async (req, res, next) => {
+app.post("/", isLoggedIn, async (req, res, next) => {
   try {
     const membership = await Membership.create(req.body);
 
@@ -27,7 +28,7 @@ app.post("/", async (req, res, next) => {
     });
     const groupAdminId = groupAdminMembership.member_id;
 
-    if (socketMap[groupAdminId]) {
+    if (groupAdminId !== req.user.id && socketMap[groupAdminId]) {
       socketMap[groupAdminId].socket.send(
         JSON.stringify({ type: "ADD_MEMBERSHIP", membership })
       );

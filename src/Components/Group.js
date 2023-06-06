@@ -15,6 +15,8 @@ const Group = () => {
       return users.find((user) => user.id === membership.member_id);
     });
 
+  console.log("members are", members);
+
   const findMembership = (userId) => {
     const membership = memberships.find(
       (membership) =>

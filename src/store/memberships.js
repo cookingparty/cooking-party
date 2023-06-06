@@ -30,7 +30,12 @@ export const fetchMemberships = () => {
 
 export const addMembership = (membership) => {
   return async (dispatch) => {
-    const response = await axios.post("/api/memberships", membership);
+    const token = window.localStorage.getItem("token");
+    const response = await axios.post("/api/memberships", membership, {
+      headers: {
+        authorization: token,
+      },
+    });
     dispatch({ type: "ADD_MEMBERSHIP", membership: response.data });
   };
 };

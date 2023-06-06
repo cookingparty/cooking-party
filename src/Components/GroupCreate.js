@@ -23,7 +23,7 @@ const GroupCreate = () => {
         role: "Group Admin",
       })
     );
-    navigate(`/groups/${group.id}`);
+    navigate("/groups");
   };
 
   return (
