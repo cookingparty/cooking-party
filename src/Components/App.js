@@ -22,7 +22,6 @@ import UpdateUser from "./UpdateUser";
 import Profile from "./Profile";
 import UploadRecipe from "./UploadRecipe";
 
-
 const App = () => {
   const { auth } = useSelector((state) => state);
   const prevAuth = useRef(auth);
@@ -77,7 +76,7 @@ const App = () => {
           <Route path="/shop/search/:filterString" element={<Recipes />} />
           <Route path="/update" element={<UpdateUser />} />
           <Route path="/users/:authId" element={<Profile />} />
-          <Route path="/:account" element={<Login />} />
+          <Route path="/auth/:account" element={<Login />} />
 
           {!auth.id}
           <Route path="/" element={<Home />} />
