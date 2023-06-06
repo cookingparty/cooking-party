@@ -12,7 +12,6 @@ app.get("/", async (req, res, next) => {
   }
 });
 
-//couldn't test
 app.post("/", async (req, res, next) => {
   try {
     const membership = await Membership.create(req.body);
@@ -33,7 +32,6 @@ app.delete("/:id", async (req, res, next) => {
   }
 });
 
-//couldn't test
 app.put("/:id", async (req, res, next) => {
   try {
     const membership = await Membership.findByPk(req.params.id);
