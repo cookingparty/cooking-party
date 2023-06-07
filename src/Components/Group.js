@@ -4,7 +4,9 @@ import { useParams } from "react-router-dom";
 import { addMembership, updateMembership, deleteMembership } from "../store";
 
 const Group = () => {
-  const { groups, memberships, users, auth } = useSelector((state) => state);
+  const { groups, memberships, users, auth, recipes } = useSelector(
+    (state) => state
+  );
   const { id } = useParams();
   const group = groups.find((g) => g.id === id);
   const dispatch = useDispatch();
@@ -108,6 +110,14 @@ const Group = () => {
                   )}
               </li>
             );
+          })}
+      </ul>
+      <h2>Group Recipes:</h2>
+      <ul>
+        {recipes
+          .filter((recipe) => recipe.groupId === group.id)
+          .map((recipe) => {
+            return <li key={recipe.id}>{recipe.title}</li>;
           })}
       </ul>
     </div>

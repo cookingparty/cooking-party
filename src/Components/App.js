@@ -20,6 +20,7 @@ import {
   fetchUsers,
   fetchGroups,
   fetchMemberships,
+  fetchRecipes,
 } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
@@ -60,6 +61,7 @@ const App = () => {
       dispatch(fetchMessages());
       dispatch(fetchGroups());
       dispatch(fetchMemberships());
+      dispatch(fetchRecipes());
     }
     if (prevAuth.current.id && !auth.id) {
       console.log("logged out");

@@ -38,6 +38,8 @@ User.belongsToMany(Group, {
 });
 Group.hasMany(User);
 
+Group.hasMany(Recipe);
+
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
   const [moe, lucy, larry, curly, sarah, ethyl] = await Promise.all([
@@ -127,6 +129,17 @@ const syncAndSeed = async () => {
     instructions:
       "1. Preheat your oven to 350°F (175°C). Grease a 9x13-inch baking dish and set it aside, 2. In a microwave-safe bowl, melt the butter. Once melted, add the granulated sugar and stir until well combined. 3. Add the eggs, one at a time, to the butter and sugar mixture. Mix well after each addition. Stir in the vanilla extract. 4. In a separate bowl, whisk together the all-purpose flour, cocoa powder, and salt. 5. Gradually add the dry ingredients to the wet ingredients, mixing until just combined. Do not overmix. 6. Fold in the chocolate chips, reserving a handful for sprinkling on top. 7. Pour the brownie batter into the prepared baking dish and spread it evenly. Sprinkle the remaining chocolate chips on top. 8. Bake in the preheated oven for 25-30 minutes, or until a toothpick inserted into the center comes out with a few moist crumbs. Be careful not to overbake, as you want the brownies to be fudgy. 9. Once baked, remove the brownies from the oven and allow them to cool completely in the baking dish. 10. Cut the brownies into squares and serve. They can be stored in an airtight container at room temperature for up to 3 days.",
     imageURL: "https://images.unsplash.com/photo-1515037893149-de7f840978e2",
+  });
+
+  await Recipe.create({
+    title: "Easy Loaf of Bread",
+    ingredients:
+      "4 1/2 to 5 cups (540g to 600g) flour, 1 tablespoon (11g) granulated sugar, 2 1/4 teaspoons instant yeast, 2 1/2 teaspoons (15g) salt, 1 2/3 cups (379g) water, lukewarm (90°F to 110°F), yellow cornmeal, for coating the pan",
+    instructions:
+      "Weigh your flour; or measure it by gently spooning it into a cup, then sweeping off any excess. Stir together all of the ingredients (except the cornmeal) in a large bowl, starting with 4 1/2 cups of the flour. Use a sturdy spoon, or your stand mixer equipped with the beater paddle. Mix until everything comes together in a rough, shaggy mass of dough. If you're kneading the dough by hand, turn it out onto a lightly floured surface, using some of the additional 1/2 cup of flour called for. Fold the far edge of the dough back over on itself towards you, then press it away from you with the heels of your hands. Rotate the dough 90°. Repeat this fold-press-rotate process with a rhythmic, rocking motion for about 6 minutes. When fully kneaded, the dough will be bouncy and smooth.",
+    imageURL:
+      "https://www.kingarthurbaking.com/sites/default/files/styles/featured_image_2x/public/2020-02/the-easiest-loaf-of-bread-youll-ever-bake.jpg?itok=LsBnSw0g",
+    groupId: cookingParty.id,
   });
 
   await Comment.create({
