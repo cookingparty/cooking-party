@@ -27,7 +27,7 @@ const Chat = () => {
         {chats.map((chat, i) => {
           return (
             <div key={i} id="chat" className={chat.online ? "online" : ""}>
-              <h3>{chat.withUser.username}</h3>
+              <h3>{chat.withUser.username || chat.withUser.facebook_username}</h3>
               <ul className="chat">
                 {chat.messages.map((message) => {
                   return (
@@ -36,7 +36,7 @@ const Chat = () => {
                       className={message.mine ? "mine" : "yours"}
                     >
                       <span className="fromLabel">
-                        {message.mine ? "you" : chat.withUser.username}:
+                        {message.mine ? "you" : chat.withUser.username || chat.withUser.facebook_username}:
                       </span>
                       {message.txt}
                     </li>
@@ -52,7 +52,7 @@ const Chat = () => {
                 }}
               >
                 <input
-                  placeholder={`send message to ${chat.withUser.username}`}
+                  placeholder={`send message to ${chat.withUser.username || chat.withUser.facebook_username}`}
                 />
               </form>
             </div>
