@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { addMembership, updateMembership, deleteMembership } from "../store";
+import RecipeCard from "./RecipeCard";
 
 const Group = () => {
   const { groups, memberships, users, auth, recipes } = useSelector(
@@ -16,8 +17,6 @@ const Group = () => {
     .map((membership) => {
       return users.find((user) => user.id === membership.member_id);
     });
-
-  console.log("members are", members);
 
   const findMembership = (userId) => {
     const membership = memberships.find(
@@ -113,13 +112,25 @@ const Group = () => {
           })}
       </ul>
       <h2>Group Recipes:</h2>
-      <ul>
+      <div className="recipe-grid">
         {recipes
           .filter((recipe) => recipe.groupId === group.id)
           .map((recipe) => {
-            return <li key={recipe.id}>{recipe.title}</li>;
+            return (
+              <RecipeCard
+                key={recipe.id}
+                title={recipe.title}
+                subheader={recipe.sourceName}
+                image={recipe.image}
+                description={recipe.instructions}
+                readyInMinutes={recipe.readyInMinutes}
+                serves={recipe.servings}
+                avatar={"F"}
+                avatarColor={"red"}
+              />
+            );
           })}
-      </ul>
+      </div>
     </div>
   );
 };
