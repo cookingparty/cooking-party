@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { addMembership, updateMembership, deleteMembership } from "../store";
 import RecipeCard from "./RecipeCard";
+import { Button } from "@mui/material";
 
 const Group = () => {
   const { groups, memberships, users, auth, recipes } = useSelector(
@@ -68,10 +69,10 @@ const Group = () => {
     <div>
       <h1>{group.name}</h1>
       {!!group.isPrivate && !findMembership(auth.id) && (
-        <button onClick={requestJoin}>Request to Join</button>
+        <Button onClick={requestJoin}>Request to Join</Button>
       )}
       {!group.isPrivate && !findMembership(auth.id) && (
-        <button onClick={join}>Join</button>
+        <Button onClick={join}>Join</Button>
       )}
       {!!findMembership(auth.id) &&
         findMembership(auth.id).role === "Group Admin" && (
@@ -83,8 +84,8 @@ const Group = () => {
                 return (
                   <li key={user.id}>
                     {user.username}
-                    <button onClick={() => approve(user.id)}>approve</button>
-                    <button onClick={() => reject(user.id)}>reject</button>
+                    <Button onClick={() => approve(user.id)}>approve</Button>
+                    <Button onClick={() => reject(user.id)}>reject</Button>
                   </li>
                 );
               })}
@@ -103,9 +104,9 @@ const Group = () => {
                 )}
                 {!!findMembership(auth.id) &&
                   findMembership(auth.id).role === "Group Admin" && (
-                    <button onClick={() => remove(member.id)}>
+                    <Button onClick={() => remove(member.id)}>
                       remove member
-                    </button>
+                    </Button>
                   )}
               </li>
             );

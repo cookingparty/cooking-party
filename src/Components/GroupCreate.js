@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { createGroup, addMembership } from "../store";
+import { Button, Checkbox, TextField } from "@mui/material";
 
 const GroupCreate = () => {
   const { auth } = useSelector((state) => state);
@@ -30,25 +31,25 @@ const GroupCreate = () => {
     <div>
       <h1>Create A New Group</h1>
       <form onSubmit={create}>
-        <input
+        <TextField
           value={name}
           onChange={(ev) => setName(ev.target.value)}
           placeholder="Enter Name"
         />
-        <input
+        <TextField
           value={description}
           onChange={(ev) => setDescription(ev.target.value)}
           placeholder="Enter Description"
         />
         <label>
           Private group?
-          <input
+          <Checkbox
             type="checkbox"
             value={isPrivate}
             onClick={(ev) => setIsPrivate(!isPrivate)}
           />
         </label>
-        <button>Create Group</button>
+        <Button type="submit">Create Group</Button>
       </form>
     </div>
   );
