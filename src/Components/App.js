@@ -74,15 +74,11 @@ const App = () => {
   });
 
   return (
-    <div style={{ maxWidth: "1300px", margin: "0  auto" }}>
-      <div>
-        {/* {!!auth.id && <Dashboard className="dashboard" />} */}
-
-        <Nav />
-       {/* { !!auth.id && <Chatting/>} */}
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Nav />
+      <div style={{ flex: 1 }}>
         <Routes>
           {!!auth.id}
-         
           <Route path="/home" element={<Home />} />
           <Route path="/shop/search/:filterString" element={<Recipes />} />
           <Route path="/update" element={<UpdateUser />} />

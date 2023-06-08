@@ -159,7 +159,7 @@ export default function Nav() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <StyledAppBar position="fixed" open={open}>
+      <StyledAppBar position="fixed" open={open} sx={{background: '#F9F6EE',}}>
         <Toolbar disableGutters>
           {/* Dropdown menu (Nav) */}
           {auth.id && (
