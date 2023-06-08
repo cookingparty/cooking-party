@@ -243,7 +243,7 @@ export default function Nav() {
           onClick={open ? handleDrawerClose : handleDrawerOpen}
           edge="start"
           sx={{
-            marginRight: 5,
+            marginLeft: "5px",
           }}
           color="inherit"
         >
@@ -306,7 +306,7 @@ export default function Nav() {
           </Box>
         </Toolbar>
       </StyledAppBar>
-      <StyledDrawer variant="permanent" open={open}>
+      <StyledDrawer anchor="right" variant="permanent" open={open}>
         <DrawerHeader />
       </StyledDrawer>
     </Box>
