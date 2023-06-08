@@ -62,6 +62,9 @@ if(!friends){
         {friends
           .filter((friend) => findFriendship(friend.id).status === "CONFIRMED")
           .map((friend) => {
+            if(!friend){
+              return null
+            }
             return (
               <li key={friend.id}>
                 {friend.username || friend.facebook_username}
@@ -81,6 +84,9 @@ if(!friends){
               findFriendship(friend.id).status === "PENDING"
           )
           .map((friend) => {
+            if(!friend){
+              return null
+            }
             return (
               <li key={friend.id}>
                 {friend.username || friend.facebook_username}
