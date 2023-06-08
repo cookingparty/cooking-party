@@ -6,6 +6,7 @@ import TrendingMeals from './TrendingMeals';
 import TrendingCocktails from './TrendingCocktails';
 import Instafeed from 'instafeed.js';
 import Box from '@mui/material/Box';
+import { accessTokenIg } from '../../secrets';
 
 const InstagramCarousel = () => {
   const [instaFeed, setInstaFeed] = useState([]);
@@ -15,7 +16,7 @@ const InstagramCarousel = () => {
       get: 'user',
       resolution: 'medium_resolution',
       limit: 2,
-      accessToken: 'IGQVJWOFR4VzVuSGtQZAjNQQUpCRU12dEp0anNHU1dFbTE3QkxVM0tzSS1fRGVSU0swZA1RJQWVQWmszYTZAibVEtdmdwNFJQRnQtTk50Q1VaQ0s4N19UaUs4ZATlGUDUzQmpJTnRrOGttMXRLOXNqdzg4bQZDZD',
+      accessToken: accessTokenIg,
       target: 'instafeed-container',
       after: (images) => {
         setInstaFeed(images.map((image) => image.image));
