@@ -6,9 +6,17 @@ const Friendship = require("./Friendship");
 const Membership = require("./Membership");
 const Group = require("./Group");
 const Message = require("./Message");
+const Ingredient = require("./Ingredient");
+const Instruction = require("./Instruction");
 
 Recipe.belongsTo(User);
 User.hasMany(Recipe);
+
+Ingredient.belongsTo(Recipe);
+Recipe.hasMany(Ingredient);
+
+Instruction.belongsTo(Recipe);
+Recipe.hasMany(Instruction);
 
 Comment.belongsTo(Recipe);
 Comment.belongsTo(User);
