@@ -10,6 +10,7 @@ import Cocktails from "./Cocktails";
 import Groups from "./Groups";
 import Group from "./Group";
 import GroupCreate from "./GroupCreate";
+import Chatting from "./Chatting";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -79,8 +80,10 @@ const App = () => {
         {/* {!!auth.id && <Dashboard className="dashboard" />} */}
 
         <Nav />
+       {/* { !!auth.id && <Chatting/>} */}
         <Routes>
           {!!auth.id}
+         
           <Route path="/home" element={<Home />} />
           <Route path="/shop/search/:filterString" element={<Recipes />} />
           <Route path="/update" element={<UpdateUser />} />
