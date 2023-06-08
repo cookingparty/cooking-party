@@ -26,6 +26,7 @@ app.use("/api/comments", require("./api/comments"));
 app.use("/api/users", require("./api/users"));
 app.use("/api/messages", require("./api/messages"));
 
+
 app.get("/api/onlineUsers", (req, res, next) => {
   try {
     res.send(
@@ -37,5 +38,7 @@ app.get("/api/onlineUsers", (req, res, next) => {
     next(ex);
   }
 });
+
+
 
 module.exports = app;

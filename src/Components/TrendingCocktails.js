@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RecipeCard from './RecipeCard';
+import { apiKeyCocktail } from '../../secrets';
+
 
 function TrendingCocktails() {
 	const [trendingCocktails, setTrendingCocktails] = useState([]);
@@ -10,7 +12,8 @@ function TrendingCocktails() {
 	}, []);
 
 	const getTrendingCocktails = async () => {
-		const apiKey = '9973533';
+		
+    const apiKey = apiKeyCocktail;
 		try {
 			const response = await axios.get(
 				`https://www.thecocktaildb.com/api/json/v2/${apiKey}/popular.php`

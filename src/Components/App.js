@@ -21,6 +21,7 @@ import Dashboard from "./Dashboard";
 import UpdateUser from "./UpdateUser";
 import Profile from "./Profile";
 import UploadRecipe from "./UploadRecipe";
+import RecipePage from "./RecipePage";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
