@@ -20,6 +20,7 @@ import { Container, TextField } from "@mui/material";
 import Dashboard from "./Dashboard";
 import SearchAll from "./SearchALL";
 
+
 export default function Nav() {
   const { auth, recipes } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -75,9 +76,14 @@ export default function Nav() {
 
   return (
     <AppBar
-      position="static"
-      style={{ background: "#F9F6EE", margin: 0, padding: 0 }}
-    >
+    position="fixed"
+    sx={{
+      background: "#F9F6EE",
+      margin: 0,
+      padding: 0,
+      zIndex: (theme) => theme.zIndex.drawer + 1 
+    }}
+  >
       <Toolbar disableGutters>
         {/* Dropdown menu (Nav) */}
         {auth.id && (
