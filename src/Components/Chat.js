@@ -4,7 +4,7 @@ import { createMessage } from "../store";
 import { HailTwoTone } from "@mui/icons-material";
 
 const Chat = () => {
-  const { messages, auth, onlineUsers } = useSelector((state) => state);
+  const { messages, auth, onlineUsers, friendships, users } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const chatMap = messages.reduce((acc, message) => {
@@ -18,7 +18,43 @@ const Chat = () => {
     return acc;
   }, {});
 
+
   const chats = Object.values(chatMap);
+  
+  const findFriendship = (friendId) => {
+    const friendship = friendships.find(
+      (friendship) =>
+        (friendship.friendee_id === friendId &&
+          friendship.friender_id === auth.id) ||
+        (friendship.friendee_id === auth.id &&
+          friendship.friender_id === friendId)
+    );
+    return friendship;
+  };
+
+  const friends = friendships
+  .filter(
+    (friendship) =>
+      friendship.friendee_id === auth.id || friendship.friender_id === auth.id
+  )
+  .map((friendship) => {
+    if (friendship.friendee_id === auth.id) {
+      return users.find((user) => user.id === friendship.friender_id);
+    }
+    if (friendship.friender_id === auth.id) {
+      return users.find((user) => user.id === friendship.friendee_id);
+    }
+  });
+
+  const confirmedFriend = (user) => {
+    const friend = friends.find((f) => f.id === user.id);
+    if (!!friend && findFriendship(friend.id)) {
+      if (findFriendship(friend.id).status === "CONFIRMED") {
+        return true;
+      }
+    }
+    return false;
+  };
 
   return (
     <div>
@@ -44,6 +80,7 @@ const Chat = () => {
                   );
                 })}
               </ul>
+              {confirmedFriend(chat.withUser) &&
               <form
                 onSubmit={(ev) => {
                   ev.preventDefault();
@@ -56,6 +93,11 @@ const Chat = () => {
                   placeholder={`send message to ${chat.withUser.username || chat.withUser.facebook_username}`}
                 />
               </form>
+        }
+              {!confirmedFriend(chat.withUser) &&
+              
+              <p>You are no longer friends. Please add friend to continue chat.</p>
+              }
             </div>
           );
         })}
