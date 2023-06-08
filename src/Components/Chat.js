@@ -30,6 +30,7 @@ const Chat = () => {
               <h3>{chat.withUser.username || chat.withUser.facebook_username}</h3>
               <ul className="chat">
                 {chat.messages.map((message) => {
+                  console.log(chat.withUser)
                   return (
                     <li
                       key={message.id}

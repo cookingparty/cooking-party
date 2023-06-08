@@ -216,12 +216,12 @@ User.prototype.sendMessage = async function (message) {
       {
         model: User,
         as: "from",
-        attributes: ["id", "username"],
+        attributes: ["id", "username", "facebook_username"],
       },
       {
         model: User,
         as: "to",
-        attributes: ["id", "username"],
+        attributes: ["id", "username", "facebook_username"],
       },
     ],
   });
@@ -250,12 +250,12 @@ User.prototype.messagesForUser = function () {
       {
         model: User,
         as: "from",
-        attributes: ["username", "id"],
+        attributes: ["username", "id", "facebook_username"],
       },
       {
         model: User,
         as: "to",
-        attributes: ["username", "id"],
+        attributes: ["username", "id", "facebook_username"],
       },
     ],
   });
