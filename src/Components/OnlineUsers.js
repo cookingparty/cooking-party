@@ -64,7 +64,7 @@ const OnlineUsers = () => {
     }
     return false;
   };
-
+console.log(onlineUsers)
   return (
     <div>
       <h1>Online Users ({onlineUsers.length})</h1>
@@ -72,7 +72,7 @@ const OnlineUsers = () => {
         {onlineUsers.map((user) => {
           return (
             <li key={user.id}>
-              {user.username}
+              {user.username || user.facebook_username}
               {!isRequested(user) && (
                 <button onClick={() => sendRequest(user.id)}>+friend</button>
               )}

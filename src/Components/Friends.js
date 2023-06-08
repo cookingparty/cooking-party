@@ -39,20 +39,22 @@ const Friends = () => {
     );
   };
 
-  const ignoreRequest = (id) => {
-    const friendship = findFriendship(id);
-    const friendshipId = friendship.id;
-    dispatch(
-      updateFriendship({ friendshipId, status: "IGNORED" }, friendshipId)
-    );
-  };
+  // const ignoreRequest = (id) => {
+  //   const friendship = findFriendship(id);
+  //   const friendshipId = friendship.id;
+  //   dispatch(
+  //     updateFriendship({ friendshipId, status: "IGNORED" }, friendshipId)
+  //   );
+  // };
 
   const removeFriend = (id) => {
     const friendship = findFriendship(id);
     const friendshipId = friendship.id;
     dispatch(deleteFriendship(friendshipId));
   };
-
+if(!friends){
+  return null;
+}
   return (
     <div>
       <h1>Friends</h1>
@@ -60,9 +62,12 @@ const Friends = () => {
         {friends
           .filter((friend) => findFriendship(friend.id).status === "CONFIRMED")
           .map((friend) => {
+            if(!friend){
+              return null
+            }
             return (
               <li key={friend.id}>
-                {friend.username}
+                {friend.username || friend.facebook_username}
                 <button onClick={() => removeFriend(friend.id)}>
                   unfriend
                 </button>
@@ -79,11 +84,14 @@ const Friends = () => {
               findFriendship(friend.id).status === "PENDING"
           )
           .map((friend) => {
+            if(!friend){
+              return null
+            }
             return (
               <li key={friend.id}>
-                {friend.username}
+                {friend.username || friend.facebook_username}
                 <button onClick={() => acceptRequest(friend.id)}>accept</button>
-                <button onClick={() => ignoreRequest(friend.id)}>ignore</button>
+                <button onClick={() => removeFriend(friend.id)}>ignore</button>
               </li>
             );
           })}
