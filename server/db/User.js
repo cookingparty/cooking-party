@@ -149,65 +149,10 @@ User.authenticate = async function ({ username, password }) {
   throw error;
 };
 
-/*User.prototype.getFriends = async function () {
-  return await conn.models.user.findByPk(this.id, {
-    include: [
-      {
-        model: User,
-        as: "friender",
-        attributes: ["id", "username"],
-      },
-      {
-        model: User,
-        as: "friendee",
-        attributes: ["id", "username"],
-      },
-    ],
-  });
-};*/
-
 User.register = async function (credentials) {
   const user = await this.create(credentials);
   return user.generateToken();
 };
-
-/*
-//this needs work
-User.prototype.addFriend = async function ({ id }) {
-  const friendship = await conn.models.friendship.create({
-    friender_id: this.id,
-    friendee_id: id,
-  });
-  const friend = await conn.models.user.findByPk(friendship.friender_id, {
-    include: [
-      {
-        model: User,
-        as: "friender",
-        attributes: ["id", "username"],
-      },
-      {
-        model: User,
-        as: "friendee",
-        attributes: ["id", "username"],
-      },
-    ],
-  });
-  //friend.friendship = friendship;
-  //console.log("new friend", friend);
-  return this.getFriends();
-};
-
-User.prototype.updateFriend = async function (updated) {
-  const friendship = await conn.models.friendship.findByPk(updated.id);
-  await friendship.update(updated);
-  return this.getFriends();
-};
-
-User.prototype.unfriend = async function (id) {
-  const friendship = await conn.models.friendship.findByPk(id);
-  await friendship.destroy();
-  return this.getFriends();
-};*/
 
 User.prototype.sendMessage = async function (message) {
   message = await conn.models.message.create({ ...message, fromId: this.id });
