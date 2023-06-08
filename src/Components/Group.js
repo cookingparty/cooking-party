@@ -83,7 +83,7 @@ const Group = () => {
               .map((user) => {
                 return (
                   <li key={user.id}>
-                    {user.username}
+                    {user.username || user.facebook_username}
                     <Button onClick={() => approve(user.id)}>approve</Button>
                     <Button onClick={() => reject(user.id)}>reject</Button>
                   </li>
@@ -98,7 +98,7 @@ const Group = () => {
           .map((member) => {
             return (
               <li key={member.id}>
-                {member.username}
+                {member.username || member.facebook_username}
                 {findMembership(member.id).role === "Group Admin" && (
                   <span> (group admin) </span>
                 )}
