@@ -8,6 +8,7 @@ import Chat from "./Chat";
 import Instafeed from "instafeed.js";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
+import { accessTokenIg } from '../../secrets';
 
 const drawerWidth = "25%";
 
@@ -76,7 +77,7 @@ const Recipes = () => {
       get: "user",
       resolution: "medium_resolution",
       limit: 6,
-      accessToken: "IGQVJWOFR4VzVuSGtQZAjNQQUpCRU12dEp0anNHU1dFbTE3QkxVM0tzSS1fRGVSU0swZA1RJQWVQWmszYTZAibVEtdmdwNFJQRnQtTk50Q1VaQ0s4N19UaUs4ZATlGUDUzQmpJTnRrOGttMXRLOXNqdzg4bQZDZD",
+      accessToken: accessTokenIg,
       target: "instafeed-container",
     });
     userFeed.run();

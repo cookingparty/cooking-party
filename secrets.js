@@ -1,2 +1,3 @@
 export const apiKeyMeal = '6f3684ac356b4745a101f882b28c9a3a';
 export const apiKeyCocktail = '9973533';
+export const accessTokenIg = 'IGQVJXS1hYMkc1WHBxWDc5UFpvM3pGNmVLMkRXZAnhCMlh6NzdVRHNKNlJZAc2V1bFlpWE5Jbl9vcUZAwYjlJNjNHczVBYW9hT0ptcmt5aHRFejQ4cHpJWDlHZAE15UHg5SEhxYk15UW5JY1l1SF8zVW03UQZDZD'
