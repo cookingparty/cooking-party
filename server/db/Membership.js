@@ -8,7 +8,8 @@ const Membership = conn.define("membership", {
     primaryKey: true,
   },
   role: {
-    type: ENUM ('Group Admin', 'member'),
+    type: ENUM("Group Admin", "member"),
+    defaultValue: "member",
   },
   status: {
     // approval by group admin

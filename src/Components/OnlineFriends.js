@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createFriendship, createMessage } from "../store";
+import { createMessage } from "../store";
 
-const OnlineUsers = () => {
+const OnlineFriends = () => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
@@ -33,17 +33,6 @@ const OnlineUsers = () => {
     return friendship;
   };
 
-  const sendRequest = (id) => {
-    dispatch(createFriendship({ friender_id: auth.id, friendee_id: id }));
-  };
-
-  const isRequested = (user) => {
-    if (!!friends.find((f) => f.id === user.id)) {
-      return true;
-    }
-    return false;
-  };
-
   const confirmedFriend = (user) => {
     const friend = friends.find((f) => f.id === user.id);
     if (!!friend && findFriendship(friend.id)) {
@@ -53,6 +42,8 @@ const OnlineUsers = () => {
     }
     return false;
   };
+
+  const onlineFriends = onlineUsers.filter((user) => !!confirmedFriend(user));
 
   const hasChat = (user) => {
     if (
@@ -64,19 +55,16 @@ const OnlineUsers = () => {
     }
     return false;
   };
-console.log(onlineUsers)
+
   return (
     <div>
-      <h1>Online Users ({onlineUsers.length})</h1>
+      <h1>Online Friends ({onlineFriends.length})</h1>
       <ul>
-        {onlineUsers.map((user) => {
+        {onlineFriends.map((user) => {
           return (
             <li key={user.id}>
-              {user.username || user.facebook_username}
-              {!isRequested(user) && (
-                <button onClick={() => sendRequest(user.id)}>+friend</button>
-              )}
-              {!hasChat(user) && !!confirmedFriend(user) && (
+              {user.username}
+              {!hasChat(user) && (
                 <button
                   onClick={() => {
                     dispatch(
@@ -95,4 +83,4 @@ console.log(onlineUsers)
   );
 };
 
-export default OnlineUsers;
+export default OnlineFriends;

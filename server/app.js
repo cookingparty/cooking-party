@@ -30,7 +30,11 @@ app.get("/api/onlineUsers", (req, res, next) => {
   try {
     res.send(
       Object.values(socketMap).map((value) => {
-        return { id: value.user.id, username: value.user.username };
+        return {
+          id: value.user.id,
+          username: value.user.username,
+          facebook_username: value.user.facebook_username,
+        };
       })
     );
   } catch (ex) {
