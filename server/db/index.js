@@ -8,6 +8,8 @@ const Group = require("./Group");
 const Message = require("./Message");
 const Ingredient = require("./Ingredient");
 const Instruction = require("./Instruction");
+const Meal = require("./Meal");
+const Day = require("./Day");
 
 Recipe.belongsTo(User);
 User.hasMany(Recipe);
@@ -17,6 +19,12 @@ Recipe.hasMany(Ingredient);
 
 Instruction.belongsTo(Recipe);
 Recipe.hasMany(Instruction);
+
+Recipe.belongsTo(Meal);
+Meal.hasMany(Recipe);
+
+Meal.belongsTo(Day);
+Day.hasMany(Meal);
 
 Comment.belongsTo(Recipe);
 Comment.belongsTo(User);
