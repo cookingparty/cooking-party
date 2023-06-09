@@ -28,7 +28,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
+import Chat from "./Chat";
 import MailIcon from "@mui/icons-material/Mail";
 import Badge from "@mui/material/Badge";
 
@@ -346,6 +346,7 @@ const Nav = () => {
           px: 2.5,
         }}
       >
+        
         <ListItemIcon
           sx={{
             minWidth: 0,
@@ -409,6 +410,12 @@ const Nav = () => {
     </ListItem>
   ))}
 </List>
+
+<Divider />
+<ListItem>
+<ListItemText primary="Chat"/>
+{!!auth.id && <Chat/>}
+</ListItem>
           </StyledDrawer>
         )}
       </Box>
