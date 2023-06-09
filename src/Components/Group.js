@@ -123,7 +123,7 @@ const Group = () => {
                 title={recipe.title}
                 subheader={recipe.sourceName}
                 image={recipe.image}
-                description={recipe.instructions}
+                description={recipe.description}
                 readyInMinutes={recipe.readyInMinutes}
                 serves={recipe.servings}
                 avatar={"F"}
