@@ -414,7 +414,7 @@ const Nav = () => {
 <Divider />
 <ListItem>
 <ListItemText primary="Chat"/>
-{!!auth.id && <Chat/>}
+{!!auth.id &&  <Chat drawerWidth={drawerWidth} />}
 </ListItem>
           </StyledDrawer>
         )}

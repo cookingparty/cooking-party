@@ -21,7 +21,7 @@ nav {
   justify-content: end;
 }
 
-#chats {
+/* #chats {
   display: flex;
   justify-content: space-around;
 }
@@ -30,9 +30,9 @@ nav {
   border: 1px solid black;
   padding: 5px;
   width: 325px;
-}
+} */
 
-.mine {
+/* .mine {
   text-align: right;
 }
 
@@ -52,7 +52,7 @@ nav {
 
 .online {
   background-color: lightGreen;
-}
+} */
 
 .recipe-grid {
   display: grid;
