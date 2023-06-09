@@ -39,22 +39,14 @@ const Friends = () => {
     );
   };
 
-  // const ignoreRequest = (id) => {
-  //   const friendship = findFriendship(id);
-  //   const friendshipId = friendship.id;
-  //   dispatch(
-  //     updateFriendship({ friendshipId, status: "IGNORED" }, friendshipId)
-  //   );
-  // };
-
   const removeFriend = (id) => {
     const friendship = findFriendship(id);
     const friendshipId = friendship.id;
     dispatch(deleteFriendship(friendshipId));
   };
-if(!friends){
-  return null;
-}
+  if (!friends) {
+    return null;
+  }
   return (
     <div>
       <h1>Friends</h1>
@@ -62,8 +54,8 @@ if(!friends){
         {friends
           .filter((friend) => findFriendship(friend.id).status === "CONFIRMED")
           .map((friend) => {
-            if(!friend){
-              return null
+            if (!friend) {
+              return null;
             }
             return (
               <li key={friend.id}>
@@ -84,8 +76,8 @@ if(!friends){
               findFriendship(friend.id).status === "PENDING"
           )
           .map((friend) => {
-            if(!friend){
-              return null
+            if (!friend) {
+              return null;
             }
             return (
               <li key={friend.id}>

@@ -8,7 +8,7 @@ const Friendship = conn.define("friendship", {
     primaryKey: true,
   },
   status: {
-    type: ENUM("PENDING", "CONFIRMED", "IGNORED"),
+    type: ENUM("PENDING", "CONFIRMED"),
     defaultValue: "PENDING",
   },
 });
