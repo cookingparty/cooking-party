@@ -1,5 +1,5 @@
 const conn = require("./conn");
-const { UUID, UUIDV4, TEXT, STRING, INTEGER } = require("sequelize");
+const { UUID, UUIDV4, TEXT, STRING, INTEGER, DECIMAL } = require("sequelize");
 
 const Ingredient = conn.define("ingredient", {
   id: {
@@ -12,8 +12,8 @@ const Ingredient = conn.define("ingredient", {
     allowNull: false,
   },
   amount: {
-    type: INTEGER,
-    defaultValue: 1,
+    type: DECIMAL,
+    defaultValue: 0,
   },
 });
 

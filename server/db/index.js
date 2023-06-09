@@ -152,7 +152,72 @@ const syncAndSeed = async () => {
     imageURL: "https://images.unsplash.com/photo-1515037893149-de7f840978e2",
   });
 
-  await Recipe.create({
+  const [
+    unsaltedButter,
+    granulatedSugar,
+    eggs,
+    vanillaExtract,
+    allPurposeFlour,
+    cocoaPowder,
+    salt,
+    chocolateChips,
+  ] = await Promise.all([
+    Ingredient.create({
+      name: "unsalted butter",
+      amount: 1,
+      recipeId: classicChocolateBrownies.id,
+    }),
+    Ingredient.create({
+      name: "granulated sugar",
+      amount: 2,
+      recipeId: classicChocolateBrownies.id,
+    }),
+    Ingredient.create({
+      name: "large eggs",
+      amount: 4,
+      recipeId: classicChocolateBrownies.id,
+    }),
+    Ingredient.create({
+      name: "vanilla extract",
+      amount: 1,
+      recipeId: classicChocolateBrownies.id,
+    }),
+    Ingredient.create({
+      name: "all-purpose flour",
+      amount: 1,
+      recipeId: classicChocolateBrownies.id,
+    }),
+    Ingredient.create({
+      name: "unsweetened cocoa powder",
+      amount: 1 / 2,
+      recipeId: classicChocolateBrownies.id,
+    }),
+    Ingredient.create({
+      name: "salt",
+      amount: 1,
+      recipeId: classicChocolateBrownies.id,
+    }),
+    Ingredient.create({
+      name: "semi-sweet chocolate chips",
+      amount: 1,
+      recipeId: classicChocolateBrownies.id,
+    }),
+  ]);
+
+  await Promise.all([
+    MeasurementUnit.create({ name: "cup", ingredientId: unsaltedButter.id }),
+    MeasurementUnit.create({ name: "cup", ingredientId: granulatedSugar.id }),
+    MeasurementUnit.create({
+      name: "teaspoon",
+      ingredientId: vanillaExtract.id,
+    }),
+    MeasurementUnit.create({ name: "cup", ingredientId: allPurposeFlour.id }),
+    MeasurementUnit.create({ name: "cup", ingredientId: cocoaPowder.id }),
+    MeasurementUnit.create({ name: "teaspoon", ingredientId: salt.id }),
+    MeasurementUnit.create({ name: "cup", ingredientId: chocolateChips.id }),
+  ]);
+
+  const bread = await Recipe.create({
     title: "Easy Loaf of Bread",
     description: "bread",
     // ingredients:
@@ -163,6 +228,36 @@ const syncAndSeed = async () => {
       "https://www.kingarthurbaking.com/sites/default/files/styles/featured_image_2x/public/2020-02/the-easiest-loaf-of-bread-youll-ever-bake.jpg?itok=LsBnSw0g",
     groupId: cookingParty.id,
   });
+
+  const [flour, sugar, instantYeast, saltBread, lukewarmWater, yellowCornmeal] =
+    await Promise.all([
+      Ingredient.create({ name: "flour", amount: 4.5, recipeId: bread.id }),
+      Ingredient.create({
+        name: "granulated sugar",
+        amount: 1,
+        recipeId: bread.id,
+      }),
+      Ingredient.create({
+        name: "instant yeast",
+        amount: 2.25,
+        recipeId: bread.id,
+      }),
+      Ingredient.create({ name: "salt", amount: 2.5, recipeId: bread.id }),
+      Ingredient.create({
+        name: "lukewarm water",
+        amount: 1.33,
+        recipeId: bread.id,
+      }),
+      Ingredient.create({ name: "yellow cornmeal", recipeId: bread.id }),
+    ]);
+
+  await Promise.all([
+    MeasurementUnit.create({ name: "cup", ingredientId: flour.id }),
+    MeasurementUnit.create({ name: "tablespoon", ingredientId: sugar.id }),
+    MeasurementUnit.create({ name: "teaspoon", ingredientId: instantYeast.id }),
+    MeasurementUnit.create({ name: "teaspoon", ingredientId: saltBread.id }),
+    MeasurementUnit.create({ name: "cup", ingredientId: lukewarmWater.id }),
+  ]);
 
   await Comment.create({
     subject: "Heavenly Chocolate Delight!",
