@@ -15,10 +15,9 @@ const Recipe = conn.define("recipe", {
   //   type: TEXT,
   //   allowNull: false,
   // },
-  // instructions: {
-  //   type: TEXT,
-  //   allowNull: false,
-  // },
+  description: {
+    type: TEXT,
+  },
   image: {
     type: TEXT,
     get: function () {
