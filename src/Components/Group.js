@@ -49,13 +49,6 @@ const Group = () => {
     );
   };
 
-  const reject = (id) => {
-    const membershipId = findMembership(id).id;
-    dispatch(
-      updateMembership({ membershipId, status: "DENIED" }, membershipId)
-    );
-  };
-
   const remove = (id) => {
     const membershipId = findMembership(id).id;
     dispatch(deleteMembership(membershipId));
@@ -74,6 +67,10 @@ const Group = () => {
       {!group.isPrivate && !findMembership(auth.id) && (
         <Button onClick={join}>Join</Button>
       )}
+      {findMembership(auth.id).status === "APPROVED" &&
+        findMembership(auth.id).role !== "Group Admin" && (
+          <Button onClick={() => remove(auth.id)}>Leave Group</Button>
+        )}
       {!!findMembership(auth.id) &&
         findMembership(auth.id).role === "Group Admin" && (
           <div>
@@ -85,7 +82,7 @@ const Group = () => {
                   <li key={user.id}>
                     {user.username || user.facebook_username}
                     <Button onClick={() => approve(user.id)}>approve</Button>
-                    <Button onClick={() => reject(user.id)}>reject</Button>
+                    <Button onClick={() => remove(user.id)}>reject</Button>
                   </li>
                 );
               })}
@@ -103,7 +100,8 @@ const Group = () => {
                   <span> (group admin) </span>
                 )}
                 {!!findMembership(auth.id) &&
-                  findMembership(auth.id).role === "Group Admin" && (
+                  findMembership(auth.id).role === "Group Admin" &&
+                  findMembership(member.id).role !== "Group Admin" && (
                     <Button onClick={() => remove(member.id)}>
                       remove member
                     </Button>
