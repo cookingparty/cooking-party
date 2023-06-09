@@ -31,6 +31,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 export default function Nav() {
   const { auth, recipes } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -165,7 +167,7 @@ export default function Nav() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', marginBottom: "100px" }}>
       <CssBaseline />
       <StyledAppBar position="fixed" open={open} sx={{background: '#F9F6EE',}}>
         <Toolbar disableGutters>
@@ -346,7 +348,7 @@ export default function Nav() {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['Online Users', 'Trash', 'Spam'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -362,7 +364,7 @@ export default function Nav() {
                     justifyContent: 'center',
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <AccountCircleIcon /> 
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
