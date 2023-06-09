@@ -121,7 +121,8 @@ const Nav = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 1, ),
+    margin: "23px",
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   }));
@@ -332,7 +333,7 @@ const Nav = () => {
 
         {!!auth.id && (
           <StyledDrawer anchor="right" variant="permanent" open={open}>
-            
+            <DrawerHeader/>
 
             <Divider />
             <List>
@@ -371,6 +372,8 @@ const Nav = () => {
     </ListItem>
   ))}
 </List>
+
+
 <Divider />
 <List>
   {['Friends', 'Online Users', 'Logout'].map((text, index) => (
