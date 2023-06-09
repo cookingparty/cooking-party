@@ -6,9 +6,29 @@ const Friendship = require("./Friendship");
 const Membership = require("./Membership");
 const Group = require("./Group");
 const Message = require("./Message");
+const Ingredient = require("./Ingredient");
+const Instruction = require("./Instruction");
+const Meal = require("./Meal");
+const Day = require("./Day");
+const MeasurementUnit = require("./MeasurementUnit");
 
 Recipe.belongsTo(User);
 User.hasMany(Recipe);
+
+Ingredient.belongsTo(Recipe);
+Recipe.hasMany(Ingredient);
+
+MeasurementUnit.belongsTo(Ingredient);
+Ingredient.hasMany(MeasurementUnit);
+
+Instruction.belongsTo(Recipe);
+Recipe.hasMany(Instruction);
+
+Recipe.belongsTo(Meal);
+Meal.hasMany(Recipe);
+
+Meal.belongsTo(Day);
+Day.hasMany(Meal);
 
 Comment.belongsTo(Recipe);
 Comment.belongsTo(User);
@@ -122,7 +142,7 @@ const syncAndSeed = async () => {
     groupId: weLoveSushi.id,
   });
 
-  await Recipe.create({
+  const classicChocolateBrownies = await Recipe.create({
     title: "Classic Chocolate Brownies",
     ingredients:
       "1 cup unsalted butter, 2 cups granulated sugar,4 large eggs, 1 teaspoon vanilla extract, 1 cup all-purpose flour, 1/2 cup unsweetened cocoa powder, 1/2 teaspoon salt, 1 cup semi-sweet chocolate chips",
