@@ -112,26 +112,30 @@ const Group = () => {
             );
           })}
       </ul>
-      <h2>Group Recipes:</h2>
-      <div className="recipe-grid">
-        {recipes
-          .filter((recipe) => recipe.groupId === group.id)
-          .map((recipe) => {
-            return (
-              <RecipeCard
-                key={recipe.id}
-                title={recipe.title}
-                subheader={recipe.sourceName}
-                image={recipe.image}
-                description={recipe.description}
-                readyInMinutes={recipe.readyInMinutes}
-                serves={recipe.servings}
-                avatar={"F"}
-                avatarColor={"red"}
-              />
-            );
-          })}
-      </div>
+      {findMembership(auth.id).status === "APPROVED" && (
+        <div>
+          <h2>Group Recipes:</h2>
+          <div className="recipe-grid">
+            {recipes
+              .filter((recipe) => recipe.groupId === group.id)
+              .map((recipe) => {
+                return (
+                  <RecipeCard
+                    key={recipe.id}
+                    title={recipe.title}
+                    subheader={recipe.sourceName}
+                    image={recipe.image}
+                    description={recipe.description}
+                    readyInMinutes={recipe.readyInMinutes}
+                    serves={recipe.servings}
+                    avatar={"F"}
+                    avatarColor={"red"}
+                  />
+                );
+              })}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
