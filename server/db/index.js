@@ -124,6 +124,7 @@ const syncAndSeed = async () => {
     member_id: lucy.id,
     groupId: cookingParty.id,
     role: "Group Admin",
+    status: "APPROVED",
   });
 
   const weLoveSushi = await Group.create({
@@ -135,11 +136,14 @@ const syncAndSeed = async () => {
   await Membership.create({
     member_id: moe.id,
     groupId: weLoveSushi.id,
+    role: "Group Admin",
+    status: "APPROVED",
   });
 
   await Membership.create({
     member_id: lucy.id,
     groupId: weLoveSushi.id,
+    status: "APPROVED",
   });
 
   const classicChocolateBrownies = await Recipe.create({
@@ -150,6 +154,7 @@ const syncAndSeed = async () => {
     // instructions:
     //   "1. Preheat your oven to 350°F (175°C). Grease a 9x13-inch baking dish and set it aside, 2. In a microwave-safe bowl, melt the butter. Once melted, add the granulated sugar and stir until well combined. 3. Add the eggs, one at a time, to the butter and sugar mixture. Mix well after each addition. Stir in the vanilla extract. 4. In a separate bowl, whisk together the all-purpose flour, cocoa powder, and salt. 5. Gradually add the dry ingredients to the wet ingredients, mixing until just combined. Do not overmix. 6. Fold in the chocolate chips, reserving a handful for sprinkling on top. 7. Pour the brownie batter into the prepared baking dish and spread it evenly. Sprinkle the remaining chocolate chips on top. 8. Bake in the preheated oven for 25-30 minutes, or until a toothpick inserted into the center comes out with a few moist crumbs. Be careful not to overbake, as you want the brownies to be fudgy. 9. Once baked, remove the brownies from the oven and allow them to cool completely in the baking dish. 10. Cut the brownies into squares and serve. They can be stored in an airtight container at room temperature for up to 3 days.",
     imageURL: "https://images.unsplash.com/photo-1515037893149-de7f840978e2",
+    groupId: weLoveSushi.id,
   });
 
   await Recipe.create({

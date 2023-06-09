@@ -112,7 +112,7 @@ const Group = () => {
             );
           })}
       </ul>
-      {findMembership(auth.id).status === "APPROVED" && (
+      {findMembership(auth.id).status === "APPROVED" || !group.isPrivate ? (
         <div>
           <h2>Group Recipes:</h2>
           <div className="recipe-grid">
@@ -135,6 +135,8 @@ const Group = () => {
               })}
           </div>
         </div>
+      ) : (
+        <h3>Join group to view group recipes.</h3>
       )}
     </div>
   );

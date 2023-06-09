@@ -14,7 +14,7 @@ const Membership = conn.define("membership", {
   status: {
     // approval by group admin
     type: ENUM("APPROVED", "PENDING", "DENIED"),
-    defaultValue: "APPROVED", // change back to PENDING
+    defaultValue: "PENDING",
   },
 });
 
