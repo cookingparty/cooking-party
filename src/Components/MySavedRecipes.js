@@ -5,6 +5,10 @@ import RecipeCard from "./RecipeCard";
 const MySavedRecipes = () => {
   const { auth, favorites, recipes } = useSelector((state) => state);
 
+  if (!favorites) {
+    return null;
+  }
+
   const savedRecipes = favorites
     .filter((favorite) => favorite.userId === auth.id)
     .map((favorite) => {
@@ -19,6 +23,7 @@ const MySavedRecipes = () => {
           return (
             <RecipeCard
               key={recipe.id}
+              id={recipe.id}
               title={recipe.title}
               subheader={recipe.sourceName}
               image={recipe.image}

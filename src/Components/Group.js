@@ -120,6 +120,7 @@ const Group = () => {
                 return (
                   <RecipeCard
                     key={recipe.id}
+                    id={recipe.id}
                     title={recipe.title}
                     subheader={recipe.sourceName}
                     image={recipe.image}

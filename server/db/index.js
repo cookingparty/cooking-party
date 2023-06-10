@@ -171,7 +171,7 @@ const syncAndSeed = async () => {
     //   "4 1/2 to 5 cups (540g to 600g) flour, 1 tablespoon (11g) granulated sugar, 2 1/4 teaspoons instant yeast, 2 1/2 teaspoons (15g) salt, 1 2/3 cups (379g) water, lukewarm (90°F to 110°F), yellow cornmeal, for coating the pan",
     // instructions:
     //   "Weigh your flour; or measure it by gently spooning it into a cup, then sweeping off any excess. Stir together all of the ingredients (except the cornmeal) in a large bowl, starting with 4 1/2 cups of the flour. Use a sturdy spoon, or your stand mixer equipped with the beater paddle. Mix until everything comes together in a rough, shaggy mass of dough. If you're kneading the dough by hand, turn it out onto a lightly floured surface, using some of the additional 1/2 cup of flour called for. Fold the far edge of the dough back over on itself towards you, then press it away from you with the heels of your hands. Rotate the dough 90°. Repeat this fold-press-rotate process with a rhythmic, rocking motion for about 6 minutes. When fully kneaded, the dough will be bouncy and smooth.",
-    imageURL:
+    image:
       "https://www.kingarthurbaking.com/sites/default/files/styles/featured_image_2x/public/2020-02/the-easiest-loaf-of-bread-youll-ever-bake.jpg?itok=LsBnSw0g",
     groupId: cookingParty.id,
   });
