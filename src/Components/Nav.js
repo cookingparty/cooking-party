@@ -28,6 +28,7 @@ export default function Nav() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const pages = [
+    "Home",
     "Recipes",
     "Planner",
     "Grocery List",
