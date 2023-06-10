@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, useTheme } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
@@ -165,6 +165,8 @@ const Nav = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [messagesOpen, setMessagesOpen] = useState(false);
+  const [readMessages, setReadMessages] = useState([]);
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -176,7 +178,13 @@ const Nav = () => {
 
   const handleToggleMessages = () => {
     setMessagesOpen(!messagesOpen);
+    setReadMessages(messages.map((message) => message.id));
   };
+
+  useEffect(() => {
+    setReadMessages([]);
+  }, [messages]);
+  
 
   return (
     <Box sx={{ display: "flex", marginBottom: "100px" }}>
@@ -373,7 +381,10 @@ const Nav = () => {
               <PersonAddAlt1Icon />
             </Badge>
           ) : (
-            <Badge badgeContent={messages.length} color="primary">
+            <Badge
+  badgeContent={messages.filter((message) => !readMessages.includes(message.id)).length}
+  color="primary"
+>
               <MailIcon />
             </Badge>
           )}
@@ -432,7 +443,9 @@ const Nav = () => {
 
             <Divider />
             <ListItem>
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
               {!!auth.id && messagesOpen && <Chat drawerWidth={drawerWidth} />}
+              </Box>
             </ListItem>
           </StyledDrawer>
         )}
