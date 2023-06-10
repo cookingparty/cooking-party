@@ -11,6 +11,11 @@ import Groups from "./Groups";
 import Group from "./Group";
 import GroupCreate from "./GroupCreate";
 import MySavedRecipes from "./MySavedRecipes";
+import Friends from "./Friends";
+import About from "./About";
+import TermsAndConditions from "./TermsAndConditions";
+import FAQ from "./FAQ";
+import ContactUs from "./ContactUs";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -93,6 +98,8 @@ const App = () => {
           <Route path="/groups/create" element={<GroupCreate />} />
           <Route path="/groups/:id" element={<Group />} />
           <Route path="/my-saved-recipes" element={<MySavedRecipes />} />
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/about" element={<About />} />
 
           {!auth.id}
           <Route path="/" element={<Home />} />
@@ -102,6 +109,12 @@ const App = () => {
           <Route path="/cocktails" element={<Cocktails />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/shop/search/:filterString" element={<Recipes />} />
+          <Route
+            path="/terms-and-conditions"
+            element={<TermsAndConditions />}
+          />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/contact-us" element={<ContactUs />} />
         </Routes>
       </div>
       <FooterNav />
