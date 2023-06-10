@@ -30,6 +30,9 @@ Meal.hasMany(Recipe);
 Meal.belongsTo(Day);
 Day.hasMany(Meal);
 
+Day.belongsTo(User);
+User.hasMany(Day);
+
 Comment.belongsTo(Recipe);
 Comment.belongsTo(User);
 User.hasMany(Comment);
