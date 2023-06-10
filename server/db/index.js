@@ -11,9 +11,16 @@ const Instruction = require("./Instruction");
 const Meal = require("./Meal");
 const Day = require("./Day");
 const MeasurementUnit = require("./MeasurementUnit");
+const Favorite = require("./Favorite");
 
 Recipe.belongsTo(User);
 User.hasMany(Recipe);
+
+Recipe.belongsToMany(User, {
+  as: "recipe",
+  foreignKey: "recipe_id",
+  through: Favorite,
+});
 
 Ingredient.belongsTo(Recipe);
 Recipe.hasMany(Ingredient);
@@ -157,7 +164,7 @@ const syncAndSeed = async () => {
     groupId: weLoveSushi.id,
   });
 
-  await Recipe.create({
+  const bread = await Recipe.create({
     title: "Easy Loaf of Bread",
     description: "bread",
     // ingredients:
@@ -167,6 +174,11 @@ const syncAndSeed = async () => {
     imageURL:
       "https://www.kingarthurbaking.com/sites/default/files/styles/featured_image_2x/public/2020-02/the-easiest-loaf-of-bread-youll-ever-bake.jpg?itok=LsBnSw0g",
     groupId: cookingParty.id,
+  });
+
+  await Favorite.create({
+    recipe_id: bread.id,
+    userId: moe.id,
   });
 
   await Comment.create({
@@ -208,4 +220,5 @@ module.exports = {
   Friendship,
   Membership,
   Group,
+  Favorite,
 };
