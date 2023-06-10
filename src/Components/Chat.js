@@ -168,16 +168,38 @@ const Chat = ({ drawerWidth }) => {
    sx={{
      flex: "1",
      marginRight: "10px",
-     height: "50%",
+     height: "100%",
      resize: "vertical",
      overflow: "auto",
      fontSize: "10px",
      fontFamily: "Helvetica",
+     marginBottom: "20px",
+     position: "relative",
    }}
    multiline
    InputProps={{
+     endAdornment: (
+       <IconButton
+         type="submit"
+         variant="contained"
+         style={{
+           position: "absolute",
+           top: "50%",
+           right: "5px",
+           transform: "translateY(-50%)",
+           textTransform: "none",
+           width: "20px",
+           height: "20px",
+           padding: 0,
+           backgroundColor: "#007aff",
+           borderRadius: "5px",
+         }}
+       >
+         <Send sx={{ fontSize: "10px", color: "#ffffff" }} />
+       </IconButton>
+     ),
      style: {
-       height: "50%",
+       height: "100%",
        fontSize: "10px",
        resize: "vertical",
        overflow: "auto",
@@ -187,34 +209,9 @@ const Chat = ({ drawerWidth }) => {
      },
    }}
  />
-   <IconButton
-     type="submit"
-     variant="contained"
-     style={{
-      position: 'absolute',
-      top: '50%',
-      marginRight: "10px",
-      marginBottom: "20px",
-      transform: "translateY(-50%)",
-      textTransform: "none",
-       width: "30px",
-       height: "30px",
-       padding: 0,
-       backgroundColor: "#007aff",
-       borderRadius: "5px",
-       position: "absolute",
-       right: "5px",
-       bottom: "8px",
-     }}
-   >
-     <Send sx={{ fontSize: "10px", color: "#ffffff" }} />
-   </IconButton>
-
 </form>
 
 
-
- 
             ) : (
               <Typography
   variant="body1"

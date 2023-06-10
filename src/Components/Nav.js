@@ -332,7 +332,8 @@ const Nav = () => {
         </StyledAppBar>
 
         {!!auth.id && (
-          <StyledDrawer anchor="right" variant="permanent" open={open}>
+          <StyledDrawer anchor="right" variant="permanent" open={open}
+          sx={{marginBottom: "40px"}}>
             <DrawerHeader/>
 
             <Divider />
