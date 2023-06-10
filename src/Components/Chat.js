@@ -1,7 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createMessage } from "../store";
-import { HailTwoTone } from "@mui/icons-material";
+import { Send } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 import {
   Box,
   Typography,
@@ -71,7 +72,7 @@ const Chat = ({ drawerWidth }) => {
     <Typography
       variant="h1"
       style={{
-        fontSize: "20px",
+        fontSize: "16px",
         fontFamily: "Helvetica",
         textAlign: "center",
       }}
@@ -100,7 +101,7 @@ const Chat = ({ drawerWidth }) => {
               <Typography
                 variant="h3"
                 style={{
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontWeight: "bold",
                   textTransform: "capitalize",
                   textAlign: "center",
@@ -118,7 +119,8 @@ const Chat = ({ drawerWidth }) => {
                     key={message.id}
                     className={message.mine ? "mine" : "yours"}
                     sx={{
-                      backgroundColor: message.mine ? "#ADD8E6" : "#E6E6FA",
+                      fontSize: "10px",
+                      backgroundColor: message.mine ? "#53c2f5" : "#c383f7",
                       alignSelf: message.mine ? "flex-start" : "flex-end",
                       borderRadius: "12px",
                       padding: "8px",
@@ -133,7 +135,8 @@ const Chat = ({ drawerWidth }) => {
                     <Typography
                       variant="body1"
                       sx={{
-                        color: message.mine ? "#FFFFFF" : "#000000",
+                        fontSize: "10px",
+                        color: message.mine ? "#FFFFFF" : "#FFFFFF",
                       }}
                     >
                       {message.txt}
@@ -144,26 +147,93 @@ const Chat = ({ drawerWidth }) => {
             </List>
 
             {confirmedFriend(chat.withUser) ? (
-              <form
-                onSubmit={(ev) => {
-                  ev.preventDefault();
-                  const txt = ev.target.querySelector("input").value;
-                  dispatch(createMessage({ txt, toId: chat.withUser.id }));
-                  ev.target.querySelector("input").value = "";
-                }}
-              >
-                <TextField
-                  placeholder={`send message to ${
-                    chat.withUser.username || chat.withUser.facebook_username
-                  }`}
-                />
-                <Button type="submit">Send</Button>
-              </form>
+ <form
+ onSubmit={(ev) => {
+   ev.preventDefault();
+   const txt = ev.target.querySelector("input").value;
+   dispatch(createMessage({ txt, toId: chat.withUser.id }));
+   ev.target.querySelector("input").value = "";
+ }}
+ style={{
+   display: "flex",
+   width: "100%",
+   marginTop: "10px",
+   position: "relative",
+ }}
+>
+ <TextField
+   placeholder={`Send message to ${
+     chat.withUser.username || chat.withUser.facebook_username
+   }`}
+   sx={{
+     flex: "1",
+     marginRight: "10px",
+     height: "50%",
+     resize: "vertical",
+     overflow: "auto",
+     fontSize: "10px",
+     fontFamily: "Helvetica",
+   }}
+   multiline
+   InputProps={{
+     style: {
+       height: "50%",
+       fontSize: "10px",
+       resize: "vertical",
+       overflow: "auto",
+       maxHeight: "calc(100% - 16px)",
+       fontFamily: "Helvetica",
+       paddingRight: "48px",
+     },
+   }}
+ />
+   <IconButton
+     type="submit"
+     variant="contained"
+     style={{
+      position: 'absolute',
+      top: '50%',
+      marginRight: "10px",
+      marginBottom: "20px",
+      transform: "translateY(-50%)",
+      textTransform: "none",
+       width: "30px",
+       height: "30px",
+       padding: 0,
+       backgroundColor: "#007aff",
+       borderRadius: "5px",
+       position: "absolute",
+       right: "5px",
+       bottom: "8px",
+     }}
+   >
+     <Send sx={{ fontSize: "10px", color: "#ffffff" }} />
+   </IconButton>
+
+</form>
+
+
+
+ 
             ) : (
-              <Typography variant="body1" style={{ fontSize: "12px" }}>
-                You are no longer friends. Please add a friend to continue the
-                chat.
-              </Typography>
+              <Typography
+  variant="body1"
+  style={{
+    fontSize: "10px",
+    backgroundColor: "limegreen",
+    color: "white",
+    padding: "8px",
+    borderRadius: "12px",
+    alignSelf: "flex-start",
+    marginBottom: "8px",
+    wordBreak: "break-word",
+    whiteSpace: "pre-wrap",
+    maxWidth: "80%",
+  }}
+>
+  You are no longer friends. Please add a friend to continue the chat.
+</Typography>
+
             )}
           </Box>
         );
