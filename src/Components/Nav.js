@@ -121,7 +121,7 @@ const Nav = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    padding: theme.spacing(0, 1, ),
+    padding: theme.spacing(0, 1),
     margin: "23px",
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
@@ -164,6 +164,7 @@ const Nav = () => {
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [messagesOpen, setMessagesOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -171,6 +172,10 @@ const Nav = () => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleToggleMessages = () => {
+    setMessagesOpen(!messagesOpen);
   };
 
   return (
@@ -332,9 +337,13 @@ const Nav = () => {
         </StyledAppBar>
 
         {!!auth.id && (
-          <StyledDrawer anchor="right" variant="permanent" open={open}
-          sx={{marginBottom: "40px"}}>
-            <DrawerHeader/>
+          <StyledDrawer
+            anchor="right"
+            variant="permanent"
+            open={open}
+            sx={{ marginBottom: "40px" }}
+          >
+            <DrawerHeader />
 
             <Divider />
             <List>
@@ -346,8 +355,8 @@ const Nav = () => {
           justifyContent: open ? 'initial' : 'center',
           px: 2.5,
         }}
+        onClick={index === 2 ? handleToggleMessages : undefined} // Add this line
       >
-        
         <ListItemIcon
           sx={{
             minWidth: 0,
@@ -376,47 +385,55 @@ const Nav = () => {
 </List>
 
 
-<Divider />
-<List>
-  {['Friends', 'Online Users', 'Logout'].map((text, index) => (
-    <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-      <ListItemButton
-        sx={{
-          minHeight: 48,
-          justifyContent: open ? 'initial' : 'center',
-          px: 2.5,
-        }}
-      >
-        <ListItemIcon
-          sx={{
-            minWidth: 0,
-            mr: open ? 3 : 'auto',
-            justifyContent: 'center',
-          }}
-        >
-          {index === 0 ? (
-            <Badge badgeContent={friendships.length} color="primary">
-              <PersonIcon />
-            </Badge>
-          ) : index === 1 ? (
-            <Badge badgeContent={onlineUsers.length} color="primary">
-              <PersonOutlineIcon />
-            </Badge>
-          ) : (
-            <ExitToAppOutlinedIcon />
-          )}
-        </ListItemIcon>
-        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-      </ListItemButton>
-    </ListItem>
-  ))}
-</List>
+            <Divider />
+            <List>
+              {["Friends", "Online Users", "Logout"].map((text, index) => (
+                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {index === 0 ? (
+                        <Badge
+                          badgeContent={friendships.length}
+                          color="primary"
+                        >
+                          <PersonIcon />
+                        </Badge>
+                      ) : index === 1 ? (
+                        <Badge
+                          badgeContent={onlineUsers.length}
+                          color="primary"
+                        >
+                          <PersonOutlineIcon />
+                        </Badge>
+                      ) : (
+                        <ExitToAppOutlinedIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
 
-<Divider />
-<ListItem>
-
-{!!auth.id &&  <Chat drawerWidth={drawerWidth} />}
-</ListItem>
+            <Divider />
+            <ListItem>
+              {!!auth.id && messagesOpen && <Chat drawerWidth={drawerWidth} />}
+            </ListItem>
           </StyledDrawer>
         )}
       </Box>
