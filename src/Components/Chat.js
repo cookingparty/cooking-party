@@ -11,12 +11,34 @@ const Chat = ({ drawerWidth }) => {
   );
   const dispatch = useDispatch();
   const [readMessages, setReadMessages] = useState([]);
+  const [messagesOpen, setMessagesOpen] = useState(false);
 
   useEffect(() => {
     setReadMessages([]);
   }, [messages]);
-  
 
+  
+  const handleToggleMessages = (withUserId) => {
+    setMessagesOpen(!messagesOpen);
+
+    // Update the read messages for the specific chat
+    setReadMessages((prevReadMessages) => ({
+      ...prevReadMessages,
+      [withUserId]: messages
+        .filter(
+          (message) =>
+            ((message.fromId === auth.id && message.toId === withUserId) ||
+              (message.fromId === withUserId && message.toId === auth.id)) &&
+            (!(withUserId in prevReadMessages) ||
+              !prevReadMessages[withUserId].includes(message.id))
+        )
+        .map((message) => message.id),
+    }));
+  };
+
+
+
+  
   const chatMap = messages.reduce((acc, message) => {
     const withUser = message.fromId === auth.id ? message.to : message.from;
     const online = onlineUsers.find((user) => user.id === withUser.id);
@@ -83,6 +105,15 @@ const Chat = ({ drawerWidth }) => {
       </Typography>
       <div id="chats" style={{ overflowY: "auto" }}>
         {chats.map((chat, i) => {
+            const withUserId = chat.withUser.id;
+          const unreadMessages = chat.messages.filter(
+            (message) =>
+              !readMessages[withUserId]?.includes(message.id) &&
+              ((message.fromId === auth.id && message.toId === withUserId) ||
+                (message.fromId === withUserId && message.toId === auth.id))
+          );
+          
+
           return (
             <Box
               key={i}
@@ -102,15 +133,12 @@ const Chat = ({ drawerWidth }) => {
               <div style={{ background: "#f5f5f5", padding: "10px" }}>
                 <Accordion>
                 <AccordionSummary
-  expandIcon={<ExpandMoreIcon
-    onClick={() => setReadMessages([])}
-    
-  />
+  expandIcon={ <ExpandMoreIcon    onClick={() => handleToggleMessages(withUserId)} />
   }
   aria-controls={`panel-${chat.withUser.id}-content`}
   id={`panel-${chat.withUser.id}-header`}
   sx={{
-    position: "relative", // Set the parent container to relative position
+    position: "relative",
   }}
 >
   <Typography
@@ -126,12 +154,7 @@ const Chat = ({ drawerWidth }) => {
     {chat.withUser.username || chat.withUser.facebook_username}
   </Typography>
   <Badge
-    badgeContent={chat.messages.filter(
-      (message) =>
-        !readMessages.includes(message.id) && // Exclude read messages
-        ((message.fromId === auth.id && message.toId === chat.withUser.id) || // Messages from authenticated user to chat user
-          (message.fromId === chat.withUser.id && message.toId === auth.id)) // Messages from chat user to authenticated user
-    ).length}
+    badgeContent={unreadMessages.length}
     color="primary"
     sx={{
       position: "absolute",
