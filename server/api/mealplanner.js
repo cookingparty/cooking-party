@@ -4,10 +4,10 @@ const app = express.Router();
 const { User } = require("../db");
 const { isLoggedIn } = require("./middleware");
 
-app.get("/", isLoggedIn, async (req, res, next) => {
+app.get("/:date", isLoggedIn, async (req, res, next) => {
   try {
     const user = req.user;
-    res.send(await user.getDay());
+    res.send(await user.getDay(req.params.date));
   } catch (ex) {
     next(ex);
   }

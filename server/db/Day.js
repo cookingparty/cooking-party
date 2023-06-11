@@ -1,4 +1,4 @@
-const { UUID, UUIDV4, DATE } = require("sequelize");
+const { UUID, UUIDV4, DATEONLY } = require("sequelize");
 const conn = require("./conn");
 
 const Day = conn.define("day", {
@@ -8,7 +8,7 @@ const Day = conn.define("day", {
     primaryKey: true,
   },
   date: {
-    type: DATE,
+    type: DATEONLY,
     allowNull: false,
   },
 });

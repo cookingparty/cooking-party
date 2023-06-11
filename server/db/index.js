@@ -365,6 +365,22 @@ const syncAndSeed = async () => {
     status: "APPROVED",
   });
 
+  const april = await Day.create({
+    date: "2022-04-19",
+    userId: moe.id,
+  });
+
+  const lunch = await Meal.create({
+    type: "lunch",
+    dayId: april.id,
+  });
+
+  await Recipe.create({
+    title: "salad",
+    description: "salad",
+    mealId: lunch.id,
+  });
+
   return {
     users: {
       moe,
