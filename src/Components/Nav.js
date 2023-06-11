@@ -37,6 +37,7 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+import OnlineFriends from "./OnlineFriends";
 
 const Nav = () => {
   const { auth, recipes, onlineUsers, messages, users, friendships } =
@@ -166,7 +167,8 @@ const Nav = () => {
   const [open, setOpen] = React.useState(false);
   const [messagesOpen, setMessagesOpen] = useState(false);
   const [readMessages, setReadMessages] = useState([]);
-
+  const [onlineFriendsOpen, setOnlineFriendsOpen] = useState(false);
+  const [readOnlineFriends, setReadOnlineFriends] = useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -175,14 +177,26 @@ const Nav = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const onlineFriends = onlineUsers.filter((user) => !!confirmedFriend(user));
+  
+
 
   const handleToggleMessages = () => {
     setMessagesOpen(!messagesOpen);
     setReadMessages(messages.map((message) => message.id));
   };
 
+  const handleToggleOnlineFriends = () => {
+    setOnlineFriendsOpen(!onlineFriendsOpen);
+    setReadOnlineFriends(onlineFriends.map((onlineFriend) => onlineFriend.id));
+  };
+
   useEffect(() => {
     setReadMessages([]);
+  }, [messages]);
+  
+  useEffect(() => {
+    setReadOnlineFriends([]);
   }, [messages]);
   
 
@@ -357,40 +371,51 @@ const Nav = () => {
             <List>
   {['Online Friends', 'Friend Requests', 'Messages'].map((text, index) => (
     <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-      <ListItemButton
-        sx={{
-          minHeight: 48,
-          justifyContent: open ? 'initial' : 'center',
-          px: 2.5,
-        }}
-        onClick={index === 2 ? handleToggleMessages : undefined} // Add this line
-      >
-        <ListItemIcon
-          sx={{
-            minWidth: 0,
-            mr: open ? 3 : 'auto',
-            justifyContent: 'center',
-          }}
-        >
-          {index === 0 ? (
-            <Badge badgeContent={friendships.length} color="primary">
-              <AccountCircleIcon />
-            </Badge>
-          ) : index === 1 ? (
-            <Badge badgeContent={friendships.length} color="primary">
-              <PersonAddAlt1Icon />
-            </Badge>
-          ) : (
-            <Badge
-  badgeContent={messages.filter((message) => !readMessages.includes(message.id)).length}
-  color="primary"
+  <ListItemButton
+  sx={{
+    minHeight: 48,
+    justifyContent: open ? 'initial' : 'center',
+    px: 2.5,
+  }}
+  onClick={() => {
+    if (index === 0) {
+      handleToggleOnlineFriends();
+    } else if (index === 1) {
+      handleToggleFriendRequests();
+    } else if (index === 2) {
+      handleToggleMessages();
+    }
+  }}
 >
-              <MailIcon />
-            </Badge>
-          )}
-        </ListItemIcon>
-        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-      </ListItemButton>
+  <ListItemIcon
+    sx={{
+      minWidth: 0,
+      mr: open ? 3 : 'auto',
+      justifyContent: 'center',
+    }}
+  >
+    {index === 0 ? (
+      <Badge badgeContent={onlineFriends.length} color="primary">
+        <AccountCircleIcon />
+      </Badge>
+    ) : index === 1 ? (
+      <Badge badgeContent={friendships.length} color="primary">
+        <PersonAddAlt1Icon />
+      </Badge>
+    ) : (
+      <Badge
+        badgeContent={messages.filter(
+          (message) => !readMessages.includes(message.id)
+        ).length}
+        color="primary"
+      >
+        <MailIcon />
+      </Badge>
+    )}
+  </ListItemIcon>
+  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+</ListItemButton>
+
     </ListItem>
   ))}
 </List>
@@ -440,7 +465,13 @@ const Nav = () => {
                 </ListItem>
               ))}
             </List>
+            <Divider />
+            <ListItem>
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
+            {!!auth.id && onlineFriendsOpen && <OnlineFriends drawerWidth={drawerWidth} />}
 
+              </Box>
+            </ListItem>
             <Divider />
             <ListItem>
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
