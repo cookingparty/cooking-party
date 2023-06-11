@@ -1,14 +1,21 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createMessage } from "../store";
 import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import { IconButton, Accordion, AccordionSummary, AccordionDetails, Box, Typography, List, ListItem, TextField } from "@mui/material";
+import { Badge } from "@mui/material";
 
 const Chat = ({ drawerWidth }) => {
   const { messages, auth, onlineUsers, friendships, users } = useSelector(
     (state) => state
   );
   const dispatch = useDispatch();
+  const [readMessages, setReadMessages] = useState([]);
+
+  useEffect(() => {
+    setReadMessages([]);
+  }, [messages]);
+  
 
   const chatMap = messages.reduce((acc, message) => {
     const withUser = message.fromId === auth.id ? message.to : message.from;
@@ -59,6 +66,9 @@ const Chat = ({ drawerWidth }) => {
     return false;
   };
 
+  
+  
+
   return (
     <Box>
       <Typography
@@ -91,25 +101,47 @@ const Chat = ({ drawerWidth }) => {
             >
               <div style={{ background: "#f5f5f5", padding: "10px" }}>
                 <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls={`panel-${chat.withUser.id}-content`}
-                    id={`panel-${chat.withUser.id}-header`}
-                  >
-                    <Typography
-                      variant="h3"
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                        textTransform: "capitalize",
-                        textAlign: "center",
-                      }}
-                    >
-                      Chat with{" "}
-                      {chat.withUser.username ||
-                        chat.withUser.facebook_username}
-                    </Typography>
-                  </AccordionSummary>
+                <AccordionSummary
+  expandIcon={<ExpandMoreIcon
+    onClick={() => setReadMessages([])}
+    
+  />
+  }
+  aria-controls={`panel-${chat.withUser.id}-content`}
+  id={`panel-${chat.withUser.id}-header`}
+  sx={{
+    position: "relative", // Set the parent container to relative position
+  }}
+>
+  <Typography
+    variant="h3"
+    style={{
+      fontSize: "12px",
+      fontWeight: "bold",
+      textTransform: "capitalize",
+      textAlign: "center",
+    }}
+  >
+    Chat with{" "}
+    {chat.withUser.username || chat.withUser.facebook_username}
+  </Typography>
+  <Badge
+    badgeContent={chat.messages.filter(
+      (message) =>
+        !readMessages.includes(message.id) && // Exclude read messages
+        ((message.fromId === auth.id && message.toId === chat.withUser.id) || // Messages from authenticated user to chat user
+          (message.fromId === chat.withUser.id && message.toId === auth.id)) // Messages from chat user to authenticated user
+    ).length}
+    color="primary"
+    sx={{
+      position: "absolute",
+      top: "4px",
+      right: "4px",
+    }}
+  />
+</AccordionSummary>
+
+
                   <AccordionDetails>
                     <List>
                       {chat.messages.map((message, index) => {
@@ -165,12 +197,12 @@ const Chat = ({ drawerWidth }) => {
                         style={{
                           display: "flex",
                           width: "100%",
-                          marginTop: "10px",
+                          marginTop: "5px",
                           position: "relative",
                         }}
                       >
                         <TextField
-                          placeholder={`Send message to ${
+                          placeholder={`Send a message to ${
                             chat.withUser.username ||
                             chat.withUser.facebook_username
                           }`}
