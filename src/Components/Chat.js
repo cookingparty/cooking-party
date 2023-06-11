@@ -10,6 +10,7 @@ const Chat = ({ drawerWidth }) => {
     (state) => state
   );
   const dispatch = useDispatch();
+
   const [readMessages, setReadMessages] = useState([]);
   const [messagesOpen, setMessagesOpen] = useState(false);
 
@@ -18,25 +19,32 @@ const Chat = ({ drawerWidth }) => {
   }, [messages]);
 
   
+  // const handleToggleMessages = (withUserId) => {
+  //   setMessagesOpen(!messagesOpen);
+  //   setReadMessages((prevReadMessages) => ({
+  //     ...prevReadMessages,
+  //     [withUserId]: messages
+  //       .filter(
+  //         (message) =>
+  //           ((message.fromId === auth.id && message.toId === withUserId) ||
+  //             (message.fromId === withUserId && message.toId === auth.id)) &&
+  //           (!(withUserId in prevReadMessages) ||
+  //             !prevReadMessages[withUserId].includes(message.id))
+  //       )
+  //       .map((message) => message.id),
+  //   }));
+  // };
+
   const handleToggleMessages = (withUserId) => {
     setMessagesOpen(!messagesOpen);
-
-    // Update the read messages for the specific chat
+  
+    // Update the read state for the specific chat
     setReadMessages((prevReadMessages) => ({
       ...prevReadMessages,
-      [withUserId]: messages
-        .filter(
-          (message) =>
-            ((message.fromId === auth.id && message.toId === withUserId) ||
-              (message.fromId === withUserId && message.toId === auth.id)) &&
-            (!(withUserId in prevReadMessages) ||
-              !prevReadMessages[withUserId].includes(message.id))
-        )
-        .map((message) => message.id),
+      [withUserId]: true, // Set the read state to true for the specific chat
     }));
   };
-
-
+  
 
   
   const chatMap = messages.reduce((acc, message) => {
@@ -106,13 +114,14 @@ const Chat = ({ drawerWidth }) => {
       <div id="chats" style={{ overflowY: "auto" }}>
         {chats.map((chat, i) => {
             const withUserId = chat.withUser.id;
-          const unreadMessages = chat.messages.filter(
-            (message) =>
-              !readMessages[withUserId]?.includes(message.id) &&
-              ((message.fromId === auth.id && message.toId === withUserId) ||
-                (message.fromId === withUserId && message.toId === auth.id))
-          );
-          
+            const unreadMessages = chat.messages.filter(
+              (message) =>
+                !readMessages[withUserId] &&
+                ((message.fromId === auth.id && message.toId === withUserId) ||
+                  (message.fromId === withUserId && message.toId === auth.id))
+            );
+            
+            
 
           return (
             <Box
