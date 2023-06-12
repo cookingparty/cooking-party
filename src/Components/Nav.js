@@ -223,7 +223,10 @@ const Nav = () => {
 
   const onlineFriends = onlineUsers.filter((user) => !!confirmedFriend(user));
  
-
+  const confirmedFriends = friends.filter((friend) => {
+    const friendship = findFriendship(friend.id);
+    return friendship && friendship.status === "CONFIRMED";
+  });
 
   const handleToggleMessages = () => {
     setMessagesOpen(!messagesOpen);
@@ -518,7 +521,7 @@ const Nav = () => {
                     >
                       {index === 0 ? (
                         <Badge
-                          badgeContent={friendships.length}
+                          badgeContent={confirmedFriends.length} 
                           color="primary"
                         >
                           <PersonIcon />
