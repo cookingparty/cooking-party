@@ -242,6 +242,8 @@ const Nav = () => {
     setReadOnlineUsers(onlineUsers.map((onlineUser) => onlineUser.id));
   };
 
+  
+
   useEffect(() => {
     setReadMessages([]);
   }, [messages]);
@@ -544,7 +546,7 @@ const Nav = () => {
             sx={{marginTop: '0', marginBottom: "0"}}
             >
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && friendsOpen && <friends drawerwidth={drawerwidth} />}
+            {!!auth.id && friendsOpen && <Friends drawerwidth={drawerwidth} />}
 
               </Box>
             </ListItem>

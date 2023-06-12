@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createFriendship, createMessage } from "../store";
 import { Send, ExpandMore as ExpandMoreIcon, PersonAdd } from "@mui/icons-material";
@@ -18,11 +18,13 @@ import {
 } from "@mui/material";
 
 
+
 const OnlineUsers = ({ drawerwidth }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
   const dispatch = useDispatch();
+
 
   const friends = friendships
     .filter(
@@ -208,6 +210,8 @@ const colors = [
     aria-label="let's chat"
     color="inherit"
     onClick={() => {
+      // Use handleToggleMessages from Nav.js
+      //  handleToggleMessages();
       dispatch(createMessage({ toId: user.id, txt: "Let's Chat" }));
     }}
   >

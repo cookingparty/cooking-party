@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateFriendship, deleteFriendship } from "../store";
+import { List, ListItem, Typography } from "@mui/material";
 
 const Friends = () => {
   const { friendships, auth, users } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [view, setView] = useState("friends");
 
   const friends = friendships
     .filter(
@@ -39,65 +41,194 @@ const Friends = () => {
     );
   };
 
-  // const ignoreRequest = (id) => {
-  //   const friendship = findFriendship(id);
-  //   const friendshipId = friendship.id;
-  //   dispatch(
-  //     updateFriendship({ friendshipId, status: "IGNORED" }, friendshipId)
-  //   );
-  // };
-
   const removeFriend = (id) => {
     const friendship = findFriendship(id);
     const friendshipId = friendship.id;
     dispatch(deleteFriendship(friendshipId));
   };
-if(!friends){
-  return null;
-}
+
+  const renderFriends = () => {
+    return (
+      <>
+        <Typography variant="h4">Friends</Typography>
+        <List>
+          {friends
+            .filter((friend) => findFriendship(friend.id).status === "CONFIRMED")
+            .map((friend) => {
+              if (!friend) {
+                return null;
+              }
+              return (
+                <ListItem key={friend.id}>
+                  {friend.username || friend.facebook_username}
+                  <button onClick={() => removeFriend(friend.id)}>
+                    Unfriend
+                  </button>
+                </ListItem>
+              );
+            })}
+        </List>
+      </>
+    );
+  };
+
+  const renderFriendRequests = () => {
+    return (
+      <>
+        <Typography variant="h4">Friend Requests</Typography>
+        <List>
+          {friends
+            .filter(
+              (friend) =>
+                findFriendship(friend.id).friendee_id === auth.id &&
+                findFriendship(friend.id).status === "PENDING"
+            )
+            .map((friend) => {
+              if (!friend) {
+                return null;
+              }
+              return (
+                <ListItem key={friend.id}>
+                  {friend.username || friend.facebook_username}
+                  <button onClick={() => acceptRequest(friend.id)}>
+                    Accept
+                  </button>
+                  <button onClick={() => removeFriend(friend.id)}>
+                    Ignore
+                  </button>
+                </ListItem>
+              );
+            })}
+        </List>
+      </>
+    );
+  };
+
   return (
     <div>
-      <h1>Friends</h1>
-      <ul>
-        {friends
-          .filter((friend) => findFriendship(friend.id).status === "CONFIRMED")
-          .map((friend) => {
-            if(!friend){
-              return null
-            }
-            return (
-              <li key={friend.id}>
-                {friend.username || friend.facebook_username}
-                <button onClick={() => removeFriend(friend.id)}>
-                  unfriend
-                </button>
-              </li>
-            );
-          })}
-      </ul>
-      <h1>Friend Requests</h1>
-      <ul>
-        {friends
-          .filter(
-            (friend) =>
-              findFriendship(friend.id).friendee_id === auth.id &&
-              findFriendship(friend.id).status === "PENDING"
-          )
-          .map((friend) => {
-            if(!friend){
-              return null
-            }
-            return (
-              <li key={friend.id}>
-                {friend.username || friend.facebook_username}
-                <button onClick={() => acceptRequest(friend.id)}>accept</button>
-                <button onClick={() => removeFriend(friend.id)}>ignore</button>
-              </li>
-            );
-          })}
-      </ul>
+      {view === "friends" && renderFriends()}
+      {view === "requests" && renderFriendRequests()}
     </div>
   );
 };
 
 export default Friends;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import { updateFriendship, deleteFriendship } from "../store";
+
+// const Friends = () => {
+//   const { friendships, auth, users } = useSelector((state) => state);
+//   const dispatch = useDispatch();
+
+//   const friends = friendships
+//     .filter(
+//       (friendship) =>
+//         friendship.friendee_id === auth.id || friendship.friender_id === auth.id
+//     )
+//     .map((friendship) => {
+//       if (friendship.friendee_id === auth.id) {
+//         return users.find((user) => user.id === friendship.friender_id);
+//       }
+//       if (friendship.friender_id === auth.id) {
+//         return users.find((user) => user.id === friendship.friendee_id);
+//       }
+//     });
+
+//   const findFriendship = (friendId) => {
+//     const friendship = friendships.find(
+//       (friendship) =>
+//         (friendship.friendee_id === friendId &&
+//           friendship.friender_id === auth.id) ||
+//         (friendship.friendee_id === auth.id &&
+//           friendship.friender_id === friendId)
+//     );
+//     return friendship;
+//   };
+
+//   const acceptRequest = (id) => {
+//     const friendship = findFriendship(id);
+//     const friendshipId = friendship.id;
+//     dispatch(
+//       updateFriendship({ friendshipId, status: "CONFIRMED" }, friendshipId)
+//     );
+//   };
+
+//   // const ignoreRequest = (id) => {
+//   //   const friendship = findFriendship(id);
+//   //   const friendshipId = friendship.id;
+//   //   dispatch(
+//   //     updateFriendship({ friendshipId, status: "IGNORED" }, friendshipId)
+//   //   );
+//   // };
+
+//   const removeFriend = (id) => {
+//     const friendship = findFriendship(id);
+//     const friendshipId = friendship.id;
+//     dispatch(deleteFriendship(friendshipId));
+//   };
+// if(!friends){
+//   return null;
+// }
+//   return (
+//     <div>
+//       <h1>Friends</h1>
+//       <ul>
+//         {friends
+//           .filter((friend) => findFriendship(friend.id).status === "CONFIRMED")
+//           .map((friend) => {
+//             if(!friend){
+//               return null
+//             }
+//             return (
+//               <li key={friend.id}>
+//                 {friend.username || friend.facebook_username}
+//                 <button onClick={() => removeFriend(friend.id)}>
+//                   unfriend
+//                 </button>
+//               </li>
+//             );
+//           })}
+//       </ul>
+//       <h1>Friend Requests</h1>
+//       <ul>
+//         {friends
+//           .filter(
+//             (friend) =>
+//               findFriendship(friend.id).friendee_id === auth.id &&
+//               findFriendship(friend.id).status === "PENDING"
+//           )
+//           .map((friend) => {
+//             if(!friend){
+//               return null
+//             }
+//             return (
+//               <li key={friend.id}>
+//                 {friend.username || friend.facebook_username}
+//                 <button onClick={() => acceptRequest(friend.id)}>accept</button>
+//                 <button onClick={() => removeFriend(friend.id)}>ignore</button>
+//               </li>
+//             );
+//           })}
+//       </ul>
+//     </div>
+//   );
+// };
+
+// export default Friends;
