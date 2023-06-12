@@ -40,6 +40,7 @@ import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import OnlineFriends from "./OnlineFriends";
 import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
+import FriendRequests from "./FriendRequests"
 
 const Nav = () => {
   const { auth, recipes, onlineUsers, messages, users, friendships } =
@@ -175,6 +176,8 @@ const Nav = () => {
   const [readOnlineUsers, setReadOnlineUsers] = useState([]);
   const [friendsOpen, setFriendsOpen] = useState(false);
   const [readFriends, setReadFriends] = useState([]);
+  const [friendRequestsOpen, setFriendRequestsOpen] = useState([])
+  const [readFriendRequests, setReadFriendRequests] = useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -219,7 +222,7 @@ const Nav = () => {
   };
 
   const onlineFriends = onlineUsers.filter((user) => !!confirmedFriend(user));
-  
+ 
 
 
   const handleToggleMessages = () => {
@@ -242,7 +245,10 @@ const Nav = () => {
     setReadOnlineUsers(onlineUsers.map((onlineUser) => onlineUser.id));
   };
 
-  
+  const handleToggleFriendRequests = () => {
+    setFriendRequestsOpen(!friendRequestsOpen);
+    setReadFriendRequests(friendships.map((friendship) => friendship.id));
+  };
 
   useEffect(() => {
     setReadMessages([]);
@@ -259,6 +265,10 @@ const Nav = () => {
   useEffect(() => {
     setReadOnlineUsers([]);
   }, [messages]);
+
+  useEffect(() => {
+    setReadFriendRequests([]);
+  }, [friendships]);
 
   return (
     <Box sx={{ display: "flex", marginBottom: "100px" }}>
@@ -459,7 +469,7 @@ const Nav = () => {
         <AccountCircleIcon />
       </Badge>
     ) : index === 1 ? (
-      <Badge badgeContent={friendships.length} color="primary">
+      <Badge badgeContent={friendships.length > 0 ? 1 : 0} color="primary">
         <PersonAddAlt1Icon />
       </Badge>
     ) : (
@@ -532,7 +542,15 @@ const Nav = () => {
                 </ListItem>
               ))}
             </List>
+           
             <Divider />
+           <ListItem>
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
+              {!!auth.id && messagesOpen && <Chat drawerwidth={drawerwidth} />}
+              </Box>
+            </ListItem>
+            
+            <Divider/>
             <ListItem
             sx={{marginTop: '0', marginBottom: "0"}}
             >
@@ -541,6 +559,7 @@ const Nav = () => {
 
               </Box>
             </ListItem>
+            
             <Divider />
             <ListItem
             sx={{marginTop: '0', marginBottom: "0"}}
@@ -550,6 +569,17 @@ const Nav = () => {
 
               </Box>
             </ListItem>
+           
+            <Divider />
+            <ListItem
+            sx={{marginTop: '0', marginBottom: "0"}}
+            >
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
+            {!!auth.id && friendRequestsOpen && <FriendRequests drawerwidth={drawerwidth} />}
+
+              </Box>
+            </ListItem>
+            
             <Divider />
             <ListItem
             sx={{marginTop: '0', marginBottom: "0"}}
@@ -559,12 +589,8 @@ const Nav = () => {
 
               </Box>
             </ListItem>
-            <Divider />
-            <ListItem>
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
-              {!!auth.id && messagesOpen && <Chat drawerwidth={drawerwidth} />}
-              </Box>
-            </ListItem>
+            
+            
           </StyledDrawer>
         )}
       </Box>
