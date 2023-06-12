@@ -4,7 +4,7 @@ import FooterNav from "./FooterNav";
 import Home from "./Home";
 import Login from "./LoginRegister";
 import Logout from "./Logout";
-// import Recipes from "./Recipes";
+import Recipes from "./Recipes";
 import Meals from "./Meals";
 import Cocktails from "./Cocktails";
 import Groups from "./Groups";
@@ -82,7 +82,7 @@ const App = () => {
         <Routes>
           {!!auth.id}
           <Route path="/home" element={<Home />} />
-          {/* <Route path="/shop/search/:filterString" element={<Recipes />} /> */}
+          <Route path="/shop/search/:filterString" element={<Recipes />} />
           <Route path="/update" element={<UpdateUser />} />
           <Route path="/users/:authId" element={<Profile />} />
           <Route path="/auth/:account" element={<Login />} />
@@ -92,12 +92,12 @@ const App = () => {
 
           {!auth.id}
           <Route path="/" element={<Home />} />
-          {/* <Route path="/recipes" element={<Recipes />} /> */}
+          <Route path="/recipes" element={<Recipes />} />
           <Route path="/recipes/upload" element={<UploadRecipe />} />
           <Route path="/meals" element={<Meals />} />
           <Route path="/cocktails" element={<Cocktails />} />
           <Route path="/logout" element={<Logout />} />
-          {/* <Route path="/shop/search/:filterString" element={<Recipes />} /> */}
+          <Route path="/shop/search/:filterString" element={<Recipes />} />
         </Routes>
       </div>
       <FooterNav />

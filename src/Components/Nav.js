@@ -178,6 +178,9 @@ const Nav = () => {
   const [readFriends, setReadFriends] = useState([]);
   const [friendRequestsOpen, setFriendRequestsOpen] = useState([])
   const [readFriendRequests, setReadFriendRequests] = useState(false)
+  const [friendRequests, setFriendRequests] = useState([]);
+
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -250,7 +253,7 @@ const Nav = () => {
 
   const handleToggleFriendRequests = () => {
     setFriendRequestsOpen(!friendRequestsOpen);
-    setReadFriendRequests(friendships.map((friendship) => friendship.id));
+    setReadFriendRequests(friendRequests.map((request) => request.id));
   };
 
   useEffect(() => {
