@@ -491,49 +491,59 @@ const Nav = () => {
 </List>
 
 
-<Divider />
-<List>
-  {["Friends", "Online Users"].map((text, index) => (
-    <ListItem key={text} disablePadding sx={{ display: "block" }}>
-      <ListItemButton
-        sx={{
-          minHeight: 48,
-          justifyContent: open ? "initial" : "center",
-          px: 2.5,
-        }}
-        onClick={() => {
-          if (index === 0) {
-            handleToggleFriends();
-          } else if (index === 1) {
-            handleToggleOnlineUsers();
-          }
-        }}
-      >
-        <ListItemIcon
-          sx={{
-            minWidth: 0,
-            mr: open ? 3 : "auto",
-            justifyContent: "center",
-          }}
-        >
-          {index === 0 ? (
-            <Badge badgeContent={friendships.length} color="primary">
-              <PersonIcon />
-            </Badge>
-          ) : index === 1 ? (
-            <Badge badgeContent={onlineUsers.length} color="primary">
-              <PersonOutlineIcon />
-            </Badge>
-          ) : (
-            <ExitToAppOutlinedIcon />
-          )}
-        </ListItemIcon>
-        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-      </ListItemButton>
-    </ListItem>
-  ))}
-</List>
-
+            <Divider />
+            <List>
+              {["Friends", "Online Users", "Logout"].map((text, index) => (
+                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                    onClick={() => {
+                      if (index === 0) {
+                        handleToggleFriends();
+                      } else if (index === 1) {
+                        handleToggleOnlineUsers();
+                      }
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {index === 0 ? (
+                        <Badge
+                          badgeContent={friendships.length}
+                          color="primary"
+                        >
+                          <PersonIcon />
+                        </Badge>
+                      ) : index === 1 ? (
+                        <Badge
+                          badgeContent={onlineUsers.length}
+                          color="primary"
+                        >
+                          <PersonOutlineIcon />
+                        </Badge>
+                      ) : (
+                        <ExitToAppOutlinedIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+           
+            <Divider />
            <ListItem>
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
               {!!auth.id && messagesOpen && <Chat drawerwidth={drawerwidth} />}
