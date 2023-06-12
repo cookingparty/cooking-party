@@ -85,6 +85,7 @@ const OnlineFriends = ({ drawerWidth }) => {
           fontSize: "16px",
           fontFamily: "Helvetica",
           textAlign: "center",
+          marginTop: "10px",
         }}
       >
         ONLINE FRIENDS
@@ -110,9 +111,9 @@ const OnlineFriends = ({ drawerWidth }) => {
           <Box
             key={user.id}
             sx={{
-              marginTop: "15px",
+              marginTop: "10px",
               overflowY: "auto",
-              maxHeight: "240px",
+              // maxHeight: "240px",
               padding: "10px",
               backgroundColor: "#f5f5f5",
               display: "flex",
@@ -120,7 +121,7 @@ const OnlineFriends = ({ drawerWidth }) => {
               width: drawerWidth - 40,
             }}
           >
-            <div style={{ background: "#f5f5f5", padding: "10px" }}>
+            <div style={{ background: "#f5f5f5", padding: "10px",  }}>
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -143,43 +144,52 @@ const OnlineFriends = ({ drawerWidth }) => {
                     See Online Friends
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails style={{ margin: '-5px 0 0' }}>
-                  <List>
-                    <ListItem>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        {user.avatar ? (
-                          <img
-                            src={user.avatar}
-                            alt="User Avatar"
-                            style={avatarStyle}
-                          />
-                        ) : (
-                          <AccountCircleRoundedIcon style={avatarStyle} />
-                        )}
-                        <Typography
-                          variant="body1"
-                          style={{
-                            fontSize: '10px',
-                            textTransform: 'capitalize',
-                          }}
-                        >
-                          {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
-                        </Typography>
-                      </div>
-                      {!hasChat(user) && (
-                        <IconButton
-                          aria-label="let's chat"
-                          color="inherit"
-                          onClick={() => {
-                            dispatch(createMessage({ toId: user.id, txt: "Let's Chat" }));
-                          }}
-                        >
-                          <Chat />
-                        </IconButton>
-                      )}
-                    </ListItem>
-                  </List>
-                </AccordionDetails>
+                <AccordionDetails style={{ margin: '-5px 0 0', padding: 0 }}>
+  <Box maxHeight="80px" overflow="auto">
+    <List>
+      <ListItem sx={{ paddingRight: "8px" }}>
+        <div style={{ display: 'flex', alignItems: 'center', width: "100%" }}>
+          {user.avatar ? (
+            <img
+              src={user.avatar}
+              alt="User Avatar"
+              style={avatarStyle}
+            />
+          ) : (
+            <AccountCircleRoundedIcon style={avatarStyle} />
+          )}
+          <Typography
+            variant="body1"
+            style={{
+              fontSize: '10px',
+              textTransform: 'capitalize',
+              overflowWrap: "break-word",
+              wordWrap: "break-word",
+              hyphens: "auto",
+              whiteSpace: "normal",
+              width: "100%"
+            }}
+          >
+            {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
+          </Typography>
+        </div>
+        {!hasChat(user) && (
+          <IconButton
+            aria-label="let's chat"
+            color="inherit"
+            onClick={() => {
+              dispatch(createMessage({ toId: user.id, txt: "Let's Chat" }));
+            }}
+          >
+            <Chat />
+          </IconButton>
+        )}
+      </ListItem>
+    </List>
+  </Box>
+</AccordionDetails>
+
+
               </Accordion>
             </div>
           </Box>
