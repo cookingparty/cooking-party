@@ -1,8 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createMessage } from "../store";
+import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import { IconButton, Accordion, AccordionSummary, AccordionDetails, Box, Typography, List, ListItem, TextField } from "@mui/material";
 
-const OnlineFriends = () => {
+const OnlineFriends = ({ drawerWidth }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
@@ -57,12 +59,60 @@ const OnlineFriends = () => {
   };
 
   return (
-    <div>
-      <h1>Online Friends ({onlineFriends.length})</h1>
-      <ul>
+    <Box>
+      
+    <Typography
+      variant="h1"
+      style={{
+        fontSize: "16px",
+        fontFamily: "Helvetica",
+        textAlign: "center",
+      }}
+    >
+      ONLINE FRIENDS 
+      </Typography>
+      <div id="onlineFriends" style={{ overflowY: "auto" }}></div>
+      
         {onlineFriends.map((user) => {
           return (
-            <li key={user.id}>
+            <Box
+            key={user.id}
+            sx={{
+              marginTop: "15px",
+              overflowY: "auto",
+              maxHeight: "240px",
+              padding: "10px",
+              backgroundColor: "#f5f5f5",
+              display: "flex",
+              flexDirection: "column",
+              width: drawerWidth - 40,
+            }}
+            >
+            <div style={{ background: "#f5f5f5", padding: "10px" }}>
+            <Accordion>
+                <AccordionSummary
+  expandIcon={ <ExpandMoreIcon />
+  }
+  // aria-controls={`panel-${user.id}-content`}
+  // id={`panel-${user.id}-header`}
+  sx={{
+    position: "relative",
+  }}
+>
+<Typography
+    variant="h3"
+    style={{
+      fontSize: "12px",
+      fontWeight: "bold",
+      textTransform: "capitalize",
+      textAlign: "center",
+    }}
+  >
+    See Online Friends
+  </Typography>
+  </AccordionSummary>
+  <AccordionDetails>
+            <List key={user.id}>
               {user.username}
               {!hasChat(user) && (
                 <button
@@ -75,11 +125,19 @@ const OnlineFriends = () => {
                   start chat
                 </button>
               )}
-            </li>
+            </List>
+            </AccordionDetails>
+                </Accordion>
+            </div>
+            </Box>
           );
+        
         })}
-      </ul>
-    </div>
+      
+      
+      </Box>
+  
+  
   );
 };
 
