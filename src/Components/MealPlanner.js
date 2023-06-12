@@ -7,11 +7,13 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDay, fetchMeals } from "../store";
+import { Tooltip } from "@mui/material";
 
 const MealPlanner = () => {
-  const { meals } = useSelector((state) => state);
+  const { day } = useSelector((state) => state);
 
-  const [date, setDate] = React.useState(dayjs("2022-04-17"));
+  const today = dayjs().format("YYYY-MM-DD");
+  const [date, setDate] = React.useState(dayjs(today));
 
   const dispatch = useDispatch();
 
@@ -19,14 +21,78 @@ const MealPlanner = () => {
     dispatch(fetchDay(date));
   }, [date]);
 
+  const breakfast = [];
+  const lunch = [];
+  const dinner = [];
+
+  day.meals.map((meal) => {
+    if (meal.type === "breakfast") {
+      meal.recipes.map((recipe) => {
+        breakfast.push(recipe);
+      });
+    }
+    if (meal.type === "lunch") {
+      meal.recipes.map((recipe) => {
+        lunch.push(recipe);
+      });
+    }
+    if (meal.type === "dinner") {
+      meal.recipes.map((recipe) => {
+        dinner.push(recipe);
+      });
+    }
+  });
+
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={["DateCalendar", "DateCalendar"]}>
-        <DemoItem label="Calendar">
-          <DateCalendar value={date} onChange={(newDate) => setDate(newDate)} />
-        </DemoItem>
-      </DemoContainer>
-    </LocalizationProvider>
+    <div className="mealPlannerCalendar">
+      {/* calendar */}
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DemoContainer components={["DateCalendar", "DateCalendar"]}>
+          <DemoItem>
+            <DateCalendar
+              value={date}
+              onChange={(newDate) => setDate(newDate)}
+            />
+          </DemoItem>
+        </DemoContainer>
+      </LocalizationProvider>
+      {/* meals of the day */}
+      <div className="mealsOfTheDay">
+        <h3>Breakfast</h3>
+        <ul>
+          {breakfast.map((recipe) => (
+            <li key={recipe.title}>
+              {recipe.title}{" "}
+              <Tooltip title="add to grocery list">
+                <button>+</button>
+              </Tooltip>
+            </li>
+          ))}
+        </ul>
+        <h3>Lunch</h3>
+        <ul>
+          {lunch.map((recipe) => (
+            <li key={recipe.title}>
+              {recipe.title}{" "}
+              <Tooltip title="add to grocery list">
+                <button>+</button>
+              </Tooltip>
+            </li>
+          ))}
+        </ul>{" "}
+        <h3>Dinner</h3>
+        <ul>
+          {dinner.map((recipe) => (
+            <li key={recipe.title}>
+              {recipe.title}{" "}
+              <Tooltip title="add to grocery list">
+                <button>+</button>
+              </Tooltip>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 

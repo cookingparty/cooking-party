@@ -365,20 +365,48 @@ const syncAndSeed = async () => {
     status: "APPROVED",
   });
 
-  const april = await Day.create({
-    date: "2022-04-19",
+  const june = await Day.create({
+    date: "2023-06-11",
     userId: moe.id,
+  });
+
+  const breakfast = await Meal.create({
+    type: "breakfast",
+    dayId: june.id,
   });
 
   const lunch = await Meal.create({
     type: "lunch",
-    dayId: april.id,
+    dayId: june.id,
+  });
+
+  const dinner = await Meal.create({
+    type: "dinner",
+    dayId: june.id,
+  });
+
+  await Recipe.create({
+    title: "bagel",
+    description: "bagel",
+    mealId: breakfast.id,
   });
 
   await Recipe.create({
     title: "salad",
     description: "salad",
     mealId: lunch.id,
+  });
+
+  await Recipe.create({
+    title: "smoothie",
+    description: "smoothie",
+    mealId: lunch.id,
+  });
+
+  await Recipe.create({
+    title: "steak",
+    description: "steak",
+    mealId: dinner.id,
   });
 
   return {
