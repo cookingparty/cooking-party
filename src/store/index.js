@@ -9,6 +9,7 @@ import users from "./users";
 import recipes from "./recipes";
 import groups from "./groups";
 import memberships from "./memberships";
+import day from "./meals";
 
 const reducer = combineReducers({
   auth,
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   recipes,
   groups,
   memberships,
+  day,
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -33,3 +35,4 @@ export * from "./users";
 export * from "./recipes";
 export * from "./groups";
 export * from "./memberships";
+export * from "./meals";
