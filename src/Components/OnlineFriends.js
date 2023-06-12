@@ -1,8 +1,20 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createMessage } from "../store";
+import Chat from "@mui/icons-material/Chat";
 import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
-import { IconButton, Accordion, AccordionSummary, AccordionDetails, Box, Typography, List, ListItem, TextField } from "@mui/material";
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import {
+  IconButton,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Box,
+  Typography,
+  List,
+  ListItem,
+  TextField,
+} from "@mui/material";
 
 const OnlineFriends = ({ drawerWidth }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
@@ -58,24 +70,44 @@ const OnlineFriends = ({ drawerWidth }) => {
     return false;
   };
 
+  const colors = [
+    '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF',
+    '#FF00FF', '#C0C0C0', '#808080', '#800000', '#808000',
+    '#008000', '#800080', '#008080', '#000080', '#FFA500',
+    '#FF4500', '#DA70D6', '#FA8072', '#20B2AA', '#7B68EE'
+  ];
+
   return (
     <Box>
-      
-    <Typography
-      variant="h1"
-      style={{
-        fontSize: "16px",
-        fontFamily: "Helvetica",
-        textAlign: "center",
-      }}
-    >
-      ONLINE FRIENDS 
+      <Typography
+        variant="h1"
+        style={{
+          fontSize: "16px",
+          fontFamily: "Helvetica",
+          textAlign: "center",
+        }}
+      >
+        ONLINE FRIENDS
       </Typography>
       <div id="onlineFriends" style={{ overflowY: "auto" }}></div>
-      
-        {onlineFriends.map((user) => {
-          return (
-            <Box
+
+      {onlineFriends.map((user) => {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        const randomColor = colors[randomIndex];
+
+        const avatarStyle = user && user.avatar ? {
+          width: '20px',
+          height: '20px',
+          marginRight: '3px'
+        } : {
+          width: '20px',
+          height: '20px',
+          marginRight: '3px',
+          color: randomColor
+        };
+
+        return (
+          <Box
             key={user.id}
             sx={{
               marginTop: "15px",
@@ -87,57 +119,73 @@ const OnlineFriends = ({ drawerWidth }) => {
               flexDirection: "column",
               width: drawerWidth - 40,
             }}
-            >
+          >
             <div style={{ background: "#f5f5f5", padding: "10px" }}>
-            <Accordion>
+              <Accordion>
                 <AccordionSummary
-  expandIcon={ <ExpandMoreIcon />
-  }
-  // aria-controls={`panel-${user.id}-content`}
-  // id={`panel-${user.id}-header`}
-  sx={{
-    position: "relative",
-  }}
->
-<Typography
-    variant="h3"
-    style={{
-      fontSize: "12px",
-      fontWeight: "bold",
-      textTransform: "capitalize",
-      textAlign: "center",
-    }}
-  >
-    See Online Friends
-  </Typography>
-  </AccordionSummary>
-  <AccordionDetails>
-            <List key={user.id}>
-              {user.username}
-              {!hasChat(user) && (
-                <button
-                  onClick={() => {
-                    dispatch(
-                      createMessage({ toId: user.id, txt: "let's chat" })
-                    );
+                  expandIcon={<ExpandMoreIcon />}
+                  sx={{
+                    position: 'relative',
+                    margin: '0',
+                    padding: '2px 0',
                   }}
                 >
-                  start chat
-                </button>
-              )}
-            </List>
-            </AccordionDetails>
-                </Accordion>
+                  <Typography
+                    variant="h3"
+                    style={{
+                      fontSize: '12px',
+                      fontWeight: 'bold',
+                      textTransform: 'capitalize',
+                      textAlign: 'center',
+                      marginLeft: '8px'
+                    }}
+                  >
+                    See Online Friends
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails style={{ margin: '-5px 0 0' }}>
+                  <List>
+                    <ListItem>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {user.avatar ? (
+                          <img
+                            src={user.avatar}
+                            alt="User Avatar"
+                            style={avatarStyle}
+                          />
+                        ) : (
+                          <AccountCircleRoundedIcon style={avatarStyle} />
+                        )}
+                        <Typography
+                          variant="body1"
+                          style={{
+                            fontSize: '10px',
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
+                        </Typography>
+                      </div>
+                      {!hasChat(user) && (
+                        <IconButton
+                          aria-label="let's chat"
+                          color="inherit"
+                          onClick={() => {
+                            dispatch(createMessage({ toId: user.id, txt: "Let's Chat" }));
+                          }}
+                        >
+                          <Chat />
+                        </IconButton>
+                      )}
+                    </ListItem>
+                  </List>
+                </AccordionDetails>
+              </Accordion>
             </div>
-            </Box>
-          );
-        
-        })}
-      
-      
-      </Box>
-  
-  
+          </Box>
+        );
+      })}
+    </Box>
   );
 };
 
