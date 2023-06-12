@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createFriendship, createMessage } from "../store";
-import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import { Send, ExpandMore as ExpandMoreIcon, PersonAdd } from "@mui/icons-material";
 import Chat from "@mui/icons-material/Chat";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import {
   IconButton,
@@ -160,45 +161,61 @@ const colors = [
   <Box maxHeight="80px" overflow="auto">
   <List>
       <ListItem sx={{ paddingRight: "8px", paddingTop: '0', paddingBottom: '0' }}>
-        <div style={{ display: 'flex', alignItems: 'center', width: "100%" }}>
-          {user.avatar ? (
-            <img
-              src={user.avatar}
-              alt="User Avatar"
-              style={avatarStyle}
-            />
-          ) : (
-            <AccountCircleRoundedIcon style={avatarStyle} />
-          )}
-          <Typography
-            variant="body1"
-            style={{
-              paddingRight: '5px',
-              fontSize: '10px',
-              textTransform: 'capitalize',
-              overflowWrap: "break-word",
-              wordWrap: "break-word",
-              hyphens: "auto",
-              whiteSpace: "normal",
-              width: "100%"
-            }}
-          >
-            {user.username && user.username.charAt(0).toUpperCase() + user.username.slice(1)}
+      <div style={{ display: 'flex', alignItems: 'center', width: "100%" }}>
+  {user.avatar ? (
+    <img
+      src={user.avatar}
+      alt="User Avatar"
+      style={avatarStyle}
+    />
+  ) : (
+    <AccountCircleRoundedIcon style={avatarStyle} />
+  )}
+  <Typography
+    variant="body1"
+    style={{
+      paddingLeft: '5px',
+      paddingRight: '5px',
+      fontSize: '10px',
+      textTransform: 'capitalize',
+      overflowWrap: "break-word",
+      wordWrap: "break-word",
+      hyphens: "auto",
+      whiteSpace: "normal",
+      width: "100%",
+      lineHeight: '10px',
+      maxHeight: '20px',
+      overflow: 'hidden'
+    }}
+  >
+    {user.username && user.username.charAt(0).toUpperCase() + user.username.slice(1)}
+  </Typography>
+</div>
+{!isRequested(user) && (
+  <PersonAddAlt1Icon
+    aria-label="Add Friend"
+    color="inherit"
+    onClick={() => {
+      dispatch(createMessage({ toId: user.id, txt: "Add Friend" }));
+    }}
+    
+  >
+    </PersonAddAlt1Icon>
+)}
 
-          </Typography>
-        </div>
-              {user.username || user.facebook_username}
-              {!isRequested(user) && (
-               <IconButton
-               aria-label="let's chat"
-               color="inherit"
-               onClick={() => {
-                 dispatch(createMessage({ toId: user.id, txt: "Let's Chat" }));
-               }}
-             >
-               <Chat />
-             </IconButton>
-              )}
+{isRequested(user) && (
+  <IconButton
+    aria-label="let's chat"
+    color="inherit"
+    onClick={() => {
+      dispatch(createMessage({ toId: user.id, txt: "Let's Chat" }));
+    }}
+  >
+    <Chat />
+  </IconButton>
+)}
+
+
                </ListItem>
     </List>
   </Box>

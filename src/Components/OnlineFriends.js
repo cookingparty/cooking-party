@@ -161,6 +161,8 @@ const OnlineFriends = ({ drawerwidth }) => {
           <Typography
             variant="body1"
             style={{
+              paddingLeft: '5px',
+      paddingRight: '5px',
               fontSize: '10px',
               textTransform: 'capitalize',
               overflowWrap: "break-word",
@@ -173,7 +175,7 @@ const OnlineFriends = ({ drawerwidth }) => {
             {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
           </Typography>
         </div>
-        {!hasChat(user) && (
+        {hasChat(user) || !hasChat(user) && (
           <IconButton
             aria-label="let's chat"
             color="inherit"

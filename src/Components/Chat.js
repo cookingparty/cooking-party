@@ -152,6 +152,8 @@ const Chat = ({ drawerwidth }) => {
   <Typography
     variant="h3"
     style={{
+      paddingLeft: '5px',
+      paddingRight: '5px',
       fontSize: "12px",
       fontWeight: "bold",
       textTransform: "capitalize",

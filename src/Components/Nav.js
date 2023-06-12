@@ -250,6 +250,13 @@ const Nav = () => {
     setReadOnlineFriends([]);
   }, [messages]);
   
+  useEffect(() => {
+    setReadFriends([]);
+  }, [messages]);
+
+  useEffect(() => {
+    setReadOnlineUsers([]);
+  }, [messages]);
 
   return (
     <Box sx={{ display: "flex", marginBottom: "100px" }}>
