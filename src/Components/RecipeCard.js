@@ -14,7 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Icon, Tooltip } from "@mui/material";
+import { Button, Icon, Tooltip } from "@mui/material";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -100,9 +100,9 @@ export default function RecipeCard({
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <Tooltip title="add to meal planner">
-          <Icon>add_circle</Icon>
-        </Tooltip>
+        {/* <Tooltip title="add to meal planner">
+          <Button startIcon={<Icon>add_circle</Icon>}></Button>
+        </Tooltip> */}
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}

@@ -90,7 +90,7 @@ const App = () => {
           <Route path="/groups" element={<Groups />} />
           <Route path="/groups/create" element={<GroupCreate />} />
           <Route path="/groups/:id" element={<Group />} />
-          <Route path="/mealplanner" element={<MealPlanner />} />
+          <Route path="/planner" element={<MealPlanner />} />
 
           {!auth.id}
           <Route path="/" element={<Home />} />

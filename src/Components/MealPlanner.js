@@ -7,7 +7,7 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDay, fetchMeals } from "../store";
-import { Tooltip } from "@mui/material";
+import { Button, Icon, Tooltip } from "@mui/material";
 
 const MealPlanner = () => {
   const { day } = useSelector((state) => state);
@@ -64,7 +64,7 @@ const MealPlanner = () => {
             <li key={recipe.title}>
               {recipe.title}{" "}
               <Tooltip title="add to grocery list">
-                <button>+</button>
+                <Button startIcon={<Icon>add_circle</Icon>}></Button>
               </Tooltip>
             </li>
           ))}
@@ -75,7 +75,7 @@ const MealPlanner = () => {
             <li key={recipe.title}>
               {recipe.title}{" "}
               <Tooltip title="add to grocery list">
-                <button>+</button>
+                <Button startIcon={<Icon>add_circle</Icon>}></Button>
               </Tooltip>
             </li>
           ))}
@@ -86,7 +86,7 @@ const MealPlanner = () => {
             <li key={recipe.title}>
               {recipe.title}{" "}
               <Tooltip title="add to grocery list">
-                <button>+</button>
+                <Button startIcon={<Icon>add_circle</Icon>}></Button>
               </Tooltip>
             </li>
           ))}

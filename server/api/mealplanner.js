@@ -13,7 +13,7 @@ app.get("/:date", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.post("/", isLoggedIn, async (req, res, next) => {
+app.post("/:date", isLoggedIn, async (req, res, next) => {
   try {
     const user = req.user;
     res.send(await user.addToDay(req.body));
