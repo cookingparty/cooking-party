@@ -11,6 +11,7 @@ const Instruction = require("./Instruction");
 const Meal = require("./Meal");
 const Day = require("./Day");
 const MeasurementUnit = require("./MeasurementUnit");
+const MealRecipe = require("./MealRecipe");
 
 Recipe.belongsTo(User);
 User.hasMany(Recipe);
@@ -24,8 +25,14 @@ Ingredient.hasMany(MeasurementUnit);
 Instruction.belongsTo(Recipe);
 Recipe.hasMany(Instruction);
 
-Recipe.belongsTo(Meal);
-Meal.hasMany(Recipe);
+// Recipe.belongsTo(MealRecipe);
+Recipe.belongsToMany(Meal, {
+  // foreignKey: "recipe_Id",
+  through: MealRecipe,
+});
+MealRecipe.belongsTo(Recipe);
+MealRecipe.belongsTo(Meal);
+Meal.hasMany(MealRecipe);
 
 Meal.belongsTo(Day);
 Day.hasMany(Meal);
@@ -369,10 +376,58 @@ const syncAndSeed = async () => {
     date: "2023-06-11",
     userId: moe.id,
   });
+  const juneTwelve = await Day.create({
+    date: "2023-06-12",
+    userId: moe.id,
+  });
+
+  const ethylJune = await Day.create({
+    date: "2023-06-12",
+    userId: ethyl.id,
+  });
 
   const breakfast = await Meal.create({
     type: "breakfast",
     dayId: june.id,
+  });
+
+  const breakfastEthyl = await Meal.create({
+    type: "breakfast",
+    dayId: ethylJune.id,
+  });
+
+  const breakfastTwelve = await Meal.create({
+    type: "breakfast",
+    dayId: juneTwelve.id,
+  });
+
+  const bagel = await Recipe.create({
+    title: "bagel",
+    description: "bagel",
+  });
+
+  const oatmeal = await Recipe.create({
+    title: "oatmeal",
+    description: "oatmeal",
+  });
+  const meal = await MealRecipe.create({
+    mealId: breakfast.id,
+    recipeId: bagel.id,
+  });
+
+  const ethylMeal = await MealRecipe.create({
+    mealId: breakfastEthyl.id,
+    recipeId: bagel.id,
+  });
+
+  const mealTwo = await MealRecipe.create({
+    mealId: breakfastTwelve.id,
+    recipeId: bagel.id,
+  });
+
+  const moreBreakfast = await MealRecipe.create({
+    mealId: breakfastTwelve.id,
+    recipeId: oatmeal.id,
   });
 
   const lunch = await Meal.create({
@@ -385,28 +440,33 @@ const syncAndSeed = async () => {
     dayId: june.id,
   });
 
-  await Recipe.create({
-    title: "bagel",
-    description: "bagel",
-    mealId: breakfast.id,
-  });
-
-  await Recipe.create({
+  const salad = await Recipe.create({
     title: "salad",
     description: "salad",
-    mealId: lunch.id,
   });
 
-  await Recipe.create({
+  const smoothie = await Recipe.create({
     title: "smoothie",
     description: "smoothie",
-    mealId: lunch.id,
+    // mealId: lunch.id,
   });
 
-  await Recipe.create({
+  const steak = await Recipe.create({
     title: "steak",
     description: "steak",
+  });
+
+  await MealRecipe.create({
+    mealId: lunch.id,
+    recipeId: salad.id,
+  });
+  await MealRecipe.create({
+    mealId: lunch.id,
+    recipeId: smoothie.id,
+  });
+  await MealRecipe.create({
     mealId: dinner.id,
+    recipeId: steak.id,
   });
 
   return {

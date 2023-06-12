@@ -206,6 +206,7 @@ User.prototype.messagesForUser = function () {
   });
 };
 
+// NEED TO TEST -AG
 User.prototype.getDay = async function (date) {
   let day = await conn.models.day.findOne({
     where: {
@@ -225,8 +226,13 @@ User.prototype.getDay = async function (date) {
         model: conn.models.meal,
         include: [
           {
-            model: conn.models.recipe,
-            include: [conn.models.ingredient, conn.models.instruction],
+            model: conn.models.mealrecipe,
+            include: [
+              {
+                model: conn.models.recipe,
+                include: [conn.models.ingredient, conn.models.instruction],
+              },
+            ],
           },
         ],
       },

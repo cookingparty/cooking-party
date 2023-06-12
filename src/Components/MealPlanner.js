@@ -27,19 +27,25 @@ const MealPlanner = () => {
 
   day.meals.map((meal) => {
     if (meal.type === "breakfast") {
-      meal.recipes.map((recipe) => {
-        breakfast.push(recipe);
-      });
+      meal.mealrecipes
+        .map((mealrecipe) => mealrecipe.recipe)
+        .map((recipe) => {
+          breakfast.push(recipe);
+        });
     }
     if (meal.type === "lunch") {
-      meal.recipes.map((recipe) => {
-        lunch.push(recipe);
-      });
+      meal.mealrecipes
+        .map((mealrecipe) => mealrecipe.recipe)
+        .map((recipe) => {
+          lunch.push(recipe);
+        });
     }
     if (meal.type === "dinner") {
-      meal.recipes.map((recipe) => {
-        dinner.push(recipe);
-      });
+      meal.mealrecipes
+        .map((mealrecipe) => mealrecipe.recipe)
+        .map((recipe) => {
+          dinner.push(recipe);
+        });
     }
   });
 
