@@ -16,7 +16,7 @@ import {
   TextField,
 } from "@mui/material";
 
-const OnlineFriends = ({ drawerWidth }) => {
+const OnlineFriends = ({ drawerwidth }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
@@ -85,7 +85,7 @@ const OnlineFriends = ({ drawerWidth }) => {
           fontSize: "16px",
           fontFamily: "Helvetica",
           textAlign: "center",
-          marginTop: "10px",
+          marginTop: "30px",
         }}
       >
         ONLINE FRIENDS
@@ -118,7 +118,7 @@ const OnlineFriends = ({ drawerWidth }) => {
               backgroundColor: "#f5f5f5",
               display: "flex",
               flexDirection: "column",
-              width: drawerWidth - 40,
+              width: drawerwidth - 40,
             }}
           >
             <div style={{ background: "#f5f5f5", padding: "10px",  }}>
@@ -147,7 +147,7 @@ const OnlineFriends = ({ drawerWidth }) => {
                 <AccordionDetails style={{ margin: '-5px 0 0', padding: 0 }}>
   <Box maxHeight="80px" overflow="auto">
     <List>
-      <ListItem sx={{ paddingRight: "8px" }}>
+      <ListItem sx={{ paddingRight: "8px", paddingTop: '0', paddingBottom: '0' }}>
         <div style={{ display: 'flex', alignItems: 'center', width: "100%" }}>
           {user.avatar ? (
             <img

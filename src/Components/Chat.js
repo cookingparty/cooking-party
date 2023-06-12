@@ -5,7 +5,7 @@ import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import { IconButton, Accordion, AccordionSummary, AccordionDetails, Box, Typography, List, ListItem, TextField } from "@mui/material";
 import { Badge } from "@mui/material";
 
-const Chat = ({ drawerWidth }) => {
+const Chat = ({ drawerwidth }) => {
   const { messages, auth, onlineUsers, friendships, users } = useSelector(
     (state) => state
   );
@@ -96,14 +96,13 @@ const Chat = ({ drawerWidth }) => {
     return false;
   };
 
-  
-  
-
   return (
     <Box>
       <Typography
         variant="h1"
         style={{
+          margin: "0px",
+          padding: '0px',
           fontSize: "16px",
           fontFamily: "Helvetica",
           textAlign: "center",
@@ -132,11 +131,11 @@ const Chat = ({ drawerWidth }) => {
                 marginTop: "15px",
                 overflowY: "auto",
                 maxHeight: "240px",
-                padding: "10px",
+                // padding: "10px",
                 backgroundColor: "#f5f5f5",
                 display: "flex",
                 flexDirection: "column",
-                width: drawerWidth - 40,
+                width: drawerwidth - 40,
               }}
             >
               <div style={{ background: "#f5f5f5", padding: "10px" }}>
@@ -157,6 +156,7 @@ const Chat = ({ drawerWidth }) => {
       fontWeight: "bold",
       textTransform: "capitalize",
       textAlign: "center",
+      height: "50%"
     }}
   >
     Chat with{" "}
@@ -191,7 +191,7 @@ const Chat = ({ drawerWidth }) => {
                                 ? "flex-start"
                                 : "flex-end",
                               borderRadius: "12px",
-                              padding: "8px",
+                              // padding: "8px",
                               marginBottom: "8px",
                               wordBreak: "break-word",
                               whiteSpace: "pre-wrap",
@@ -295,7 +295,7 @@ const Chat = ({ drawerWidth }) => {
                           padding: "8px",
                           borderRadius: "12px",
                           alignSelf: "flex-start",
-                          marginBottom: "8px",
+                          // marginBottom: "8px",
                           wordBreak: "break-word",
                           whiteSpace: "pre-wrap",
                           maxWidth: "80%",

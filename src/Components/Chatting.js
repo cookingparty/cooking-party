@@ -19,7 +19,7 @@
 // import MenuIcon from "@mui/icons-material/Menu";
 // import Divider from "@mui/material/Divider";
 
-// const drawerWidth = "25%";
+// const drawerwidth = "25%";
 
 // const styles = {
 //   root: {
@@ -41,11 +41,11 @@
 //   },
 //   drawer: {
 //     flexShrink: 0,
-//     width: drawerWidth,
+//     width: drawerwidth,
 //     backgroundColor: "#f5f5f5",
 //   },
 //   drawerPaper: {
-//     width: drawerWidth,
+//     width: drawerwidth,
 //     backgroundColor: "#f5f5f5",
 //   },
 //   drawerContainer: {
@@ -103,9 +103,9 @@
 //         }}
 //         sx={{
 //           marginTop: "200px",
-//           width: drawerWidth,
+//           width: drawerwidth,
 //           flexShrink: 0,
-//           [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: "border-box" },
+//           [`& .MuiDrawer-paper`]: { width: drawerwidth, boxSizing: "border-box" },
 //         }}
 //       >
 //         <div style={styles.drawerContainer}>
@@ -116,7 +116,7 @@
 //                   <PeopleIcon />
 //                 </Badge>
 //               </ListItemIcon>
-//               <ListItemText primary="Online Users" style={styles.listItemText} />
+//               <ListItemText primary="Online Users" style={styles.listItemText } />
 //               {!!auth.id && <OnlineUsers />}
 //             </ListItem>
 //             <ListItem>
@@ -208,7 +208,7 @@
 // // import Button from "@mui/material/Button";
 
 
-// // const drawerWidth = "25%";
+// // const drawerwidth = "25%";
 
 // // const styles = {
 // //   root: {
@@ -230,11 +230,11 @@
 // //   },
 // //   drawer: {
 // //     flexShrink: 0,
-// //     width: drawerWidth,
+// //     width: drawerwidth,
 // //     backgroundColor: "#f5f5f5",
 // //   },
 // //   drawerPaper: {
-// //     width: drawerWidth,
+// //     width: drawerwidth,
 // //     backgroundColor: "#f5f5f5",
 // //   },
 // //   drawerContainer: {
@@ -295,9 +295,9 @@
 // //         }}
 // //         sx={{
 // //             marginTop: "200px",
-// //           width: drawerWidth,
+// //           width: drawerwidth,
 // //           flexShrink: 0,
-// //           [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+// //           [`& .MuiDrawer-paper`]: { width: drawerwidth, boxSizing: 'border-box' },
 // //         }}
 // //         >
 // //         <div style={styles.drawerContainer}>

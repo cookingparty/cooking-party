@@ -10,7 +10,7 @@
 // import Button from "@mui/material/Button";
 // import { accessTokenIg } from '../../secrets';
 
-// const drawerWidth = "25%";
+// const drawerwidth = "25%";
 
 // const styles = {
 //   root: {
@@ -32,11 +32,11 @@
 //   },
 //   drawer: {
 //     flexShrink: 0,
-//     width: drawerWidth,
+//     width: drawerwidth,
 //     backgroundColor: "#f5f5f5",
 //   },
 //   drawerPaper: {
-//     width: drawerWidth,
+//     width: drawerwidth,
 //     backgroundColor: "#f5f5f5",
 //   },
 //   drawerContainer: {
@@ -111,9 +111,9 @@
 //           paper: styles.drawerPaper,
 //         }}
 //         sx={{
-//           width: drawerWidth,
+//           width: drawerwidth,
 //           flexShrink: 0,
-//           [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+//           [`& .MuiDrawer-paper`]: { width: drawerwidth, boxSizing: 'border-box' },
 //         }}
 //         >
 //         <div style={styles.drawerContainer}>

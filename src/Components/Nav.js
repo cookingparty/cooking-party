@@ -38,6 +38,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import OnlineFriends from "./OnlineFriends";
+import OnlineUsers from "./OnlineUsers";
+import Friends from "./Friends";
 
 const Nav = () => {
   const { auth, recipes, onlineUsers, messages, users, friendships } =
@@ -95,10 +97,10 @@ const Nav = () => {
 
   //{* Chat Drawer *}
 
-  const drawerWidth = 240;
+  const drawerwidth = 240;
 
   const openedMixin = (theme) => ({
-    width: drawerWidth,
+    width: drawerwidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -137,8 +139,8 @@ const Nav = () => {
       duration: theme.transitions.duration.leavingScreen,
     }),
     ...(open && {
-      marginRight: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
+      marginRight: drawerwidth,
+      width: `calc(100% - ${drawerwidth}px)`,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -149,7 +151,7 @@ const Nav = () => {
   const StyledDrawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
   })(({ theme, open }) => ({
-    width: drawerWidth,
+    width: drawerwidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
     boxSizing: "border-box",
@@ -169,6 +171,10 @@ const Nav = () => {
   const [readMessages, setReadMessages] = useState([]);
   const [onlineFriendsOpen, setOnlineFriendsOpen] = useState(false);
   const [readOnlineFriends, setReadOnlineFriends] = useState([]);
+  const [onlineUsersOpen, setOnlineUsersOpen] = useState(false);
+  const [readOnlineUsers, setReadOnlineUsers] = useState([]);
+  const [friendsOpen, setFriendsOpen] = useState(false);
+  const [readFriends, setReadFriends] = useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -224,6 +230,16 @@ const Nav = () => {
   const handleToggleOnlineFriends = () => {
     setOnlineFriendsOpen(!onlineFriendsOpen);
     setReadOnlineFriends(onlineFriends.map((onlineFriend) => onlineFriend.id));
+  };
+
+  const handleToggleFriends = () => {
+    setFriendsOpen(!friendsOpen);
+    setReadFriends(friends.map((friend) => friend.id));
+  };
+
+  const handleToggleOnlineUsers = () => {
+    setOnlineUsersOpen(!onlineUsersOpen);
+    setReadOnlineUsers(onlineUsers.map((onlineUser) => onlineUser.id));
   };
 
   useEffect(() => {
@@ -466,6 +482,13 @@ const Nav = () => {
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
                     }}
+                    onClick={() => {
+                      if (index === 0) {
+                        handleToggleFriends();
+                      } else if (index === 1) {
+                        handleToggleOnlineUsers();
+                      }
+                    }}
                   >
                     <ListItemIcon
                       sx={{
@@ -501,16 +524,36 @@ const Nav = () => {
               ))}
             </List>
             <Divider />
-            <ListItem>
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
-            {!!auth.id && onlineFriendsOpen && <OnlineFriends drawerWidth={drawerWidth} />}
+            <ListItem
+            sx={{marginTop: '0', marginBottom: "0"}}
+            >
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
+            {!!auth.id && onlineFriendsOpen && <OnlineFriends drawerwidth={drawerwidth} />}
+
+              </Box>
+            </ListItem>
+            <Divider />
+            <ListItem
+            sx={{marginTop: '0', marginBottom: "0"}}
+            >
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
+            {!!auth.id && friendsOpen && <friends drawerwidth={drawerwidth} />}
+
+              </Box>
+            </ListItem>
+            <Divider />
+            <ListItem
+            sx={{marginTop: '0', marginBottom: "0"}}
+            >
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
+            {!!auth.id && onlineUsersOpen && <OnlineUsers drawerwidth={drawerwidth} />}
 
               </Box>
             </ListItem>
             <Divider />
             <ListItem>
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
-              {!!auth.id && messagesOpen && <Chat drawerWidth={drawerWidth} />}
+              {!!auth.id && messagesOpen && <Chat drawerwidth={drawerwidth} />}
               </Box>
             </ListItem>
           </StyledDrawer>
