@@ -115,53 +115,66 @@ const OnlineUsers = ({ drawerwidth }) => {
   ];
 
   return (
-    <Box>
-      <Typography
-        variant="h1"
-        style={{
-          fontSize: "16px",
-          fontFamily: "Helvetica",
-          textAlign: "center",
-          marginTop: "30px",
-          minHeight: "85px",
+    // <Box>
+    //   <Typography
+    //     variant="h1"
+    //     style={{
+    //       fontSize: "16px",
+    //       fontFamily: "Helvetica",
+    //       textAlign: "center",
+    //       marginTop: "30px",
+    //       minHeight: "85px",
+    //     }}
+    //   >
+    //     WHO'S ONLINE
+    //   </Typography>
+    //   <div id="onlineFriends" style={{ overflowY: "auto" }}></div>
+
+      // {onlineUsers.map((user) => {
+      //   const randomIndex = Math.floor(Math.random() * colors.length);
+      //   const randomColor = colors[randomIndex];
+
+      //   const avatarStyle =
+      //     user && user.avatar
+      //       ? {
+      //           width: "20px",
+      //           height: "20px",
+      //           marginRight: "3px",
+      //         }
+      //       : {
+      //           width: "20px",
+      //           height: "20px",
+      //           marginRight: "3px",
+      //           color: randomColor,
+      //         };
+      //   return (
+      //     <Box
+      //       key={user.id}
+      //       sx={{
+      //         marginTop: "10px",
+      //         overflowY: "auto",
+      //         // maxHeight: "240px",
+      //         padding: "10px",
+      //         backgroundColor: "#f5f5f5",
+      //         display: "flex",
+      //         flexDirection: "column",
+      //         width: drawerwidth - 40,
+      //       }}
+      //     >
+<Box
+        sx={{
+          minHeight: "20px",
+          marginTop: "5px",
+          overflowY: "auto",
+          padding: "10px",
+          backgroundColor: "#f5f5f5",
+          display: "flex",
+          flexDirection: "column",
+          width: drawerwidth - 40,
         }}
       >
-        WHO'S ONLINE
-      </Typography>
-      <div id="onlineFriends" style={{ overflowY: "auto" }}></div>
-
-      {onlineUsers.map((user) => {
-        const randomIndex = Math.floor(Math.random() * colors.length);
-        const randomColor = colors[randomIndex];
-
-        const avatarStyle =
-          user && user.avatar
-            ? {
-                width: "20px",
-                height: "20px",
-                marginRight: "3px",
-              }
-            : {
-                width: "20px",
-                height: "20px",
-                marginRight: "3px",
-                color: randomColor,
-              };
-        return (
-          <Box
-            key={user.id}
-            sx={{
-              marginTop: "10px",
-              overflowY: "auto",
-              // maxHeight: "240px",
-              padding: "10px",
-              backgroundColor: "#f5f5f5",
-              display: "flex",
-              flexDirection: "column",
-              width: drawerwidth - 40,
-            }}
-          >
-            <div style={{ background: "#f5f5f5", padding: "10px" }}>
+      
+      <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '150px' }}>
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -187,7 +200,27 @@ const OnlineUsers = ({ drawerwidth }) => {
                 <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
                   <Box maxHeight="80px" overflow="auto">
                     <List>
+                    {onlineUsers.map((user) => {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        const randomColor = colors[randomIndex];
+
+        const avatarStyle =
+          user && user.avatar
+            ? {
+                width: "20px",
+                height: "20px",
+                marginRight: "3px",
+              }
+            : {
+                width: "20px",
+                height: "20px",
+                marginRight: "3px",
+                color: randomColor,
+              };
+        return (
+          
                       <ListItem
+                      key={user.id}
                         sx={{
                           paddingRight: "8px",
                           paddingTop: "0",
@@ -262,15 +295,16 @@ const OnlineUsers = ({ drawerwidth }) => {
                           </IconButton>
                         )}
                       </ListItem>
+                      );
+                    })}
                     </List>
                   </Box>
                 </AccordionDetails>
               </Accordion>
             </div>
           </Box>
-        );
-      })}
-    </Box>
+        
+    // </Box>
   );
 };
 
