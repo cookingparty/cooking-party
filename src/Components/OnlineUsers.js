@@ -191,7 +191,7 @@ const OnlineUsers = ({ drawerwidth }) => {
                       fontWeight: "bold",
                       textTransform: "capitalize",
                       textAlign: "center",
-                      marginLeft: "8px",
+                      marginLeft: "20px",
                     }}
                   >
                     See Who's Online
