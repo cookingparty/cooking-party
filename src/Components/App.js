@@ -10,6 +10,9 @@ import Cocktails from "./Cocktails";
 import Groups from "./Groups";
 import Group from "./Group";
 import GroupCreate from "./GroupCreate";
+
+import Chatting from "./Chatting";
+
 import MySavedRecipes from "./MySavedRecipes";
 import Friends from "./Friends";
 import About from "./About";

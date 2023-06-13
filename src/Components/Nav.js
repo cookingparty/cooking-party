@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import { styled, useTheme } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import List from "@mui/material/List";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -19,9 +20,31 @@ import Search from "./Search";
 import { Container, TextField } from "@mui/material";
 import Dashboard from "./Dashboard";
 import SearchAll from "./SearchALL";
+import CssBaseline from "@mui/material/CssBaseline";
+import MuiDrawer from "@mui/material/Drawer";
+import MuiAppBar from "@mui/material/AppBar";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Chat from "./Chat";
+import MailIcon from "@mui/icons-material/Mail";
+import Badge from "@mui/material/Badge";
 
-export default function Nav() {
-  const { auth, recipes } = useSelector((state) => state);
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import PersonIcon from "@mui/icons-material/Person";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+import OnlineFriends from "./OnlineFriends";
+import OnlineUsers from "./OnlineUsers";
+import Friends from "./Friends";
+import FriendRequests from "./FriendRequests"
+
+const Nav = () => {
+  const { auth, recipes, onlineUsers, messages, users, friendships } =
+    useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -76,153 +99,512 @@ export default function Nav() {
     console.log(filteredRecipes);
   };
 
+  //{* Chat Drawer *}
+
+  const drawerwidth = 240;
+
+  const openedMixin = (theme) => ({
+    width: drawerwidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: "hidden",
+  });
+
+  const closedMixin = (theme) => ({
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(${theme.spacing(8)} + 1px)`,
+    },
+  });
+
+  const DrawerHeader = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    margin: "23px",
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  }));
+
+  const StyledAppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== "open",
+  })(({ theme, open }) => ({
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+      marginRight: drawerwidth,
+      width: `calc(100% - ${drawerwidth}px)`,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    }),
+  }));
+
+  const StyledDrawer = styled(MuiDrawer, {
+    shouldForwardProp: (prop) => prop !== "open",
+  })(({ theme, open }) => ({
+    width: drawerwidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+    boxSizing: "border-box",
+    ...(open && {
+      ...openedMixin(theme),
+      "& .MuiDrawer-paper": openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      "& .MuiDrawer-paper": closedMixin(theme),
+    }),
+  }));
+
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [messagesOpen, setMessagesOpen] = useState(false);
+  const [readMessages, setReadMessages] = useState([]);
+  const [onlineFriendsOpen, setOnlineFriendsOpen] = useState(false);
+  const [readOnlineFriends, setReadOnlineFriends] = useState([]);
+  const [onlineUsersOpen, setOnlineUsersOpen] = useState(false);
+  const [readOnlineUsers, setReadOnlineUsers] = useState([]);
+  const [friendsOpen, setFriendsOpen] = useState(false);
+  const [readFriends, setReadFriends] = useState([]);
+  const [friendRequestsOpen, setFriendRequestsOpen] = useState([])
+  const [readFriendRequests, setReadFriendRequests] = useState(false)
+  const [friendRequests, setFriendRequests] = useState([]);
+
+
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const friends = friendships
+  .filter(
+    (friendship) =>
+      friendship.friendee_id === auth.id || friendship.friender_id === auth.id
+  )
+  .map((friendship) => {
+    if (friendship.friendee_id === auth.id) {
+      return users.find((user) => user.id === friendship.friender_id);
+    }
+    if (friendship.friender_id === auth.id) {
+      return users.find((user) => user.id === friendship.friendee_id);
+    }
+  });
+
+  const findFriendship = (friendId) => {
+    const friendship = friendships.find(
+      (friendship) =>
+        (friendship.friendee_id === friendId &&
+          friendship.friender_id === auth.id) ||
+        (friendship.friendee_id === auth.id &&
+          friendship.friender_id === friendId)
+    );
+    return friendship;
+  };
+  const confirmedFriend = (user) => {
+    const friend = friends.find((f) => f.id === user.id);
+    if (!!friend && findFriendship(friend.id)) {
+      if (findFriendship(friend.id).status === "CONFIRMED") {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const onlineFriends = onlineUsers.filter((user) => !!confirmedFriend(user));
+ 
+  const confirmedFriends = friends.filter((friend) => {
+    const friendship = findFriendship(friend.id);
+    return friendship && friendship.status === "CONFIRMED";
+  });
+
+  const handleToggleMessages = () => {
+    setMessagesOpen(!messagesOpen);
+    setReadMessages(messages.map((message) => message.id));
+  };
+
+  const handleToggleOnlineFriends = () => {
+    setOnlineFriendsOpen(!onlineFriendsOpen);
+    setReadOnlineFriends(onlineFriends.map((onlineFriend) => onlineFriend.id));
+  };
+
+  const handleToggleFriends = () => {
+    setFriendsOpen(!friendsOpen);
+    setReadFriends(friends.map((friend) => friend.id));
+  };
+
+  const handleToggleOnlineUsers = () => {
+    setOnlineUsersOpen(!onlineUsersOpen);
+    setReadOnlineUsers(onlineUsers.map((onlineUser) => onlineUser.id));
+  };
+
+  const handleToggleFriendRequests = () => {
+    setFriendRequestsOpen(!friendRequestsOpen);
+    setReadFriendRequests(friendRequests.map((request) => request.id));
+  };
+
+  useEffect(() => {
+    setReadMessages([]);
+  }, [messages]);
+  
+  useEffect(() => {
+    setReadOnlineFriends([]);
+  }, [messages]);
+  
+  useEffect(() => {
+    setReadFriends([]);
+  }, [messages]);
+
+  useEffect(() => {
+    setReadOnlineUsers([]);
+  }, [messages]);
+
+  useEffect(() => {
+    setReadFriendRequests([]);
+  }, [friendships]);
+
   return (
-    <AppBar
-      position="static"
-      style={{ background: "#F9F6EE", margin: 0, padding: 0 }}
-    >
-      <Toolbar disableGutters>
-        {/* Dropdown menu (Nav) */}
-        {auth.id && (
-          <Box>
-            <IconButton
-              size="large"
-              aria-label="menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="black"
-              style={{
+    <Box sx={{ display: "flex", marginBottom: "100px" }}>
+      <CssBaseline />
+      <Box sx={{ flexGrow: 1 }}>
+        <StyledAppBar
+          position="fixed"
+          open={open}
+          sx={{ background: "#F9F6EE" }}
+        >
+          <Toolbar disableGutters>
+            {/* Dropdown menu (Nav) */}
+            {auth.id && (
+              <Box>
+                <IconButton
+                  size="large"
+                  aria-label="menu"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="black"
+                  style={{
+                    paddingLeft: "20px",
+                  }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  PaperProps={{
+                    style: {
+                      background: "white",
+                    },
+                  }}
+                >
+                  {pages.map((page) => (
+                    <MenuItem
+                      key={page}
+                      onClick={() => navigateTo(page)}
+                      style={{ color: "black" }}
+                    >
+                      <Typography variant="body1">{page}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            )}
+
+            {/* Search bar */}
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "flex-start",
                 paddingLeft: "20px",
               }}
             >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              PaperProps={{
-                style: {
-                  background: "white",
-                },
-              }}
+              <SearchAll onSearch={handleSearch} />
+            </Box>
+
+            {/* Logo */}
+            <Box
+              sx={{ flexGrow: "1.3", display: "flex", alignItems: "center" }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={() => navigateTo(page)}
-                  style={{ color: "black" }}
+              <Link to="/">
+                <img
+                  src="static/images/cooking-party-transparent.png"
+                  alt="Cooking Party Logo"
+                  style={{ width: "110px", height: "auto" }}
+                />
+              </Link>
+            </Box>
+
+            {/* Favorite icon */}
+            {!!auth.id && (
+              <IconButton
+                component={Link}
+                to="/my-saved-recipes"
+                aria-label="favorite recipes"
+                color="inherit"
+              >
+                <FavoriteIcon style={{ color: "#ed6fb7" }} />
+              </IconButton>
+            )}
+
+            {/* Chat icon */}
+            {!!auth.id && (
+              <IconButton
+                aria-label="open drawer"
+                onClick={open ? handleDrawerClose : handleDrawerOpen}
+                edge="start"
+                sx={{
+                  marginLeft: "5px",
+                }}
+                color="inherit"
+              >
+                <ChatIcon style={{ color: "#6fc5ed" }} />
+              </IconButton>
+            )}
+
+            {/* Dropdown menu (User) */}
+            {!!auth.id && (
+              <Dashboard
+                style={{
+                  marginRight: "20px",
+                }}
+              />
+            )}
+
+            {/* Social media icons */}
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {!auth.id && (
+                <>
+                  <IconButton
+                    component={Link}
+                    to="https://www.instagram.com/thecookingparty/"
+                    aria-label="instagram page"
+                    color="inherit"
+                    target="_blank"
+                  >
+                    <InstagramIcon style={{ color: "#fa4c46" }} />
+                  </IconButton>
+
+                  <IconButton
+                    component={Link}
+                    to="https://www.facebook.com/profile.php?id=100093276614788"
+                    aria-label="facebook page"
+                    color="inherit"
+                    target="_blank"
+                  >
+                    <FacebookIcon style={{ color: "#4688fa" }} />
+                  </IconButton>
+                </>
+              )}
+
+              {/* Login link */}
+              {!auth.id && (
+                <Typography
+                  variant="button"
+                  component={Link}
+                  to="/auth/login"
+                  style={{
+                    color: "#0C090A",
+                    textDecoration: "none",
+                    paddingLeft: "10px",
+                    paddingRight: "20px",
+                    fontFamily: "Helvetica",
+                  }}
                 >
-                  <Typography variant="body1">{page}</Typography>
-                </MenuItem>
+                  Login / Register
+                </Typography>
+              )}
+            </Box>
+          </Toolbar>
+        </StyledAppBar>
+
+        {!!auth.id && (
+          <StyledDrawer
+            anchor="right"
+            variant="permanent"
+            open={open}
+            sx={{ marginBottom: "40px" }}
+          >
+            <DrawerHeader />
+
+            <Divider />
+            <List>
+  {['Online Friends', 'Friend Requests', 'Messages'].map((text, index) => (
+    <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+  <ListItemButton
+  sx={{
+    minHeight: 48,
+    justifyContent: open ? 'initial' : 'center',
+    px: 2.5,
+  }}
+  onClick={() => {
+    if (index === 0) {
+      handleToggleOnlineFriends();
+    } else if (index === 1) {
+      handleToggleFriendRequests();
+    } else if (index === 2) {
+      handleToggleMessages();
+    }
+  }}
+>
+  <ListItemIcon
+    sx={{
+      minWidth: 0,
+      mr: open ? 3 : 'auto',
+      justifyContent: 'center',
+    }}
+  >
+    {index === 0 ? (
+      <Badge badgeContent={onlineFriends.length} color="primary">
+        <AccountCircleIcon />
+      </Badge>
+    ) : index === 1 ? (
+      <Badge badgeContent={friendships.length > 0 ? 1 : 0} color="primary">
+        <PersonAddAlt1Icon />
+      </Badge>
+    ) : (
+      <Badge
+        badgeContent={messages.filter(
+          (message) => !readMessages.includes(message.id)
+        ).length}
+        color="primary"
+      >
+        <MailIcon />
+      </Badge>
+    )}
+  </ListItemIcon>
+  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+</ListItemButton>
+
+    </ListItem>
+  ))}
+</List>
+
+
+            <Divider />
+            <List>
+              {["Friends", "Online Users", "Logout"].map((text, index) => (
+                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                    onClick={() => {
+                      if (index === 0) {
+                        handleToggleFriends();
+                      } else if (index === 1) {
+                        handleToggleOnlineUsers();
+                      }
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {index === 0 ? (
+                        <Badge
+                          badgeContent={confirmedFriends.length} 
+                          color="primary"
+                        >
+                          <PersonIcon />
+                        </Badge>
+                      ) : index === 1 ? (
+                        <Badge
+                          badgeContent={onlineUsers.length}
+                          color="primary"
+                        >
+                          <PersonOutlineIcon />
+                        </Badge>
+                      ) : (
+                        <ExitToAppOutlinedIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
               ))}
-            </Menu>
-          </Box>
-        )}
-
-        {/* Search bar */}
-        <Box
-          sx={{
-            flexGrow: 1,
-            display: "flex",
-            justifyContent: "flex-start",
-            paddingLeft: "20px",
-          }}
-        >
-          <SearchAll onSearch={handleSearch} />
-        </Box>
-
-        {/* Logo */}
-        <Box sx={{ flexGrow: "1.3", display: "flex", alignItems: "center" }}>
-          <Link to="/">
-            <img
-              src="static/images/cooking-party-transparent.png"
-              alt="Cooking Party Logo"
-              style={{ width: "110px", height: "auto" }}
-            />
-          </Link>
-        </Box>
-
-        {/* Favorite icon */}
-        {!!auth.id && (
-          <IconButton
-            component={Link}
-            to="/my-saved-recipes"
-            aria-label="favorite recipes"
-            color="inherit"
-          >
-            <FavoriteIcon style={{ color: "#ed6fb7" }} />
-          </IconButton>
-        )}
-
-        {/* Chat icon */}
-        {!!auth.id && (
-          <IconButton
-            component={Link}
-            to="/chat"
-            aria-label="chat"
-            color="inherit"
-          >
-            <ChatIcon style={{ color: "#6fc5ed" }} />
-          </IconButton>
-        )}
-
-        {/* Dropdown menu (User) */}
-        {!!auth.id && (
-          <Dashboard
-            style={{
-              marginRight: "20px",
-            }}
-          />
-        )}
-
-        {/* Social media icons */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          {!auth.id && (
-            <>
-              <IconButton
-                component={Link}
-                to="https://www.instagram.com/thecookingparty/"
-                aria-label="instagram page"
-                color="inherit"
-                target="_blank"
-              >
-                <InstagramIcon style={{ color: "#fa4c46" }} />
-              </IconButton>
-
-              <IconButton
-                component={Link}
-                to="https://www.facebook.com/profile.php?id=100093276614788"
-                aria-label="facebook page"
-                color="inherit"
-                target="_blank"
-              >
-                <FacebookIcon style={{ color: "#4688fa" }} />
-              </IconButton>
-            </>
-          )}
-
-          {/* Login link */}
-          {!auth.id && (
-            <Typography
-              variant="button"
-              component={Link}
-              to="/auth/login"
-              style={{
-                color: "#0C090A",
-                textDecoration: "none",
-                paddingLeft: "10px",
-                paddingRight: "20px",
-                fontFamily: "Helvetica",
-              }}
+            </List>
+           
+            <Divider />
+           <ListItem>
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
+              {!!auth.id && messagesOpen && <Chat drawerwidth={drawerwidth} />}
+              </Box>
+            </ListItem>
+            
+            <Divider/>
+            <ListItem
+            sx={{marginTop: '0', marginBottom: "0"}}
             >
-              Login / Register
-            </Typography>
-          )}
-        </Box>
-      </Toolbar>
-    </AppBar>
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
+            {!!auth.id && onlineFriendsOpen && <OnlineFriends drawerwidth={drawerwidth} />}
+
+              </Box>
+            </ListItem>
+            
+            <Divider />
+            <ListItem
+            sx={{marginTop: '0', marginBottom: "0"}}
+            >
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
+            {!!auth.id && friendsOpen && <Friends drawerwidth={drawerwidth} />}
+
+              </Box>
+            </ListItem>
+           
+            <Divider />
+            <ListItem
+            sx={{marginTop: '0', marginBottom: "0"}}
+            >
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
+            {!!auth.id && friendRequestsOpen && <FriendRequests drawerwidth={drawerwidth} />}
+
+              </Box>
+            </ListItem>
+            
+            <Divider />
+            <ListItem
+            sx={{marginTop: '0', marginBottom: "0"}}
+            >
+            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
+            {!!auth.id && onlineUsersOpen && <OnlineUsers drawerwidth={drawerwidth} />}
+
+              </Box>
+            </ListItem>
+            
+            
+          </StyledDrawer>
+        )}
+      </Box>
+    </Box>
   );
-}
+};
+
+export default Nav;

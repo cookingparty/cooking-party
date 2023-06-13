@@ -44,9 +44,10 @@ const Friends = () => {
     const friendshipId = friendship.id;
     dispatch(deleteFriendship(friendshipId));
   };
-  if (!friends) {
-    return null;
-  }
+
+if(!friends){
+  return null;
+}
   return (
     <div>
       <h1>Friends</h1>
@@ -54,8 +55,11 @@ const Friends = () => {
         {friends
           .filter((friend) => findFriendship(friend.id).status === "CONFIRMED")
           .map((friend) => {
-            if (!friend) {
-              return null;
+
+            console.log(friends)
+            if(!friend){
+              return null
+
             }
             return (
               <li key={friend.id}>
@@ -68,7 +72,7 @@ const Friends = () => {
           })}
       </ul>
       <h1>Friend Requests</h1>
-      <ul>
+      {/* <ul>
         {friends
           .filter(
             (friend) =>
@@ -87,7 +91,8 @@ const Friends = () => {
               </li>
             );
           })}
-      </ul>
+      </ul> */}
+    
     </div>
   );
 };
