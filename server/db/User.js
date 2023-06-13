@@ -206,16 +206,17 @@ User.prototype.messagesForUser = function () {
   });
 };
 
-
 // NEED TO TEST -AG
-User.prototype.getDay = async function () {
+User.prototype.getDay = async function (date) {
   let day = await conn.models.day.findOne({
     where: {
       userId: this.id,
+      date: date,
     },
   });
   if (!day) {
     day = await conn.models.day.create({
+      date: date,
       userId: this.id,
     });
   }
@@ -223,7 +224,17 @@ User.prototype.getDay = async function () {
     include: [
       {
         model: conn.models.meal,
-        include: [conn.models.recipe],
+        include: [
+          {
+            model: conn.models.mealrecipe,
+            include: [
+              {
+                model: conn.models.recipe,
+                include: [conn.models.ingredient, conn.models.instruction],
+              },
+            ],
+          },
+        ],
       },
     ],
   });
