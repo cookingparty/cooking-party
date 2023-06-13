@@ -24,12 +24,11 @@ export default function FooterNav() {
         py: 2,
         fontFamily: "helvetica",
         zIndex: 10,
-        zIndex: (theme) => theme.zIndex.drawer + 1 
+        zIndex: (theme) => theme.zIndex.drawer + 1,
         marginTop: "30px",
         padding: "10px 20px",
         margin: "20px auto",
         boxSizing: "border-box", // Ensure padding and border are included in width calculation
-
       }}
     >
       <Typography
