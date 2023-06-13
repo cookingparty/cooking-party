@@ -29,7 +29,6 @@ export default function FooterNav() {
         padding: "10px 20px",
         margin: "20px auto",
         boxSizing: "border-box", // Ensure padding and border are included in width calculation
-
       }}
     >
       <Typography
