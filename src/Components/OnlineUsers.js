@@ -62,6 +62,11 @@ const OnlineUsers = ({ drawerwidth }) => {
     return false;
   };
 
+  const requests = friends.filter((friend) => {
+    const friendship = findFriendship(friend.id);
+    return friendship && friendship.status === "PENDING";
+  });
+
   const confirmedFriend = (user) => {
     const friend = friends.find((f) => f.id === user.id);
     if (!!friend && findFriendship(friend.id)) {
@@ -198,7 +203,8 @@ const colors = [
     aria-label="Add Friend"
     color="inherit"
     onClick={() => {
-      dispatch(createMessage({ toId: user.id, txt: "Add Friend" }));
+      sendRequest(user.id)
+      // dispatch(createMessage({ toId: user.id, txt: "Add Friend" }));
     }}
     
   >

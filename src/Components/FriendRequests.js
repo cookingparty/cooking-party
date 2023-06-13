@@ -16,9 +16,13 @@ import {
   ListItem,
 } from "@mui/material";
 
+
+
+  
 const FriendRequests = ({drawerwidth}) => {
   const { friendships, auth, users } = useSelector((state) => state);
   const dispatch = useDispatch();
+
 
   const friends = friendships
     .filter(
