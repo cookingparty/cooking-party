@@ -454,8 +454,9 @@ const Nav = () => {
             <Divider />
             <List>
   {['Online Friends', 'Friend Requests', 'Messages'].map((text, index) => (
-    <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+    <ListItem  disablePadding sx={{ display: 'block' }}>
   <ListItemButton
+  key={text}
   sx={{
     minHeight: 48,
     justifyContent: open ? 'initial' : 'center',
@@ -508,8 +509,9 @@ const Nav = () => {
             <Divider />
             <List>
               {["Friends", "Online Users"].map((text, index) => (
-                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <ListItem  disablePadding sx={{ display: "block" }}>
                   <ListItemButton
+                  key={text}
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",

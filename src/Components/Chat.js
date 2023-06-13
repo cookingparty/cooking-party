@@ -4,6 +4,8 @@ import { createMessage } from "../store";
 import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import { IconButton, Accordion, AccordionSummary, AccordionDetails, Box, Typography, List, ListItem, TextField } from "@mui/material";
 import { Badge } from "@mui/material";
+import { Button } from "@mui/material";
+
 
 const Chat = ({ drawerwidth }) => {
   const { messages, auth, onlineUsers, friendships, users } = useSelector(
@@ -220,14 +222,13 @@ const Chat = ({ drawerwidth }) => {
 
                     {confirmedFriend(chat.withUser) ? (
                       <form
-                        onSubmit={(ev) => {
-                          ev.preventDefault();
-                          const txt = ev.target.querySelector("input").value;
-                          dispatch(
-                            createMessage({ txt, toId: chat.withUser.id })
-                          );
-                          ev.target.querySelector("input").value = "";
-                        }}
+                      onSubmit={(ev) => {
+                        ev.preventDefault();
+                        const txt = ev.target.querySelector("textarea").value; // Changed input to textarea
+                        dispatch(createMessage({ txt, toId: chat.withUser.id }));
+                        ev.target.querySelector("textarea").value = ""; // Changed input to textarea
+                      }}
+                      
                         style={{
                           display: "flex",
                           width: "100%",
