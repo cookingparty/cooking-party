@@ -13,8 +13,8 @@ const Membership = conn.define("membership", {
   },
   status: {
     // approval by group admin
-    type: ENUM("APPROVED", "PENDING", "DENIED"),
-    defaultValue: "APPROVED", // change back to PENDING
+    type: ENUM("APPROVED", "PENDING"),
+    defaultValue: "PENDING",
   },
 });
 

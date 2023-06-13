@@ -28,6 +28,7 @@ export default function Nav() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const pages = [
+    "Home",
     "Recipes",
     "Planner",
     "Grocery List",
@@ -59,6 +60,8 @@ export default function Nav() {
   const navigateTo = (page) => {
     if (page === `Add Recipe`) {
       navigate("/recipes/upload");
+    } else if (page === "My Saved Recipes") {
+      navigate("/my-saved-recipes");
     } else {
       navigate(`/${page.toLowerCase()}`);
     }

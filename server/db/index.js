@@ -11,10 +11,17 @@ const Instruction = require("./Instruction");
 const Meal = require("./Meal");
 const Day = require("./Day");
 const MeasurementUnit = require("./MeasurementUnit");
+const Favorite = require("./Favorite");
 const MealRecipe = require("./MealRecipe");
 
 Recipe.belongsTo(User);
 User.hasMany(Recipe);
+
+Recipe.belongsToMany(User, {
+  as: "recipe",
+  foreignKey: "recipe_id",
+  through: Favorite,
+});
 
 Ingredient.belongsTo(Recipe);
 Recipe.hasMany(Ingredient);
@@ -134,6 +141,7 @@ const syncAndSeed = async () => {
     member_id: lucy.id,
     groupId: cookingParty.id,
     role: "Group Admin",
+    status: "APPROVED",
   });
 
   const weLoveSushi = await Group.create({
@@ -145,17 +153,21 @@ const syncAndSeed = async () => {
   await Membership.create({
     member_id: moe.id,
     groupId: weLoveSushi.id,
+    role: "Group Admin",
+    status: "APPROVED",
   });
 
   await Membership.create({
     member_id: lucy.id,
     groupId: weLoveSushi.id,
+    status: "APPROVED",
   });
 
   const classicChocolateBrownies = await Recipe.create({
     title: "Classic Chocolate Brownies",
     description: "brownies",
     imageURL: "https://images.unsplash.com/photo-1515037893149-de7f840978e2",
+    groupId: weLoveSushi.id,
   });
 
   await Promise.all([
@@ -294,6 +306,10 @@ const syncAndSeed = async () => {
     groupId: cookingParty.id,
   });
 
+  await Favorite.create({
+    recipe_id: bread.id,
+    userId: moe.id,
+  });
   await Promise.all([
     Instruction.create({
       listOrder: 1,
@@ -486,4 +502,5 @@ module.exports = {
   Friendship,
   Membership,
   Group,
+  Favorite,
 };
