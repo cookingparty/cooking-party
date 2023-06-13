@@ -40,7 +40,7 @@ import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import OnlineFriends from "./OnlineFriends";
 import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
-import FriendRequests from "./FriendRequests"
+import FriendRequests from "./FriendRequests";
 
 const Nav = () => {
   const { auth, recipes, onlineUsers, messages, users, friendships } =
@@ -179,11 +179,9 @@ const Nav = () => {
   const [readOnlineUsers, setReadOnlineUsers] = useState([]);
   const [friendsOpen, setFriendsOpen] = useState(false);
   const [readFriends, setReadFriends] = useState([]);
-  const [friendRequestsOpen, setFriendRequestsOpen] = useState([])
-  const [readFriendRequests, setReadFriendRequests] = useState(false)
+  const [friendRequestsOpen, setFriendRequestsOpen] = useState([]);
+  const [readFriendRequests, setReadFriendRequests] = useState(false);
   const [friendRequests, setFriendRequests] = useState([]);
-
-
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -194,18 +192,18 @@ const Nav = () => {
   };
 
   const friends = friendships
-  .filter(
-    (friendship) =>
-      friendship.friendee_id === auth.id || friendship.friender_id === auth.id
-  )
-  .map((friendship) => {
-    if (friendship.friendee_id === auth.id) {
-      return users.find((user) => user.id === friendship.friender_id);
-    }
-    if (friendship.friender_id === auth.id) {
-      return users.find((user) => user.id === friendship.friendee_id);
-    }
-  });
+    .filter(
+      (friendship) =>
+        friendship.friendee_id === auth.id || friendship.friender_id === auth.id
+    )
+    .map((friendship) => {
+      if (friendship.friendee_id === auth.id) {
+        return users.find((user) => user.id === friendship.friender_id);
+      }
+      if (friendship.friender_id === auth.id) {
+        return users.find((user) => user.id === friendship.friendee_id);
+      }
+    });
 
   const findFriendship = (friendId) => {
     const friendship = friendships.find(
@@ -228,9 +226,9 @@ const Nav = () => {
   };
 
   const onlineFriends = onlineUsers.filter((user) => !!confirmedFriend(user));
- 
+
   const confirmedFriends = friends.filter((friend) => {
-    const friendship = findFriendship(friend.id);
+    const friendship = findFriendship(friend.id ? friend.id : null);
     return friendship && friendship.status === "CONFIRMED";
   });
 
@@ -262,11 +260,11 @@ const Nav = () => {
   useEffect(() => {
     setReadMessages([]);
   }, [messages]);
-  
+
   useEffect(() => {
     setReadOnlineFriends([]);
   }, [messages]);
-  
+
   useEffect(() => {
     setReadFriends([]);
   }, [messages]);
@@ -448,57 +446,68 @@ const Nav = () => {
 
             <Divider />
             <List>
-  {['Online Friends', 'Friend Requests', 'Messages'].map((text, index) => (
-    <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-  <ListItemButton
-  sx={{
-    minHeight: 48,
-    justifyContent: open ? 'initial' : 'center',
-    px: 2.5,
-  }}
-  onClick={() => {
-    if (index === 0) {
-      handleToggleOnlineFriends();
-    } else if (index === 1) {
-      handleToggleFriendRequests();
-    } else if (index === 2) {
-      handleToggleMessages();
-    }
-  }}
->
-  <ListItemIcon
-    sx={{
-      minWidth: 0,
-      mr: open ? 3 : 'auto',
-      justifyContent: 'center',
-    }}
-  >
-    {index === 0 ? (
-      <Badge badgeContent={onlineFriends.length} color="primary">
-        <AccountCircleIcon />
-      </Badge>
-    ) : index === 1 ? (
-      <Badge badgeContent={friendships.length > 0 ? 1 : 0} color="primary">
-        <PersonAddAlt1Icon />
-      </Badge>
-    ) : (
-      <Badge
-        badgeContent={messages.filter(
-          (message) => !readMessages.includes(message.id)
-        ).length}
-        color="primary"
-      >
-        <MailIcon />
-      </Badge>
-    )}
-  </ListItemIcon>
-  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-</ListItemButton>
-
-    </ListItem>
-  ))}
-</List>
-
+              {["Online Friends", "Friend Requests", "Messages"].map(
+                (text, index) => (
+                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                    <ListItemButton
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? "initial" : "center",
+                        px: 2.5,
+                      }}
+                      onClick={() => {
+                        if (index === 0) {
+                          handleToggleOnlineFriends();
+                        } else if (index === 1) {
+                          handleToggleFriendRequests();
+                        } else if (index === 2) {
+                          handleToggleMessages();
+                        }
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : "auto",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {index === 0 ? (
+                          <Badge
+                            badgeContent={onlineFriends.length}
+                            color="primary"
+                          >
+                            <AccountCircleIcon />
+                          </Badge>
+                        ) : index === 1 ? (
+                          <Badge
+                            badgeContent={friendships.length > 0 ? 1 : 0}
+                            color="primary"
+                          >
+                            <PersonAddAlt1Icon />
+                          </Badge>
+                        ) : (
+                          <Badge
+                            badgeContent={
+                              messages.filter(
+                                (message) => !readMessages.includes(message.id)
+                              ).length
+                            }
+                            color="primary"
+                          >
+                            <MailIcon />
+                          </Badge>
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              )}
+            </List>
 
             <Divider />
             <List>
@@ -527,7 +536,7 @@ const Nav = () => {
                     >
                       {index === 0 ? (
                         <Badge
-                          badgeContent={confirmedFriends.length} 
+                          badgeContent={confirmedFriends.length}
                           color="primary"
                         >
                           <PersonIcon />
@@ -551,55 +560,75 @@ const Nav = () => {
                 </ListItem>
               ))}
             </List>
-           
-            <Divider />
-           <ListItem>
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
-              {!!auth.id && messagesOpen && <Chat drawerwidth={drawerwidth} />}
-              </Box>
-            </ListItem>
-            
-            <Divider/>
-            <ListItem
-            sx={{marginTop: '0', marginBottom: "0"}}
-            >
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && onlineFriendsOpen && <OnlineFriends drawerwidth={drawerwidth} />}
 
-              </Box>
-            </ListItem>
-            
             <Divider />
-            <ListItem
-            sx={{marginTop: '0', marginBottom: "0"}}
-            >
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && friendsOpen && <Friends drawerwidth={drawerwidth} />}
-
+            <ListItem>
+              <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
+                {!!auth.id && messagesOpen && (
+                  <Chat drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
-           
+
             <Divider />
-            <ListItem
-            sx={{marginTop: '0', marginBottom: "0"}}
-            >
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && friendRequestsOpen && <FriendRequests drawerwidth={drawerwidth} />}
-
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && onlineFriendsOpen && (
+                  <OnlineFriends drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
-            
+
             <Divider />
-            <ListItem
-            sx={{marginTop: '0', marginBottom: "0"}}
-            >
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && onlineUsersOpen && <OnlineUsers drawerwidth={drawerwidth} />}
-
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && friendsOpen && (
+                  <Friends drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
-            
-            
+
+            <Divider />
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && friendRequestsOpen && (
+                  <FriendRequests drawerwidth={drawerwidth} />
+                )}
+              </Box>
+            </ListItem>
+
+            <Divider />
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && onlineUsersOpen && (
+                  <OnlineUsers drawerwidth={drawerwidth} />
+                )}
+              </Box>
+            </ListItem>
           </StyledDrawer>
         )}
       </Box>
