@@ -179,8 +179,8 @@ const Nav = () => {
   const [readOnlineUsers, setReadOnlineUsers] = useState([]);
   const [friendsOpen, setFriendsOpen] = useState(false);
   const [readFriends, setReadFriends] = useState([]);
-  const [friendRequestsOpen, setFriendRequestsOpen] = useState([])
-  const [readFriendRequests, setReadFriendRequests] = useState(false)
+  const [friendRequestsOpen, setFriendRequestsOpen] = useState(false)
+  const [readFriendRequests, setReadFriendRequests] = useState()
   const [friendRequests, setFriendRequests] = useState([]);
 
 
