@@ -262,6 +262,7 @@ const Nav = () => {
   const handleToggleFriendRequests = () => {
     setFriendRequestsOpen(!friendRequestsOpen);
     setReadFriendRequests(friendRequests.map((request) => request.id));
+    // setFriendRequests(requests);
   };
 
   useEffect(() => {
