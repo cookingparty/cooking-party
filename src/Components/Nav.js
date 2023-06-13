@@ -270,15 +270,15 @@ const Nav = () => {
   
   useEffect(() => {
     setReadOnlineFriends([]);
-  }, [messages]);
+  }, [friendships]);
   
   useEffect(() => {
     setReadFriends([]);
-  }, [messages]);
+  }, [friendships]);
 
   useEffect(() => {
     setReadOnlineUsers([]);
-  }, [messages]);
+  }, [onlineUsers]);
 
   useEffect(() => {
     setReadFriendRequests([]);
