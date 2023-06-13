@@ -206,4 +206,56 @@ User.prototype.messagesForUser = function () {
   });
 };
 
+// NEED TO TEST -AG
+User.prototype.getDay = async function (date) {
+  let day = await conn.models.day.findOne({
+    where: {
+      userId: this.id,
+      date: date,
+    },
+  });
+  if (!day) {
+    day = await conn.models.day.create({
+      date: date,
+      userId: this.id,
+    });
+  }
+  day = await conn.models.day.findByPk(day.id, {
+    include: [
+      {
+        model: conn.models.meal,
+        include: [
+          {
+            model: conn.models.mealrecipe,
+            include: [
+              {
+                model: conn.models.recipe,
+                include: [conn.models.ingredient, conn.models.instruction],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+  return day;
+};
+
+// NEED TO TEST -AG
+User.prototype.addToDay = async function ({ recipe, type }) {
+  let day = await this.getDay();
+  let meal = day.meals.find((meal) => {
+    return (meal.recipeId = recipe.id);
+  });
+  if (!meal) {
+    await conn.models.meal.create({
+      dayId: day.id,
+      recipeId: recipe.id,
+      type,
+    });
+  }
+
+  return this.getDay();
+};
+
 module.exports = User;
