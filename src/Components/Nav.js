@@ -239,30 +239,96 @@ const Nav = () => {
     return friendship && friendship.status === "PENDING";
   });
 
+  // const handleToggleMessages = () => {
+  //   setMessagesOpen(!messagesOpen);
+  //   setReadMessages(messages.map((message) => message.id));
+  // };
+
+  // const handleToggleOnlineFriends = () => {
+  //   setOnlineFriendsOpen(!onlineFriendsOpen);
+  //   setReadOnlineFriends(onlineFriends.map((onlineFriend) => onlineFriend.id));
+  // };
+
+  // const handleToggleFriends = () => {
+  //   setFriendsOpen(!friendsOpen);
+  //   setReadFriends(friends.map((friend) => friend.id));
+  // };
+
+  // const handleToggleOnlineUsers = () => {
+  //   setOnlineUsersOpen(!onlineUsersOpen);
+  //   setReadOnlineUsers(onlineUsers.map((onlineUser) => onlineUser.id));
+  // };
+
+  // const handleToggleFriendRequests = () => {
+  //   setFriendRequestsOpen(!friendRequestsOpen);
+  //   setReadFriendRequests(friendRequests.map((request) => request.id));
+  // };
+
   const handleToggleMessages = () => {
-    setMessagesOpen(!messagesOpen);
+    if (messagesOpen) {
+      setMessagesOpen(false);
+    } else {
+      setMessagesOpen(true);
+      setOnlineFriendsOpen(false);
+      setFriendsOpen(false);
+      setOnlineUsersOpen(false);
+      setFriendRequestsOpen(false);
+    }
     setReadMessages(messages.map((message) => message.id));
   };
-
+  
   const handleToggleOnlineFriends = () => {
-    setOnlineFriendsOpen(!onlineFriendsOpen);
+    if (onlineFriendsOpen) {
+      setOnlineFriendsOpen(false);
+    } else {
+      setOnlineFriendsOpen(true);
+      setMessagesOpen(false);
+      setFriendsOpen(false);
+      setOnlineUsersOpen(false);
+      setFriendRequestsOpen(false);
+    }
     setReadOnlineFriends(onlineFriends.map((onlineFriend) => onlineFriend.id));
   };
-
+  
   const handleToggleFriends = () => {
-    setFriendsOpen(!friendsOpen);
+    if (friendsOpen) {
+      setFriendsOpen(false);
+    } else {
+      setFriendsOpen(true);
+      setMessagesOpen(false);
+      setOnlineFriendsOpen(false);
+      setOnlineUsersOpen(false);
+      setFriendRequestsOpen(false);
+    }
     setReadFriends(friends.map((friend) => friend.id));
   };
-
+  
   const handleToggleOnlineUsers = () => {
-    setOnlineUsersOpen(!onlineUsersOpen);
+    if (onlineUsersOpen) {
+      setOnlineUsersOpen(false);
+    } else {
+      setOnlineUsersOpen(true);
+      setMessagesOpen(false);
+      setOnlineFriendsOpen(false);
+      setFriendsOpen(false);
+      setFriendRequestsOpen(false);
+    }
     setReadOnlineUsers(onlineUsers.map((onlineUser) => onlineUser.id));
   };
-
+  
   const handleToggleFriendRequests = () => {
-    setFriendRequestsOpen(!friendRequestsOpen);
+    if (friendRequestsOpen) {
+      setFriendRequestsOpen(false);
+    } else {
+      setFriendRequestsOpen(true);
+      setMessagesOpen(false);
+      setOnlineFriendsOpen(false);
+      setFriendsOpen(false);
+      setOnlineUsersOpen(false);
+    }
     setReadFriendRequests(friendRequests.map((request) => request.id));
   };
+  
 
   useEffect(() => {
     setReadMessages([]);
@@ -456,7 +522,7 @@ const Nav = () => {
   {['Online Friends', 'Friend Requests', 'Messages'].map((text, index) => (
     <ListItem  disablePadding sx={{ display: 'block' }}>
   <ListItemButton
-  key={text}
+  key="{text}"
   sx={{
     minHeight: 48,
     justifyContent: open ? 'initial' : 'center',
