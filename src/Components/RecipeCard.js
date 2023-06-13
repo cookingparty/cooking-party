@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { createFavorite } from "../store";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -44,6 +46,7 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
 }));
 
 export default function RecipeCard({
+  id,
   title,
   description,
   image,
@@ -55,6 +58,12 @@ export default function RecipeCard({
   maxDescriptionLength = 150,
 }) {
   const [expanded, setExpanded] = React.useState(false);
+  const { auth, recipes } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const favorite = (id) => {
+    dispatch(createFavorite({ recipe_id: id, userId: auth.id }));
+  };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -94,7 +103,7 @@ export default function RecipeCard({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={() => favorite(id)}>
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share">

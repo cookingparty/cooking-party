@@ -9,6 +9,7 @@ import users from "./users";
 import recipes from "./recipes";
 import groups from "./groups";
 import memberships from "./memberships";
+import favorites from "./favorites";
 import day from "./meals";
 
 const reducer = combineReducers({
@@ -20,6 +21,7 @@ const reducer = combineReducers({
   recipes,
   groups,
   memberships,
+  favorites,
   day,
 });
 
@@ -35,4 +37,5 @@ export * from "./users";
 export * from "./recipes";
 export * from "./groups";
 export * from "./memberships";
+export * from "./favorites";
 export * from "./meals";
