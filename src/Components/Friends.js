@@ -78,8 +78,8 @@ if(!friends){
             );
           })}
       </ul>
-      {/* <h1>Friend Requests</h1>
-      <ul>
+      <h1>Friend Requests</h1>
+      {/* <ul>
         {friends
           .filter(
             (friend) =>
@@ -98,6 +98,7 @@ if(!friends){
               </li>
             );
           })}
+      </ul> */}
       </ul> */}
     </div>
   );
