@@ -71,7 +71,7 @@ if(!friends){
             );
           })}
       </ul>
-      <h1>Friend Requests</h1>
+      {/* <h1>Friend Requests</h1> */}
       {/* <ul>
         {friends
           .filter(

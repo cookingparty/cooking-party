@@ -234,6 +234,11 @@ const Nav = () => {
     return friendship && friendship.status === "CONFIRMED";
   });
 
+  const requests = friends.filter((friend) => {
+    const friendship = findFriendship(friend.id);
+    return friendship && friendship.status === "PENDING";
+  });
+
   const handleToggleMessages = () => {
     setMessagesOpen(!messagesOpen);
     setReadMessages(messages.map((message) => message.id));
@@ -478,7 +483,7 @@ const Nav = () => {
         <AccountCircleIcon />
       </Badge>
     ) : index === 1 ? (
-      <Badge badgeContent={friendships.length > 0 ? 1 : 0} color="primary">
+      <Badge badgeContent={requests.length} color="primary">
         <PersonAddAlt1Icon />
       </Badge>
     ) : (
@@ -502,7 +507,7 @@ const Nav = () => {
 
             <Divider />
             <List>
-              {["Friends", "Online Users", "Logout"].map((text, index) => (
+              {["Friends", "Online Users"].map((text, index) => (
                 <ListItem key={text} disablePadding sx={{ display: "block" }}>
                   <ListItemButton
                     sx={{
