@@ -122,6 +122,7 @@ const Nav = () => {
     [theme.breakpoints.up("sm")]: {
       width: `calc(${theme.spacing(8)} + 1px)`,
     },
+    
   });
 
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -514,6 +515,7 @@ const Nav = () => {
             variant="permanent"
             open={open}
             sx={{ marginBottom: "40px" }}
+            
           >
             <DrawerHeader />
 
@@ -522,6 +524,7 @@ const Nav = () => {
   {['Online Friends', 'Friend Requests', 'Messages'].map((text, index) => (
     <ListItem  disablePadding sx={{ display: 'block' }}>
   <ListItemButton
+   disabled={!open}
   key="{text}"
   sx={{
     minHeight: 48,
@@ -539,6 +542,7 @@ const Nav = () => {
   }}
 >
   <ListItemIcon
+  
     sx={{
       minWidth: 0,
       mr: open ? 3 : 'auto',
@@ -572,11 +576,12 @@ const Nav = () => {
 </List>
 
 
-            <Divider />
+            {/* <Divider /> */}
             <List>
               {["Friends", "Online Users"].map((text, index) => (
                 <ListItem  disablePadding sx={{ display: "block" }}>
                   <ListItemButton
+                   disabled={!open}
                   key={text}
                     sx={{
                       minHeight: 48,
