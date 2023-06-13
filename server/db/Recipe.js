@@ -11,13 +11,12 @@ const Recipe = conn.define("recipe", {
     type: STRING,
     allowNull: false,
   },
-  ingredients: {
+  // ingredients: {
+  //   type: TEXT,
+  //   allowNull: false,
+  // },
+  description: {
     type: TEXT,
-    allowNull: false,
-  },
-  instructions: {
-    type: TEXT,
-    allowNull: false,
   },
   image: {
     type: TEXT,

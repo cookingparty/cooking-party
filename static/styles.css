@@ -60,9 +60,19 @@ nav {
   gap: 20px;
 }
 
-#instafeed-container img{
+#instafeed-container img {
   width: 18em;
   border-style: solid;
   border-color: white;
   border-bottom: 10px;
+}
+
+.mealPlannerCalendar {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.mealsOfTheDay {
+  display: flex;
+  flex-direction: column;
 }
