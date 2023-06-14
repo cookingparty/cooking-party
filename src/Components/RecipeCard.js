@@ -59,11 +59,38 @@ export default function RecipeCard({
   maxDescriptionLength = 150,
 }) {
   const [expanded, setExpanded] = React.useState(false);
-  const { auth, recipes } = useSelector((state) => state);
+  const { auth, recipes, favorites } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const favorite = (id) => {
     dispatch(createFavorite({ recipe_id: id, userId: auth.id }));
+  };
+
+  const isFavorited = (recipeId) => {
+    const recipe = recipes.find((r) => r.id === recipeId);
+    if (!recipe) {
+      const seededFromSpoonRecipe = recipes.find(
+        (recipe) => recipe.spoonacular_id === recipeId
+      );
+      if (!seededFromSpoonRecipe) {
+        return false;
+      }
+      if (
+        !!favorites.find(
+          (favorite) =>
+            favorite.recipe_id === seededFromSpoonRecipe.id &&
+            favorite.userId === auth.id
+        )
+      ) {
+        return true;
+      }
+      return false;
+    } else {
+      if (!!favorites.find((favorite) => favorite.recipe_id === recipeId)) {
+        return true;
+      }
+      return false;
+    }
   };
 
   const handleExpandClick = () => {
@@ -104,9 +131,14 @@ export default function RecipeCard({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={() => favorite(id)}>
-          <FavoriteIcon />
-        </IconButton>
+        {!isFavorited(id) && (
+          <IconButton
+            aria-label="add to favorites"
+            onClick={() => favorite(id)}
+          >
+            <FavoriteIcon />
+          </IconButton>
+        )}
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
