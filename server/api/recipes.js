@@ -1,8 +1,23 @@
 const express = require("express");
 const app = express.Router();
-const { Recipe } = require("../db");
+const { Recipe, Ingredient } = require("../db");
 
 module.exports = app;
+
+app.get("/:id/ingredients", async (req, res, next) => {
+  try {
+    console.log("Ingredient", Ingredient);
+    res.send(
+      await Ingredient.findAll({
+        where: {
+          recipeId: req.params.id,
+        },
+      })
+    );
+  } catch (ex) {
+    next(ex);
+  }
+});
 
 app.get("/", async (req, res, next) => {
   try {

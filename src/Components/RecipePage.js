@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { seedSpoonacularRecipe } from "../store";
+import { fetchIngredients } from "../store";
 
 const RecipePage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { recipes } = useSelector((state) => state);
+  const { recipes, ingredients } = useSelector((state) => state);
   const recipe = recipes.find((r) => r.id === id);
 
   console.log("recipe", recipe);
+
+  useEffect(() => {
+    dispatch(fetchIngredients(id));
+  }, []);
 
   if (!recipe) {
     return null;
@@ -27,7 +31,13 @@ const RecipePage = () => {
       <hr />
       <h3>Ingredients</h3>
       <ul>
-        <li>Map Ingredients</li>
+        {ingredients.map((ingredient) => {
+          return (
+            <li key={ingredient.id}>
+              {ingredient.amount} {ingredient.measurementUnit} {ingredient.name}
+            </li>
+          );
+        })}
       </ul>
       <h3>Directions</h3>
       <ol>
