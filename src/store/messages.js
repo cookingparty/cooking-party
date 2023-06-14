@@ -7,6 +7,13 @@ const messages = (state = [], action) => {
   if (action.type === "CREATE_MESSAGE") {
     return [...state, action.message];
   }
+  if (action.type === "TOGGLE_MESSAGE") {
+    return state.map((message) =>
+      message.id === action.messageId
+        ? { ...message, isRead: !message.isRead }
+        : message
+    );
+  }
   return state;
 };
 
@@ -32,6 +39,10 @@ export const createMessage = (message) => {
     });
     dispatch({ type: "CREATE_MESSAGE", message: response.data });
   };
+};
+
+export const toggleMessage = (messageId) => {
+  return { type: "TOGGLE_MESSAGE", messageId };
 };
 
 export default messages;

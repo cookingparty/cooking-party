@@ -47,7 +47,14 @@ const Chat = ({ drawerwidth }) => {
     }));
   };
   
-
+  function toggleMessages() {
+    var messages = document.getElementById("messages");
+    if (messages.style.display === "none") {
+      messages.style.display = "block";
+    } else {
+      messages.style.display = "none";
+    }
+  }
   
   const chatMap = messages.reduce((acc, message) => {
     const withUser = message.fromId === auth.id ? message.to : message.from;

@@ -41,6 +41,7 @@ import OnlineFriends from "./OnlineFriends";
 import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
 import FriendRequests from "./FriendRequests"
+import { toggleMessage } from "../store";
 
 const Nav = () => {
   const { auth, recipes, onlineUsers, messages, users, friendships } =
@@ -266,6 +267,7 @@ const Nav = () => {
   // };
 
   const handleToggleMessages = () => {
+    dispatch(toggleMessage());
     if (messagesOpen) {
       setMessagesOpen(false);
     } else {
@@ -519,7 +521,7 @@ const Nav = () => {
           >
             <DrawerHeader />
 
-            <Divider />
+            {/* <Divider /> */}
             <List>
   {['Online Friends', 'Friend Requests', 'Messages'].map((text, index) => (
     <ListItem  disablePadding sx={{ display: 'block' }}>
@@ -630,14 +632,14 @@ const Nav = () => {
               ))}
             </List>
            
-            <Divider />
+            {/* <Divider /> */}
            <ListItem>
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
               {!!auth.id && messagesOpen && <Chat drawerwidth={drawerwidth} />}
               </Box>
             </ListItem>
             
-            <Divider/>
+            {/* <Divider/> */}
             <ListItem
             sx={{marginTop: '0', marginBottom: "0"}}
             >
@@ -647,7 +649,7 @@ const Nav = () => {
               </Box>
             </ListItem>
             
-            <Divider />
+            {/* <Divider /> */}
             <ListItem
             sx={{marginTop: '0', marginBottom: "0"}}
             >
@@ -657,7 +659,7 @@ const Nav = () => {
               </Box>
             </ListItem>
            
-            <Divider />
+            {/* <Divider /> */}
             <ListItem
             sx={{marginTop: '0', marginBottom: "0"}}
             >
@@ -667,7 +669,7 @@ const Nav = () => {
               </Box>
             </ListItem>
             
-            <Divider />
+            {/* <Divider /> */}
             <ListItem
             sx={{marginTop: '0', marginBottom: "0"}}
             >

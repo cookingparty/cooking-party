@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createFriendship, createMessage } from "../store";
+import { createFriendship, createMessage, toggleMessages } from "../store";
+
 import {
   Send,
   ExpandMore as ExpandMoreIcon,
@@ -20,13 +21,19 @@ import {
   ListItem,
   TextField,
 } from "@mui/material";
-import { handleToggleMessages } from "./Nav";
+
 
 const OnlineUsers = ({ drawerwidth }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
   const dispatch = useDispatch();
+  const handleToggleMessages = (messageId) => {
+    setSelectedMessageId(messageId);
+  };
+  
+  
+  const [selectedMessageId, setSelectedMessageId] = useState(null);
 
   const friends = friendships
     .filter(
@@ -89,7 +96,6 @@ const OnlineUsers = ({ drawerwidth }) => {
     }
     return false;
   };
-  console.log(onlineUsers);
 
   const colors = [
     "#FF0000",
@@ -174,7 +180,7 @@ const OnlineUsers = ({ drawerwidth }) => {
         }}
       >
       
-      <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '150px' }}>
+      <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '250px' }}>
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -198,6 +204,7 @@ const OnlineUsers = ({ drawerwidth }) => {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
+                  
                   <Box maxHeight="80px" overflow="auto">
                     <List>
                     {onlineUsers.map((user) => {
@@ -281,8 +288,7 @@ const OnlineUsers = ({ drawerwidth }) => {
                             aria-label="let's chat"
                             color="inherit"
                             onClick={() => {
-                              // Use handleToggleMessages from Nav.js
-                              //  handleToggleMessages();
+                              handleToggleMessages(user.id)
                               dispatch(
                                 createMessage({
                                   toId: user.id,
