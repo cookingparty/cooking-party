@@ -9,6 +9,8 @@ const RecipePage = () => {
   const { recipes } = useSelector((state) => state);
   const recipe = recipes.find((r) => r.id === id);
 
+  console.log("recipe", recipe);
+
   if (!recipe) {
     return null;
   }
@@ -17,12 +19,9 @@ const RecipePage = () => {
     <div>
       <h1>{recipe.title}</h1>
       <p>**** 4.6 (15) | 117 REVIEWS | 11 PHOTOS | +favorite</p>
-      <p>{recipe.description}</p>
+      <p>{recipe.description || "This recipe has no description so far."}</p>
       <p>Recipe by *USER23* | Updated June 8, 2023</p>
-      <img
-        src="https://www.edamam.com/web-img/262/262b4353ca25074178ead2a07cdf7dc1.jpg"
-        alt="Recipe Image"
-      />
+      <img src={recipe.image} alt="Recipe Image" />
       <hr />
       <p>Info block/hero...Ready in?...Servings</p>
       <hr />
