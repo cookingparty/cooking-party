@@ -31,7 +31,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Chat from "./Chat";
 import MailIcon from "@mui/icons-material/Mail";
 import Badge from "@mui/material/Badge";
-
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonIcon from "@mui/icons-material/Person";
