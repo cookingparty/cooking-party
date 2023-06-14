@@ -21,6 +21,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { handleToggleMessages } from "./Nav";
 
 const OnlineUsers = ({ drawerwidth }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(

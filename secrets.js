@@ -1,2 +1,4 @@
-export const accessTokenIg =
-  "IGQVJYTTFvWExadm95MDRsVTFEVFd5QnloN1pqLXA2MFA4cnlvRmNGSGUtZAGg1cUZAzcG5VSUFrYXVPbzh1ZAjB1aUdNck5xdFRqSlEtRTZAPdU5fbjJrbUoxbHdrTm5DRC1BTEllQ0VmWGd3ZAlRrSDBFWgZDZD";
+export const accessTokenIg = 'IGQVJYTTFvWExadm95MDRsVTFEVFd5QnloN1pqLXA2MFA4cnlvRmNGSGUtZAGg1cUZAzcG5VSUFrYXVPbzh1ZAjB1aUdNck5xdFRqSlEtRTZAPdU5fbjJrbUoxbHdrTm5DRC1BTEllQ0VmWGd3ZAlRrSDBFWgZDZD'
+
+export const apiKeyMeal = '6f3684ac356b4745a101f882b28c9a3a';
+export const apiKeyCocktail = '9973533';

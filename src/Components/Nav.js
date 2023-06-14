@@ -179,8 +179,9 @@ const Nav = () => {
   const [readOnlineUsers, setReadOnlineUsers] = useState([]);
   const [friendsOpen, setFriendsOpen] = useState(false);
   const [readFriends, setReadFriends] = useState([]);
-  const [friendRequestsOpen, setFriendRequestsOpen] = useState([]);
-  const [readFriendRequests, setReadFriendRequests] = useState(false);
+  const [friendRequestsOpen, setFriendRequestsOpen] = useState(false);
+  const [readFriendRequests, setReadFriendRequests] = useState([]);
+
   const [friendRequests, setFriendRequests] = useState([]);
 
   const handleDrawerOpen = () => {
@@ -230,6 +231,11 @@ const Nav = () => {
   const confirmedFriends = friends.filter((friend) => {
     const friendship = findFriendship(friend.id ? friend.id : null);
     return friendship && friendship.status === "CONFIRMED";
+  });
+
+  const requests = friends.filter((friend) => {
+    const friendship = findFriendship(friend.id);
+    return friendship && friendship.status === "PENDING";
   });
 
   const handleToggleMessages = () => {
@@ -446,72 +452,63 @@ const Nav = () => {
 
             <Divider />
             <List>
-              {["Online Friends", "Friend Requests", "Messages"].map(
-                (text, index) => (
-                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                    <ListItemButton
-                      sx={{
-                        minHeight: 48,
-                        justifyContent: open ? "initial" : "center",
-                        px: 2.5,
-                      }}
-                      onClick={() => {
-                        if (index === 0) {
-                          handleToggleOnlineFriends();
-                        } else if (index === 1) {
-                          handleToggleFriendRequests();
-                        } else if (index === 2) {
-                          handleToggleMessages();
-                        }
-                      }}
-                    >
-                      <ListItemIcon
-                        sx={{
-                          minWidth: 0,
-                          mr: open ? 3 : "auto",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {index === 0 ? (
-                          <Badge
-                            badgeContent={onlineFriends.length}
-                            color="primary"
-                          >
-                            <AccountCircleIcon />
-                          </Badge>
-                        ) : index === 1 ? (
-                          <Badge
-                            badgeContent={friendships.length > 0 ? 1 : 0}
-                            color="primary"
-                          >
-                            <PersonAddAlt1Icon />
-                          </Badge>
-                        ) : (
-                          <Badge
-                            badgeContent={
-                              messages.filter(
-                                (message) => !readMessages.includes(message.id)
-                              ).length
-                            }
-                            color="primary"
-                          >
-                            <MailIcon />
-                          </Badge>
-                        )}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={text}
-                        sx={{ opacity: open ? 1 : 0 }}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                )
-              )}
-            </List>
+
+  {['Online Friends', 'Friend Requests', 'Messages'].map((text, index) => (
+    <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+  <ListItemButton
+  sx={{
+    minHeight: 48,
+    justifyContent: open ? 'initial' : 'center',
+    px: 2.5,
+  }}
+  onClick={() => {
+    if (index === 0) {
+      handleToggleOnlineFriends();
+    } else if (index === 1) {
+      handleToggleFriendRequests();
+    } else if (index === 2) {
+      handleToggleMessages();
+    }
+  }}
+>
+  <ListItemIcon
+    sx={{
+      minWidth: 0,
+      mr: open ? 3 : 'auto',
+      justifyContent: 'center',
+    }}
+  >
+    {index === 0 ? (
+      <Badge badgeContent={onlineFriends.length} color="primary">
+        <AccountCircleIcon />
+      </Badge>
+    ) : index === 1 ? (
+      <Badge badgeContent={requests.length} color="primary">
+        <PersonAddAlt1Icon />
+      </Badge>
+    ) : (
+      <Badge
+        badgeContent={messages.filter(
+          (message) => !readMessages.includes(message.id)
+        ).length}
+        color="primary"
+      >
+        <MailIcon />
+      </Badge>
+    )}
+  </ListItemIcon>
+  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+</ListItemButton>
+
+    </ListItem>
+  ))}
+</List>
+
+
 
             <Divider />
             <List>
-              {["Friends", "Online Users", "Logout"].map((text, index) => (
+              {["Friends", "Online Users"].map((text, index) => (
                 <ListItem key={text} disablePadding sx={{ display: "block" }}>
                   <ListItemButton
                     sx={{
