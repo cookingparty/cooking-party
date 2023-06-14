@@ -99,7 +99,7 @@ if(!friends){
       width: drawerwidth - 40,
     }}
   >
-    <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '150px' }}>
+    <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '250px' }}>
       <Accordion
       sx={{  minHeight: "40px", }}
       >

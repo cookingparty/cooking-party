@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createFriendship, createMessage, toggleMessages } from "../store";
+import { createFriendship, createMessage } from "../store";
 
 import {
   Send,
@@ -28,12 +28,34 @@ const OnlineUsers = ({ drawerwidth }) => {
     (state) => state
   );
   const dispatch = useDispatch();
-  const handleToggleMessages = (messageId) => {
-    setSelectedMessageId(messageId);
+ 
+  const [open, setOpen] = React.useState(false);
+  const [onlineFriendsOpen, setOnlineFriendsOpen] = useState(false);
+  const [readOnlineFriends, setReadOnlineFriends] = useState([]);
+  const [onlineUsersOpen, setOnlineUsersOpen] = useState(false);
+  const [readOnlineUsers, setReadOnlineUsers] = useState([]);
+  const [friendsOpen, setFriendsOpen] = useState(false);
+  const [readFriends, setReadFriends] = useState([]);
+  const [friendRequestsOpen, setFriendRequestsOpen] = useState(false)
+  const [readFriendRequests, setReadFriendRequests] = useState()
+  const [friendRequests, setFriendRequests] = useState([]);
+  const [messagesOpen, setMessagesOpen] = useState(true);
+  const [readMessages, setReadMessages] = useState([]);
+  const [selectedMessageId, setSelectedMessageId] = useState(null);
+
+  const handleToggleMessages = () => {
+    // dispatch(toggleMessages());
+    if (messagesOpen) {
+      setMessagesOpen(true);
+      setOnlineFriendsOpen(false);
+      setFriendsOpen(false);
+      setOnlineUsersOpen(false);
+      setFriendRequestsOpen(false);
+    }
+    setReadMessages(messages.map((message) => message.id));
   };
   
-  
-  const [selectedMessageId, setSelectedMessageId] = useState(null);
+
 
   const friends = friendships
     .filter(

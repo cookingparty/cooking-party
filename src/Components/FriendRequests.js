@@ -85,21 +85,6 @@ const FriendRequests = ({ drawerwidth }) => {
   ];
 
   return (
-    // <Box>
-    //   <Typography
-    //     variant="h1"
-    //     style={{
-    //       fontSize: "16px",
-    //       fontFamily: "Helvetica",
-    //       textAlign: "center",
-    //       marginTop: "5px",
-    //       minHeight: "85px",
-    //     }}
-    //   >
-    //     FRIEND REQUESTS
-    //   </Typography>
-    //   <div id="friend requests" style={{ overflowY: "auto" }}></div>
-
       <Box
         sx={{
           minHeight: "20px",
@@ -112,7 +97,7 @@ const FriendRequests = ({ drawerwidth }) => {
           width: drawerwidth - 40,
         }}
       >
-        <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '150px' }}>
+        <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '250px' }}>
           <Accordion
           sx={{  minHeight: "40px", }}
           >
