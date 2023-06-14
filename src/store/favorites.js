@@ -37,7 +37,8 @@ export const createFavorite = (favorite) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
     const recipe = await axios.post("/api/recipes/spoonacular", favorite);
-    console.log("favorite", favorite);
+    console.log("recipe.data", recipe.data);
+    dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
     const response = await axios.post(
       "/api/favorites",
       { recipe_id: recipe.data.id, userId: favorite.userId },

@@ -5,7 +5,7 @@ const recipes = (state = [], action) => {
     return action.recipes;
   }
   if (action.type === "CREATE_RECIPE") {
-    state = [...state, action.recipes];
+    state = [...state, action.recipe];
   }
   return state;
 };

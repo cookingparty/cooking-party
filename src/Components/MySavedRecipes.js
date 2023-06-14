@@ -7,13 +7,17 @@ const MySavedRecipes = () => {
   const { auth, favorites, recipes } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  if (!favorites) {
+  console.log("favorites", favorites);
+  console.log("recipes", recipes);
+  console.log("auth", auth);
+
+  /*if (!favorites) {
     return null;
   }
 
-  /*useEffect(() => {
-    dispatch(fetchFavorites());
-  }, [favorites]);*/
+  if (!recipes) {
+    return null;
+  }*/
 
   const savedRecipes = favorites
     .filter((favorite) => {
@@ -21,7 +25,11 @@ const MySavedRecipes = () => {
     })
     .map((favorite) => {
       if (favorite.id) {
-        return recipes.find((recipe) => recipe.id === favorite.recipe_id);
+        return recipes.find((recipe) => {
+          if (recipe.id) {
+            return recipe.id === favorite.recipe_id;
+          }
+        });
       }
     });
 
