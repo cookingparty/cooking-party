@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { createFavorite } from "../store";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -89,7 +90,7 @@ export default function RecipeCard({
         }
         title={
           <TitleTypography variant="h6" component="div">
-            {title}
+            <Link to={`/recipes/${id}`}>{title}</Link>
           </TitleTypography>
         }
         // subheader={subheader}

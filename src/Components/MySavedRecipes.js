@@ -1,19 +1,31 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import RecipeCard from "./RecipeCard";
+import { fetchFavorites } from "../store";
 
 const MySavedRecipes = () => {
   const { auth, favorites, recipes } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   if (!favorites) {
     return null;
   }
 
+  /*useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [favorites]);*/
+
   const savedRecipes = favorites
-    .filter((favorite) => favorite.userId === auth.id)
+    .filter((favorite) => {
+      return favorite.userId === auth.id;
+    })
     .map((favorite) => {
-      return recipes.find((recipe) => recipe.id === favorite.recipe_id);
+      if (favorite.id) {
+        return recipes.find((recipe) => recipe.id === favorite.recipe_id);
+      }
     });
+
+  console.log("savedRecipes", savedRecipes);
 
   return (
     <div>
@@ -27,7 +39,7 @@ const MySavedRecipes = () => {
               title={recipe.title}
               subheader={recipe.sourceName}
               image={recipe.image}
-              description={recipe.description}
+              description={recipe.description ? recipe.description : ""}
               readyInMinutes={recipe.readyInMinutes}
               serves={recipe.servings}
               avatar={"F"}

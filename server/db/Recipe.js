@@ -1,11 +1,16 @@
 const conn = require("./conn");
-const { STRING, UUID, UUIDV4, TEXT, BOOLEAN } = conn.Sequelize;
+const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, INTEGER } = conn.Sequelize;
+const axios = require("axios");
 
 const Recipe = conn.define("recipe", {
   id: {
     type: UUID,
     defaultValue: UUIDV4,
     primaryKey: true,
+  },
+  spoonacular_id: {
+    type: INTEGER,
+    unique: true,
   },
   title: {
     type: STRING,
@@ -43,5 +48,35 @@ const Recipe = conn.define("recipe", {
     defaultValue: false,
   },
 });
+
+Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
+  const response = await axios.get(
+    `https://api.spoonacular.com/recipes/${spoonacularId}/information`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": process.env.apiKey,
+      },
+    }
+  );
+  if (response.data.error) {
+    const error = Error(response.data.error);
+    error.status = 401;
+    throw error;
+  }
+  let recipe = await Recipe.findOne({
+    where: {
+      spoonacular_id: spoonacularId,
+    },
+  });
+  if (!recipe) {
+    recipe = await Recipe.create({
+      spoonacular_id: spoonacularId,
+      title: response.data.title,
+      imageURL: response.data.image,
+    });
+  }
+  return recipe;
+};
 
 module.exports = Recipe;
