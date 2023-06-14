@@ -1,8 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { seedSpoonacularRecipe } from "../store";
 
 const RecipePage = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const { recipes } = useSelector((state) => state);
   const recipe = recipes.find((r) => r.id === id);

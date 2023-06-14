@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { createFavorite } from "../store";
+import { Link, useNavigate } from "react-router-dom";
+import { createFavorite, seedSpoonacularRecipe } from "../store";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -61,6 +61,7 @@ export default function RecipeCard({
   const [expanded, setExpanded] = React.useState(false);
   const { auth, recipes, favorites } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const favorite = (id) => {
     dispatch(createFavorite({ recipe_id: id, userId: auth.id }));
@@ -93,6 +94,17 @@ export default function RecipeCard({
     }
   };
 
+  const openRecipePage = async (ev, id) => {
+    ev.preventDefault();
+    const recipe = recipes.find((r) => r.id === id);
+    if (!recipe) {
+      const newRecipe = await dispatch(seedSpoonacularRecipe(id));
+      console.log("newRecipe", newRecipe);
+      navigate(`/recipes/${newRecipe.id}`);
+    }
+    navigate(`/recipes/${recipe.id}`);
+  };
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -117,7 +129,7 @@ export default function RecipeCard({
         }
         title={
           <TitleTypography variant="h6" component="div">
-            <Link to={`/recipes/${id}`}>{title}</Link>
+            <Link onClick={(ev) => openRecipePage(ev, id)}>{title}</Link>
           </TitleTypography>
         }
         // subheader={subheader}

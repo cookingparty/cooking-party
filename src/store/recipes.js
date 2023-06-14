@@ -24,4 +24,14 @@ export const createRecipe = (recipe) => {
   };
 };
 
+export const seedSpoonacularRecipe = (spoonacularId) => {
+  return async (dispatch) => {
+    const response = await axios.post("/api/recipes/spoonacular", {
+      recipe_id: spoonacularId,
+    });
+    dispatch({ type: "CREATE_RECIPE", recipe: response.data });
+    return response.data;
+  };
+};
+
 export default recipes;
