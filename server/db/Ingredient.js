@@ -15,6 +15,10 @@ const Ingredient = conn.define("ingredient", {
     type: DECIMAL,
     defaultValue: 0,
   },
+  measurementUnit: {
+    type: STRING,
+    //allowNull: false,
+  },
 });
 
 module.exports = Ingredient;

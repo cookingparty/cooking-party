@@ -75,6 +75,14 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
       title: response.data.title,
       imageURL: response.data.image,
     });
+    response.data.extendedIngredients.map(async (ingredient) => {
+      return await conn.models.ingredient.create({
+        name: ingredient.name,
+        amount: ingredient.measures.us.amount,
+        recipeId: recipe.id,
+        measurementUnit: ingredient.measures.us.unitShort,
+      });
+    });
   }
   return recipe;
 };

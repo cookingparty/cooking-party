@@ -17,6 +17,7 @@ export const fetchRecipes = () => {
   };
 };
 
+//create a new recipe from scratch
 export const createRecipe = (recipe) => {
   return async (dispatch) => {
     const response = await axios.post("/api/recipes", recipe);
@@ -24,6 +25,7 @@ export const createRecipe = (recipe) => {
   };
 };
 
+//seed a recipe from the Spoonacular api
 export const seedSpoonacularRecipe = (spoonacularId) => {
   return async (dispatch) => {
     const response = await axios.post("/api/recipes/spoonacular", {
