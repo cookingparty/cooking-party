@@ -11,13 +11,13 @@ const MySavedRecipes = () => {
   console.log("recipes", recipes);
   console.log("auth", auth);
 
-  /*if (!favorites) {
+  if (!favorites) {
     return null;
   }
 
   if (!recipes) {
     return null;
-  }*/
+  }
 
   const savedRecipes = favorites
     .filter((favorite) => {
@@ -46,7 +46,7 @@ const MySavedRecipes = () => {
               id={recipe.id}
               title={recipe.title}
               subheader={recipe.sourceName}
-              image={recipe.image}
+              image={recipe.imageURL}
               description={recipe.description ? recipe.description : ""}
               readyInMinutes={recipe.readyInMinutes}
               serves={recipe.servings}
