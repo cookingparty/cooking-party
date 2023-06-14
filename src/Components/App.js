@@ -105,6 +105,7 @@ const App = () => {
           <Route path="/friends" element={<Friends />} />
           <Route path="/about" element={<About />} />
           <Route path="/planner" element={<MealPlanner />} />
+          
 
           {!auth.id}
           <Route path="/" element={<Home />} />
