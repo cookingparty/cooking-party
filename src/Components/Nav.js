@@ -497,6 +497,7 @@ const Nav = () => {
 <<<<<<< Updated upstream
 
 =======
+>>>>>>> Stashed changes
         textTransform: "capitalize",
         position: "absolute",
         bottom: 0,
