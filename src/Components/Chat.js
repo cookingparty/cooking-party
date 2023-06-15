@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createMessage } from "../store";
 import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
@@ -16,6 +16,14 @@ const Chat = ({ drawerwidth }) => {
   const [readMessages, setReadMessages] = useState([]);
   const [messagesOpen, setMessagesOpen] = useState(false);
   const [expanded, setExpanded] = React.useState(true);
+
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behaviour: "smooth" });
+    }
+  }, [messages]);
 
   useEffect(() => {
     setReadMessages([]);
@@ -178,6 +186,7 @@ const Chat = ({ drawerwidth }) => {
                         console.log(chat.withUser);
                         return (
                           <ListItem
+                          ref={scrollRef}
                             key={message.id}
                             className={message.mine ? "mine" : "yours"}
                             sx={{
