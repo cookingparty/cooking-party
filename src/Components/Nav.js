@@ -512,7 +512,17 @@ const Nav = () => {
             open={open}
             sx={{ marginBottom: "40px" }}
           >
-            <DrawerHeader />
+            <DrawerHeader>
+            <Box
+          sx={{ justifyContent: open ? "inital" : "center", padding: '20', background: "#F9F6EE",  fontSize: '10px', font: 'Helvetica'}}
+          >
+          <Typography
+       sx={{fontSize: '10px', font: 'Helvetica',}}
+          >
+            FRIENDS AND MESSENGER
+          </Typography>
+          </Box>
+            </DrawerHeader>
 
             <Divider />
             <List>
