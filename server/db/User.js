@@ -244,10 +244,14 @@ User.prototype.getDay = async function (date) {
 // NEED TO TEST -AG
 User.prototype.addToDay = async function ({ recipeId, type, date }) {
   let day = await this.getDay(date);
-  let meal = day.meals.find((meal) => {
-    return meal.recipeId === recipeId;
+  const meals = day.meals.map((meal) => {
+    return meal.mealrecipes;
   });
-  if (!meal) {
+  const recipe = meals.find((mealrecipe) => {
+    const _recipe = mealrecipe[0].recipe;
+    return _recipe.id === recipeId;
+  });
+  if (!recipe) {
     const mealSeed = await conn.models.meal.create({
       dayId: day.id,
       type,
