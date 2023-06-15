@@ -494,7 +494,9 @@ const Nav = () => {
   {auth.id && (
     <Box
       sx={{
+<<<<<<< Updated upstream
 
+=======
         textTransform: "capitalize",
         position: "absolute",
         bottom: 0,
