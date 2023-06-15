@@ -514,7 +514,7 @@ const Nav = () => {
           >
             <DrawerHeader />
 
-            {/* <Divider /> */}
+            <Divider />
             <List>
               {[
                 "Online Friends",
