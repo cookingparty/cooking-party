@@ -18,6 +18,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Button, Icon, Tooltip } from "@mui/material";
+import * as DOMPurify from "dompurify";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -101,8 +102,9 @@ export default function RecipeCard({
       const newRecipe = await dispatch(seedSpoonacularRecipe(id));
       console.log("newRecipe", newRecipe);
       navigate(`/recipes/${newRecipe.id}`);
+    } else {
+      navigate(`/recipes/${recipe.id}`);
     }
-    navigate(`/recipes/${recipe.id}`);
   };
 
   const handleExpandClick = () => {
@@ -113,6 +115,9 @@ export default function RecipeCard({
     description.length > maxDescriptionLength
       ? `${description.slice(0, maxDescriptionLength)}...`
       : description;
+
+  const clean = DOMPurify.sanitize(trimmedDescription);
+  console.log("typeof trimmedDescription", typeof trimmedDescription);
 
   return (
     <Card sx={{ maxWidth: 350, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
@@ -139,7 +144,7 @@ export default function RecipeCard({
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {/* Need to install a HTML parser to get rid of the HTML tags in the description */}
-          {trimmedDescription}
+          <span dangerouslySetInnerHTML={{ __html: clean }} />
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

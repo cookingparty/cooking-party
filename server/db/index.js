@@ -502,4 +502,10 @@ module.exports = {
   Membership,
   Group,
   Favorite,
+  Ingredient,
+  Instruction,
+  MealRecipe,
+  Day,
+  Meal,
+  Message,
 };

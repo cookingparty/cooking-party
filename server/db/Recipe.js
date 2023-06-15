@@ -1,6 +1,10 @@
 const conn = require("./conn");
 const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, INTEGER } = conn.Sequelize;
 const axios = require("axios");
+const createDOMPurify = require("dompurify");
+const { JSDOM } = require("jsdom");
+const window = new JSDOM("").window;
+const DOMPurify = createDOMPurify(window);
 
 const Recipe = conn.define("recipe", {
   id: {
@@ -16,10 +20,10 @@ const Recipe = conn.define("recipe", {
     type: STRING,
     allowNull: false,
   },
-  // ingredients: {
-  //   type: TEXT,
-  //   allowNull: false,
-  // },
+  instructionsFake: {
+    type: TEXT,
+    /*allowNull: false,*/
+  },
   description: {
     type: TEXT,
   },
@@ -74,6 +78,7 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
       spoonacular_id: spoonacularId,
       title: response.data.title,
       imageURL: response.data.image,
+      description: response.data.summary,
     });
     response.data.extendedIngredients.map(async (ingredient) => {
       return await conn.models.ingredient.create({
@@ -82,6 +87,20 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
         recipeId: recipe.id,
         measurementUnit: ingredient.measures.us.unitShort,
       });
+    });
+    const cleanInstructions = DOMPurify.sanitize(response.data.instructions, {
+      FORBID_TAGS: ["li", "ol"],
+    });
+    const instructionsArray = cleanInstructions.split(".");
+    console.log("instructionsArray", instructionsArray);
+    instructionsArray.map(async (instruction, idx) => {
+      if (instruction.length > 0) {
+        return await conn.models.instruction.create({
+          listOrder: idx + 1,
+          specification: instruction,
+          recipeId: recipe.id,
+        });
+      }
     });
   }
   return recipe;
