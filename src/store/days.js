@@ -4,9 +4,7 @@ const day = (state = { meals: [] }, action) => {
   if (action.type === "SET_DAY") {
     return action.day;
   }
-  if (action.type === "CREATE_DAY") {
-    return action.day;
-  }
+
   return state;
 };
 
