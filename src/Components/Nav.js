@@ -497,7 +497,7 @@ const Nav = () => {
             >
               <Typography
                 variant="body1"
-                sx={{ fontFamily: "Helvetica", color: "black" }}
+                sx={{ fontFamily: "Helvetica", color: "black", fontSize: '9px' }}
               >
                 Hello {auth.username || auth.facebook_username}!
               </Typography>
@@ -631,7 +631,8 @@ const Nav = () => {
                 }}
               >
                 {!!auth.id && onlineFriendsOpen && (
-                  <OnlineFriends drawerwidth={drawerwidth} />
+                  <OnlineFriends handleToggleMessages={handleToggleMessages}
+                  drawerwidth={drawerwidth} />
                 )}
               </Box>
             </ListItem>
@@ -681,12 +682,12 @@ const Nav = () => {
                     drawerwidth={drawerwidth}
                   />
                 )}
-                {!!auth.id && onlineUsersOpen && findFriendship === "PENDING" && (
+                {/* {!!auth.id && onlineUsersOpen && findFriendship === "PENDING" && (
                   <OnlineUsers
                     handleToggleFriendRequests={handleToggleFriendRequests}
                     drawerwidth={drawerwidth}
                   />
-                )}
+                )} */}
               </Box>
             </ListItem>
           </StyledDrawer>

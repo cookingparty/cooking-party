@@ -16,7 +16,7 @@ import {
   TextField,
 } from "@mui/material";
 
-const OnlineFriends = ({ drawerwidth }) => {
+const OnlineFriends = ({ drawerwidth, handleToggleMessages }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
@@ -60,15 +60,18 @@ const OnlineFriends = ({ drawerwidth }) => {
   const onlineFriends = onlineUsers.filter((user) => !!confirmedFriend(user));
 
   const hasChat = (user) => {
-    if (
-      messages.find(
-        (message) => message.fromId === user.id || message.toId === user.id
-      )
-    ) {
-      return true;
-    }
-    return false;
-  };
+  if (
+    messages.find(
+      (message) =>
+        (message.fromId === user.id || message.toId === user.id) &&
+        message.status !== "DELETED"
+    )
+  ) {
+    return true;
+  }
+  return false;
+};
+
 
   const colors = [
     "#FF0000",
@@ -197,23 +200,36 @@ const OnlineFriends = ({ drawerwidth }) => {
                           {user.username || user.facebook_username}
                         </Typography>
                       </div>
-                      {hasChat(user) ||
-                        (!hasChat(user) && (
-                          <IconButton
-                            aria-label="let's chat"
-                            color="inherit"
-                            onClick={() => {
-                              dispatch(
-                                createMessage({
-                                  toId: user.id,
-                                  txt: "Let's Chat",
-                                })
-                              );
-                            }}
-                          >
-                            <Chat />
-                          </IconButton>
-                        ))}
+                      {!hasChat(user) && (
+  <IconButton
+    aria-label="let's chat"
+    color="inherit"
+    onClick={() => {
+      handleToggleMessages(user.id);
+      dispatch(
+        createMessage({
+          toId: user.id,
+          txt: "Let's Chat",
+        })
+      );
+    }}
+  >
+    <Chat />
+  </IconButton>
+)}
+
+{hasChat(user) && (
+  <IconButton
+    aria-label="existing chat"
+    color="inherit"
+    onClick={() => {
+      handleToggleMessages(user.id);
+    }}
+  >
+    <Chat />
+  </IconButton>
+)}
+
                     </ListItem>
                   );
                 })}
