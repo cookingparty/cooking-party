@@ -15,6 +15,7 @@ const Chat = ({ drawerwidth }) => {
 
   const [readMessages, setReadMessages] = useState([]);
   const [messagesOpen, setMessagesOpen] = useState(false);
+  const [expanded, setExpanded] = React.useState(true);
 
   useEffect(() => {
     setReadMessages([]);
@@ -25,6 +26,7 @@ const Chat = ({ drawerwidth }) => {
 
   const handleToggleMessages = (withUserId) => {
     setMessagesOpen(!messagesOpen);
+    if(messagesOpen)
   
     // Update the read state for the specific chat
     setReadMessages((prevReadMessages) => ({
@@ -127,10 +129,16 @@ const Chat = ({ drawerwidth }) => {
               }}
             >
               <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '400px' }}>
-                <Accordion>
+                <Accordion
+                 expanded={expanded} // this is keeping the accordion open
+                >
                 <AccordionSummary
-  expandIcon={ <ExpandMoreIcon    onClick={() => handleToggleMessages(withUserId)} />
+                
+  expandIcon={ <ExpandMoreIcon onClick={() => {
+    setExpanded(false);
+    handleToggleMessages(withUserId)}}  />
   }
+  
   aria-controls={`panel-${chat.withUser.id}-content`}
   id={`panel-${chat.withUser.id}-header`}
   sx={{
@@ -209,6 +217,7 @@ const Chat = ({ drawerwidth }) => {
                     {confirmedFriend(chat.withUser) ? (
                       <form
                       onSubmit={(ev) => {
+                        setExpanded(true);
                         ev.preventDefault();
                         const txt = ev.target.querySelector("textarea").value; // Changed input to textarea
                         dispatch(createMessage({ txt, toId: chat.withUser.id }));
