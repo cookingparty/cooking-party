@@ -52,7 +52,7 @@ const MealPlanner = () => {
       meal.mealrecipes
         .map((mealrecipe) => mealrecipe.recipe)
         .map((recipe) => {
-          snack.push(recipe);
+          snacks.push(recipe);
         });
     }
   });
