@@ -28,27 +28,6 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
   );
   const dispatch = useDispatch();
 
- 
-  const [open, setOpen] = React.useState(false);
-  const [onlineFriendsOpen, setOnlineFriendsOpen] = useState(false);
-  const [readOnlineFriends, setReadOnlineFriends] = useState([]);
-  const [onlineUsersOpen, setOnlineUsersOpen] = useState(false);
-  const [readOnlineUsers, setReadOnlineUsers] = useState([]);
-  const [friendsOpen, setFriendsOpen] = useState(false);
-  const [readFriends, setReadFriends] = useState([]);
-  const [friendRequestsOpen, setFriendRequestsOpen] = useState(false)
-  const [readFriendRequests, setReadFriendRequests] = useState()
-  const [friendRequests, setFriendRequests] = useState([]);
-  const [messagesOpen, setMessagesOpen] = useState(true);
-  const [readMessages, setReadMessages] = useState([]);
-  const [selectedMessageId, setSelectedMessageId] = useState(null);
-
-
-  
-
-
-  const navigate = useNavigate();
-
 
   const friends = friendships
     .filter(
