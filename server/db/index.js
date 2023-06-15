@@ -10,7 +10,6 @@ const Ingredient = require("./Ingredient");
 const Instruction = require("./Instruction");
 const Meal = require("./Meal");
 const Day = require("./Day");
-const MeasurementUnit = require("./MeasurementUnit");
 const Favorite = require("./Favorite");
 const MealRecipe = require("./MealRecipe");
 
@@ -25,9 +24,6 @@ Recipe.belongsToMany(User, {
 
 Ingredient.belongsTo(Recipe);
 Recipe.hasMany(Ingredient);
-
-MeasurementUnit.belongsTo(Ingredient);
-Ingredient.hasMany(MeasurementUnit);
 
 Instruction.belongsTo(Recipe);
 Recipe.hasMany(Instruction);
@@ -247,11 +243,13 @@ const syncAndSeed = async () => {
       name: "unsalted butter",
       amount: 1,
       recipeId: classicChocolateBrownies.id,
+      measurementUnit: "cup",
     }),
     Ingredient.create({
       name: "granulated sugar",
       amount: 2,
       recipeId: classicChocolateBrownies.id,
+      measurementUnit: "cup",
     }),
     Ingredient.create({
       name: "large eggs",
@@ -262,40 +260,32 @@ const syncAndSeed = async () => {
       name: "vanilla extract",
       amount: 1,
       recipeId: classicChocolateBrownies.id,
+      measurementUnit: "tsp",
     }),
     Ingredient.create({
       name: "all-purpose flour",
       amount: 1,
       recipeId: classicChocolateBrownies.id,
+      measurementUnit: "cup",
     }),
     Ingredient.create({
       name: "unsweetened cocoa powder",
       amount: 1 / 2,
       recipeId: classicChocolateBrownies.id,
+      measurementUnit: "cup",
     }),
     Ingredient.create({
       name: "salt",
       amount: 1,
       recipeId: classicChocolateBrownies.id,
+      measurementUnit: "tsp",
     }),
     Ingredient.create({
       name: "semi-sweet chocolate chips",
       amount: 1,
       recipeId: classicChocolateBrownies.id,
+      measurementUnit: "cup",
     }),
-  ]);
-
-  await Promise.all([
-    MeasurementUnit.create({ name: "cup", ingredientId: unsaltedButter.id }),
-    MeasurementUnit.create({ name: "cup", ingredientId: granulatedSugar.id }),
-    MeasurementUnit.create({
-      name: "teaspoon",
-      ingredientId: vanillaExtract.id,
-    }),
-    MeasurementUnit.create({ name: "cup", ingredientId: allPurposeFlour.id }),
-    MeasurementUnit.create({ name: "cup", ingredientId: cocoaPowder.id }),
-    MeasurementUnit.create({ name: "teaspoon", ingredientId: salt.id }),
-    MeasurementUnit.create({ name: "cup", ingredientId: chocolateChips.id }),
   ]);
 
   const bread = await Recipe.create({
@@ -338,33 +328,42 @@ const syncAndSeed = async () => {
 
   const [flour, sugar, instantYeast, saltBread, lukewarmWater, yellowCornmeal] =
     await Promise.all([
-      Ingredient.create({ name: "flour", amount: 4.5, recipeId: bread.id }),
+      Ingredient.create({
+        name: "flour",
+        amount: 4.5,
+        recipeId: bread.id,
+        measurementUnit: "cup",
+      }),
       Ingredient.create({
         name: "granulated sugar",
         amount: 1,
         recipeId: bread.id,
+        measurementUnit: "tbsp",
       }),
       Ingredient.create({
         name: "instant yeast",
         amount: 2.25,
         recipeId: bread.id,
+        measurementUnit: "tsp",
       }),
-      Ingredient.create({ name: "salt", amount: 2.5, recipeId: bread.id }),
+      Ingredient.create({
+        name: "salt",
+        amount: 2.5,
+        recipeId: bread.id,
+        measurementUnit: "tsp",
+      }),
       Ingredient.create({
         name: "lukewarm water",
         amount: 1.33,
         recipeId: bread.id,
+        measurementUnit: "cup",
       }),
-      Ingredient.create({ name: "yellow cornmeal", recipeId: bread.id }),
+      Ingredient.create({
+        name: "yellow cornmeal",
+        recipeId: bread.id,
+        measurementUnit: "",
+      }),
     ]);
-
-  await Promise.all([
-    MeasurementUnit.create({ name: "cup", ingredientId: flour.id }),
-    MeasurementUnit.create({ name: "tablespoon", ingredientId: sugar.id }),
-    MeasurementUnit.create({ name: "teaspoon", ingredientId: instantYeast.id }),
-    MeasurementUnit.create({ name: "teaspoon", ingredientId: saltBread.id }),
-    MeasurementUnit.create({ name: "cup", ingredientId: lukewarmWater.id }),
-  ]);
 
   await Comment.create({
     subject: "Heavenly Chocolate Delight!",
@@ -503,4 +502,10 @@ module.exports = {
   Membership,
   Group,
   Favorite,
+  Ingredient,
+  Instruction,
+  MealRecipe,
+  Day,
+  Meal,
+  Message,
 };

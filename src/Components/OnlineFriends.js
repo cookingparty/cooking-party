@@ -109,6 +109,7 @@ const OnlineFriends = ({ drawerwidth }) => {
       <div
         style={{ background: "#f5f5f5", padding: "10px", minHeight: "250px" }}
       >
+
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -222,6 +223,7 @@ const OnlineFriends = ({ drawerwidth }) => {
           </AccordionDetails>
         </Accordion>
       </div>
+
     </Box>
   );
 };

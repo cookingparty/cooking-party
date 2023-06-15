@@ -6,7 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDay, fetchMeals } from "../store";
+import { fetchDay } from "../store";
 import { Button, Icon, Tooltip } from "@mui/material";
 
 const MealPlanner = () => {

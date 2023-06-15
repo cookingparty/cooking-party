@@ -11,6 +11,8 @@ import groups from "./groups";
 import memberships from "./memberships";
 import favorites from "./favorites";
 import day from "./meals";
+import ingredients from "./ingredients";
+import instructions from "./instructions";
 
 const reducer = combineReducers({
   auth,
@@ -23,6 +25,8 @@ const reducer = combineReducers({
   memberships,
   favorites,
   day,
+  ingredients,
+  instructions,
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -39,3 +43,5 @@ export * from "./groups";
 export * from "./memberships";
 export * from "./favorites";
 export * from "./meals";
+export * from "./ingredients";
+export * from "./instructions";

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createFavorite } from "../store";
+import { Link, useNavigate } from "react-router-dom";
+import { createFavorite, seedSpoonacularRecipe } from "../store";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -17,6 +18,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Button, Icon, Tooltip } from "@mui/material";
+import * as DOMPurify from "dompurify";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -58,11 +60,51 @@ export default function RecipeCard({
   maxDescriptionLength = 150,
 }) {
   const [expanded, setExpanded] = React.useState(false);
-  const { auth, recipes } = useSelector((state) => state);
+  const { auth, recipes, favorites } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const favorite = (id) => {
     dispatch(createFavorite({ recipe_id: id, userId: auth.id }));
+  };
+
+  const isFavorited = (recipeId) => {
+    const recipe = recipes.find((r) => r.id === recipeId);
+    if (!recipe) {
+      const seededFromSpoonRecipe = recipes.find(
+        (recipe) => recipe.spoonacular_id === recipeId
+      );
+      if (!seededFromSpoonRecipe) {
+        return false;
+      }
+      if (
+        !!favorites.find(
+          (favorite) =>
+            favorite.recipe_id === seededFromSpoonRecipe.id &&
+            favorite.userId === auth.id
+        )
+      ) {
+        return true;
+      }
+      return false;
+    } else {
+      if (!!favorites.find((favorite) => favorite.recipe_id === recipeId)) {
+        return true;
+      }
+      return false;
+    }
+  };
+
+  const openRecipePage = async (ev, id) => {
+    ev.preventDefault();
+    const recipe = recipes.find((r) => r.id === id);
+    if (!recipe) {
+      const newRecipe = await dispatch(seedSpoonacularRecipe(id));
+      console.log("newRecipe", newRecipe);
+      navigate(`/recipes/${newRecipe.id}`);
+    } else {
+      navigate(`/recipes/${recipe.id}`);
+    }
   };
 
   const handleExpandClick = () => {
@@ -73,6 +115,9 @@ export default function RecipeCard({
     description.length > maxDescriptionLength
       ? `${description.slice(0, maxDescriptionLength)}...`
       : description;
+
+  const clean = DOMPurify.sanitize(trimmedDescription);
+  console.log("typeof trimmedDescription", typeof trimmedDescription);
 
   return (
     <Card sx={{ maxWidth: 350, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
@@ -89,7 +134,7 @@ export default function RecipeCard({
         }
         title={
           <TitleTypography variant="h6" component="div">
-            {title}
+            <Link onClick={(ev) => openRecipePage(ev, id)}>{title}</Link>
           </TitleTypography>
         }
         // subheader={subheader}
@@ -99,13 +144,18 @@ export default function RecipeCard({
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {/* Need to install a HTML parser to get rid of the HTML tags in the description */}
-          {trimmedDescription}
+          <span dangerouslySetInnerHTML={{ __html: clean }} />
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={() => favorite(id)}>
-          <FavoriteIcon />
-        </IconButton>
+        {!isFavorited(id) && (
+          <IconButton
+            aria-label="add to favorites"
+            onClick={() => favorite(id)}
+          >
+            <FavoriteIcon />
+          </IconButton>
+        )}
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>

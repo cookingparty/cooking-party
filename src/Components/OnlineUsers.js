@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createFriendship, createMessage } from "../store";
-
 import {
   Send,
   ExpandMore as ExpandMoreIcon,
@@ -28,6 +27,7 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
     (state) => state
   );
   const dispatch = useDispatch();
+
  
   const [open, setOpen] = React.useState(false);
   const [onlineFriendsOpen, setOnlineFriendsOpen] = useState(false);
@@ -45,6 +45,9 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
 
 
   
+
+
+  const navigate = useNavigate();
 
 
   const friends = friendships
@@ -109,6 +112,7 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
     return false;
   };
 
+
   const colors = [
     '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF',
     '#FF00FF', '#C0C0C0', '#808080', '#800000', '#808000',
@@ -130,8 +134,10 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
           width: drawerwidth - 40,
         }}
       >
+
       
       <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '250px' }}>
+
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -148,13 +154,16 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
                       fontWeight: "bold",
                       textTransform: "capitalize",
                       textAlign: "center",
+
                       marginLeft: "20px",
+
                     }}
                   >
                     See Who's Online
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
+
                   
                   <Box maxHeight="80px" overflow="auto">
                     <List>
@@ -179,6 +188,7 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
           
                       <ListItem
                       key={user.id}
+
                         sx={{
                           paddingRight: "8px",
                           paddingTop: "0",
@@ -230,6 +240,7 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
                             onClick={() => {
                               sendRequest(user.id);
                               // dispatch(createMessage({ toId: user.id, txt: "Add Friend" }));
+
                             }}
                           ></PersonAddAlt1Icon>
                         )}
@@ -252,6 +263,7 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
                           </IconButton>
                         )}
                       </ListItem>
+
                       );
                     })}
                     </List>
@@ -260,8 +272,6 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
               </Accordion>
             </div>
           </Box>
-        
-    // </Box>
   );
 };
 

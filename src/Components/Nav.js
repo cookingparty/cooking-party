@@ -32,7 +32,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Chat from "./Chat";
 import MailIcon from "@mui/icons-material/Mail";
 import Badge from "@mui/material/Badge";
-
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonIcon from "@mui/icons-material/Person";
@@ -41,7 +40,7 @@ import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import OnlineFriends from "./OnlineFriends";
 import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
-import FriendRequests from "./FriendRequests"
+import FriendRequests from "./FriendRequests";
 
 
 // add this if needed into Nav=({handleToggleMessages})
@@ -184,11 +183,10 @@ const Nav = () => {
   const [readOnlineUsers, setReadOnlineUsers] = useState([]);
   const [friendsOpen, setFriendsOpen] = useState(false);
   const [readFriends, setReadFriends] = useState([]);
-  const [friendRequestsOpen, setFriendRequestsOpen] = useState(false)
-  const [readFriendRequests, setReadFriendRequests] = useState()
+  const [friendRequestsOpen, setFriendRequestsOpen] = useState(false);
+  const [readFriendRequests, setReadFriendRequests] = useState([]);
+
   const [friendRequests, setFriendRequests] = useState([]);
-
-
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -199,18 +197,18 @@ const Nav = () => {
   };
 
   const friends = friendships
-  .filter(
-    (friendship) =>
-      friendship.friendee_id === auth.id || friendship.friender_id === auth.id
-  )
-  .map((friendship) => {
-    if (friendship.friendee_id === auth.id) {
-      return users.find((user) => user.id === friendship.friender_id);
-    }
-    if (friendship.friender_id === auth.id) {
-      return users.find((user) => user.id === friendship.friendee_id);
-    }
-  });
+    .filter(
+      (friendship) =>
+        friendship.friendee_id === auth.id || friendship.friender_id === auth.id
+    )
+    .map((friendship) => {
+      if (friendship.friendee_id === auth.id) {
+        return users.find((user) => user.id === friendship.friender_id);
+      }
+      if (friendship.friender_id === auth.id) {
+        return users.find((user) => user.id === friendship.friendee_id);
+      }
+    });
 
   const findFriendship = (friendId) => {
     const friendship = friendships.find(
@@ -233,9 +231,9 @@ const Nav = () => {
   };
 
   const onlineFriends = onlineUsers.filter((user) => !!confirmedFriend(user));
- 
+
   const confirmedFriends = friends.filter((friend) => {
-    const friendship = findFriendship(friend.id);
+    const friendship = findFriendship(friend.id ? friend.id : null);
     return friendship && friendship.status === "CONFIRMED";
   });
 
@@ -315,7 +313,7 @@ const Nav = () => {
   useEffect(() => {
     setReadMessages([]);
   }, [messages]);
-  
+
   useEffect(() => {
     setReadOnlineFriends([]);
   }, [friendships]);
@@ -525,6 +523,7 @@ const Nav = () => {
 
             {/* <Divider /> */}
             <List>
+
   {['Online Friends', 'Friend Requests', 'Messages', 'Friends', 'Online Users'].map((text, index) => (
     <ListItem disablePadding sx={{ display: 'block' }}>
       <ListItemButton
@@ -548,6 +547,7 @@ const Nav = () => {
             handleToggleOnlineUsers();
           }
         }}
+
       >
         <ListItemIcon
           sx={{
@@ -591,13 +591,18 @@ const Nav = () => {
   ))}
 </List>
 
+
            
+
             <Divider />
-           <ListItem>
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
-              {!!auth.id && messagesOpen && <Chat drawerwidth={drawerwidth} />}
+            <ListItem>
+              <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
+                {!!auth.id && messagesOpen && (
+                  <Chat drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
+
             
             {/* <Divider/> */}
             <ListItem
@@ -606,8 +611,22 @@ const Nav = () => {
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
             {!!auth.id && onlineFriendsOpen && <OnlineFriends drawerwidth={drawerwidth} />}
 
+
+            <Divider />
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && onlineFriendsOpen && (
+                  <OnlineFriends drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
+
             
             {/* <Divider /> */}
             <ListItem
@@ -616,8 +635,22 @@ const Nav = () => {
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
             {!!auth.id && friendsOpen && <Friends drawerwidth={drawerwidth} />}
 
+
+            <Divider />
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && friendsOpen && (
+                  <Friends drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
+
            
             {/* <Divider /> */}
             <ListItem
@@ -626,8 +659,22 @@ const Nav = () => {
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
             {!!auth.id && friendRequestsOpen && <FriendRequests drawerwidth={drawerwidth} />}
 
+
+            <Divider />
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && friendRequestsOpen && (
+                  <FriendRequests drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
+
             
             {/* <Divider /> */}
             <ListItem
@@ -636,10 +683,21 @@ const Nav = () => {
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
             {!!auth.id && onlineUsersOpen && <OnlineUsers handleMessages={handleToggleMessages} drawerwidth={drawerwidth} />}
 
+
+            <Divider />
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && onlineUsersOpen && (
+                  <OnlineUsers drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
-            
-            
           </StyledDrawer>
         )}
       </Box>
