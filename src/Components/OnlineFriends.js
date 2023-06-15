@@ -194,8 +194,7 @@ const OnlineFriends = ({ drawerwidth }) => {
                             overflow: "hidden",
                           }}
                         >
-                          {user.username.charAt(0).toUpperCase() +
-                            user.username.slice(1)}
+                          {user.username || user.facebook_username}
                         </Typography>
                       </div>
                       {hasChat(user) ||

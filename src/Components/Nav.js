@@ -42,7 +42,6 @@ import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
 import FriendRequests from "./FriendRequests";
 
-
 // add this if needed into Nav=({handleToggleMessages})
 
 const Nav = () => {
@@ -125,7 +124,6 @@ const Nav = () => {
     [theme.breakpoints.up("sm")]: {
       width: `calc(${theme.spacing(8)} + 1px)`,
     },
-    
   });
 
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -242,9 +240,8 @@ const Nav = () => {
     return friendship && friendship.status === "PENDING";
   });
 
-  
   const handleToggleMessages = () => {
-   console.log("hello")
+    console.log("hello");
     if (messagesOpen) {
       setMessagesOpen(false);
     } else {
@@ -256,7 +253,7 @@ const Nav = () => {
     }
     setReadMessages(messages.map((message) => message.id));
   };
-  
+
   const handleToggleOnlineFriends = () => {
     if (onlineFriendsOpen) {
       setOnlineFriendsOpen(false);
@@ -269,7 +266,7 @@ const Nav = () => {
     }
     setReadOnlineFriends(onlineFriends.map((onlineFriend) => onlineFriend.id));
   };
-  
+
   const handleToggleFriends = () => {
     if (friendsOpen) {
       setFriendsOpen(false);
@@ -282,7 +279,7 @@ const Nav = () => {
     }
     setReadFriends(friends.map((friend) => friend.id));
   };
-  
+
   const handleToggleOnlineUsers = () => {
     if (onlineUsersOpen) {
       setOnlineUsersOpen(false);
@@ -295,7 +292,7 @@ const Nav = () => {
     }
     setReadOnlineUsers(onlineUsers.map((onlineUser) => onlineUser.id));
   };
-  
+
   const handleToggleFriendRequests = () => {
     if (friendRequestsOpen) {
       setFriendRequestsOpen(false);
@@ -308,7 +305,6 @@ const Nav = () => {
     }
     setReadFriendRequests(friendRequests.map((request) => request.id));
   };
-  
 
   useEffect(() => {
     setReadMessages([]);
@@ -317,7 +313,7 @@ const Nav = () => {
   useEffect(() => {
     setReadOnlineFriends([]);
   }, [friendships]);
-  
+
   useEffect(() => {
     setReadFriends([]);
   }, [friendships]);
@@ -483,32 +479,30 @@ const Nav = () => {
                 >
                   Login / Register
                 </Typography>
-                
               )}
             </Box>
-         </Toolbar>
-        
-  {/* Hello username */}
-  {auth.id && (
-    <Box
-      sx={{
+          </Toolbar>
 
-        textTransform: "capitalize",
-        position: "absolute",
-        bottom: 0,
-        right: 0,
-        marginRight: "20px",
-        marginBottom: "8px",
-      }}
-    >
-      <Typography
-        variant="body1"
-        sx={{ fontFamily: "Helvetica", color: "black" }}
-      >
-        Hello {auth.username || auth.facebook_username}!
-      </Typography>
-    </Box>
-  )}
+          {/* Hello username */}
+          {auth.id && (
+            <Box
+              sx={{
+                textTransform: "capitalize",
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                marginRight: "20px",
+                marginBottom: "8px",
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{ fontFamily: "Helvetica", color: "black" }}
+              >
+                Hello {auth.username || auth.facebook_username}!
+              </Typography>
+            </Box>
+          )}
         </StyledAppBar>
 
         {!!auth.id && (
@@ -517,82 +511,96 @@ const Nav = () => {
             variant="permanent"
             open={open}
             sx={{ marginBottom: "40px" }}
-            
           >
             <DrawerHeader />
 
             {/* <Divider /> */}
             <List>
-
-  {['Online Friends', 'Friend Requests', 'Messages', 'Friends', 'Online Users'].map((text, index) => (
-    <ListItem disablePadding sx={{ display: 'block' }}>
-      <ListItemButton
-        disabled={!open}
-        key={text}
-        sx={{
-          minHeight: 48,
-          justifyContent: open ? 'initial' : 'center',
-          px: 2.5,
-        }}
-        onClick={() => {
-          if (index === 0) {
-            handleToggleOnlineFriends();
-          } else if (index === 1) {
-            handleToggleFriendRequests();
-          } else if (index === 2) {
-            handleToggleMessages();
-          } else if (index === 3) {
-            handleToggleFriends();
-          } else if (index === 4) {
-            handleToggleOnlineUsers();
-          }
-        }}
-
-      >
-        <ListItemIcon
-          sx={{
-            minWidth: 0,
-            mr: open ? 3 : 'auto',
-            justifyContent: 'center',
-          }}
-        >
-          {index === 0 ? (
-            <Badge badgeContent={onlineFriends.length} color="primary">
-              <AccountCircleIcon />
-            </Badge>
-          ) : index === 1 ? (
-            <Badge badgeContent={requests.length} color="primary">
-              <PersonAddAlt1Icon />
-            </Badge>
-          ) : index === 2 ? (
-            <Badge
-              badgeContent={messages.filter(
-                (message) => !readMessages.includes(message.id)
-              ).length}
-              color="primary"
-            >
-              <MailIcon />
-            </Badge>
-          ) : index === 3 ? (
-            <Badge badgeContent={confirmedFriends.length} color="primary">
-              <PersonIcon />
-            </Badge>
-          ) : index === 4 ? (
-            <Badge badgeContent={onlineUsers.length} color="primary">
-              <PersonOutlineIcon />
-            </Badge>
-          ) : (
-            <ExitToAppOutlinedIcon />
-          )}
-        </ListItemIcon>
-        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-      </ListItemButton>
-    </ListItem>
-  ))}
-</List>
-
-
-           
+              {[
+                "Online Friends",
+                "Friend Requests",
+                "Messages",
+                "Friends",
+                "Online Users",
+              ].map((text, index) => (
+                <ListItem disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    disabled={!open}
+                    key={text}
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                    onClick={() => {
+                      if (index === 0) {
+                        handleToggleOnlineFriends();
+                      } else if (index === 1) {
+                        handleToggleFriendRequests();
+                      } else if (index === 2) {
+                        handleToggleMessages();
+                      } else if (index === 3) {
+                        handleToggleFriends();
+                      } else if (index === 4) {
+                        handleToggleOnlineUsers();
+                      }
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {index === 0 ? (
+                        <Badge
+                          badgeContent={onlineFriends.length}
+                          color="primary"
+                        >
+                          <AccountCircleIcon />
+                        </Badge>
+                      ) : index === 1 ? (
+                        <Badge badgeContent={requests.length} color="primary">
+                          <PersonAddAlt1Icon />
+                        </Badge>
+                      ) : index === 2 ? (
+                        <Badge
+                          badgeContent={
+                            messages.filter(
+                              (message) => !readMessages.includes(message.id)
+                            ).length
+                          }
+                          color="primary"
+                        >
+                          <MailIcon />
+                        </Badge>
+                      ) : index === 3 ? (
+                        <Badge
+                          badgeContent={confirmedFriends.length}
+                          color="primary"
+                        >
+                          <PersonIcon />
+                        </Badge>
+                      ) : index === 4 ? (
+                        <Badge
+                          badgeContent={onlineUsers.length}
+                          color="primary"
+                        >
+                          <PersonOutlineIcon />
+                        </Badge>
+                      ) : (
+                        <ExitToAppOutlinedIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
 
             <Divider />
             <ListItem>
@@ -603,43 +611,72 @@ const Nav = () => {
               </Box>
             </ListItem>
 
-            
             {/* <Divider/> */}
-            <ListItem
-            sx={{marginTop: '0', marginBottom: "0"}}
-            >
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && onlineFriendsOpen && <OnlineFriends drawerwidth={drawerwidth} />}
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && onlineFriendsOpen && (
+                  <OnlineFriends drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
 
-            
             {/* <Divider /> */}
-            <ListItem
-            sx={{marginTop: '0', marginBottom: "0"}}
-            >
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && friendsOpen && <Friends drawerwidth={drawerwidth} />}
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && friendsOpen && (
+                  <Friends drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
 
-           
             {/* <Divider /> */}
-            <ListItem
-            sx={{marginTop: '0', marginBottom: "0"}}
-            >
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && friendRequestsOpen && <FriendRequests  drawerwidth={drawerwidth} />}
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && friendRequestsOpen && (
+                  <FriendRequests drawerwidth={drawerwidth} />
+                )}
               </Box>
             </ListItem>
 
-            
             {/* <Divider /> */}
-            <ListItem
-            sx={{marginTop: '0', marginBottom: "0"}}
-            >
-            <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && onlineUsersOpen && <OnlineUsers handleToggleMessages={handleToggleMessages} drawerwidth={drawerwidth} />}
+            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
+              <Box
+                sx={{
+                  overflowY: "auto",
+                  height: "calc(100% - 64px)",
+                  marginTop: "-10px",
+                }}
+              >
+                {!!auth.id && onlineUsersOpen && (
+                  <OnlineUsers
+                    handleToggleMessages={handleToggleMessages}
+                    drawerwidth={drawerwidth}
+                  />
+                )}
+                {!!auth.id && onlineUsersOpen && findFriendship === "PENDING" && (
+                  <OnlineUsers
+                    handleToggleFriendRequests={handleToggleFriendRequests}
+                    drawerwidth={drawerwidth}
+                  />
+                )}
               </Box>
             </ListItem>
           </StyledDrawer>
