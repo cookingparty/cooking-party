@@ -102,6 +102,8 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
         });
       }
     });
+  } else if (recipe) {
+    return recipe;
   }
   return recipe;
 };
