@@ -610,20 +610,6 @@ const Nav = () => {
             >
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
             {!!auth.id && onlineFriendsOpen && <OnlineFriends drawerwidth={drawerwidth} />}
-
-
-            <Divider />
-            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
-              <Box
-                sx={{
-                  overflowY: "auto",
-                  height: "calc(100% - 64px)",
-                  marginTop: "-10px",
-                }}
-              >
-                {!!auth.id && onlineFriendsOpen && (
-                  <OnlineFriends drawerwidth={drawerwidth} />
-                )}
               </Box>
             </ListItem>
 
@@ -634,20 +620,6 @@ const Nav = () => {
             >
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
             {!!auth.id && friendsOpen && <Friends drawerwidth={drawerwidth} />}
-
-
-            <Divider />
-            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
-              <Box
-                sx={{
-                  overflowY: "auto",
-                  height: "calc(100% - 64px)",
-                  marginTop: "-10px",
-                }}
-              >
-                {!!auth.id && friendsOpen && (
-                  <Friends drawerwidth={drawerwidth} />
-                )}
               </Box>
             </ListItem>
 
@@ -658,20 +630,6 @@ const Nav = () => {
             >
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
             {!!auth.id && friendRequestsOpen && <FriendRequests  drawerwidth={drawerwidth} />}
-
-
-            <Divider />
-            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
-              <Box
-                sx={{
-                  overflowY: "auto",
-                  height: "calc(100% - 64px)",
-                  marginTop: "-10px",
-                }}
-              >
-                {!!auth.id && friendRequestsOpen && (
-                  <FriendRequests drawerwidth={drawerwidth} />
-                )}
               </Box>
             </ListItem>
 
@@ -682,20 +640,6 @@ const Nav = () => {
             >
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
             {!!auth.id && onlineUsersOpen && <OnlineUsers handleToggleMessages={handleToggleMessages} drawerwidth={drawerwidth} />}
-
-
-            <Divider />
-            <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
-              <Box
-                sx={{
-                  overflowY: "auto",
-                  height: "calc(100% - 64px)",
-                  marginTop: "-10px",
-                }}
-              >
-                {!!auth.id && onlineUsersOpen && (
-                  <OnlineUsers drawerwidth={drawerwidth} />
-                )}
               </Box>
             </ListItem>
           </StyledDrawer>
