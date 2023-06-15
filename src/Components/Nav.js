@@ -246,7 +246,7 @@ const Nav = () => {
 
   
   const handleToggleMessages = () => {
-    // dispatch(toggleMessage());
+   console.log("hello")
     if (messagesOpen) {
       setMessagesOpen(false);
     } else {
@@ -485,9 +485,32 @@ const Nav = () => {
                 >
                   Login / Register
                 </Typography>
+                
               )}
             </Box>
-          </Toolbar>
+         </Toolbar>
+        
+  {/* Hello username */}
+  {auth.id && (
+    <Box
+      sx={{
+
+        textTransform: "capitalize",
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        marginRight: "20px",
+        marginBottom: "8px",
+      }}
+    >
+      <Typography
+        variant="body1"
+        sx={{ fontFamily: "Helvetica", color: "black" }}
+      >
+        Hello {auth.username || auth.facebook_username}!
+      </Typography>
+    </Box>
+  )}
         </StyledAppBar>
 
         {!!auth.id && (
@@ -611,7 +634,7 @@ const Nav = () => {
             sx={{marginTop: '0', marginBottom: "0"}}
             >
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && onlineUsersOpen && <OnlineUsers drawerwidth={drawerwidth} />}
+            {!!auth.id && onlineUsersOpen && <OnlineUsers handleToggleMessages={handleToggleMessages} drawerwidth={drawerwidth} />}
 
               </Box>
             </ListItem>

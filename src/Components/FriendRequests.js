@@ -238,13 +238,6 @@ export default FriendRequests;
 
 
 
-
-
-
-
-
-
-
 // import React from "react";
 // import { useSelector, useDispatch } from "react-redux";
 // import { createMessage, updateFriendship } from "../store";

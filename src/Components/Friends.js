@@ -157,6 +157,7 @@ if(!friends){
               <ListItem
               key={friend.id}
               sx={{
+                overflowY: 'auto',
                 paddingRight: "8px",
                 paddingTop: "0",
                 paddingBottom: "0",

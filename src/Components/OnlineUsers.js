@@ -23,7 +23,7 @@ import {
 } from "@mui/material";
 
 
-const OnlineUsers = ({ drawerwidth }) => {
+const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
@@ -43,17 +43,7 @@ const OnlineUsers = ({ drawerwidth }) => {
   const [readMessages, setReadMessages] = useState([]);
   const [selectedMessageId, setSelectedMessageId] = useState(null);
 
-  const handleToggleMessages = () => {
-    // dispatch(toggleMessages());
-    if (messagesOpen) {
-      setMessagesOpen(true);
-      setOnlineFriendsOpen(false);
-      setFriendsOpen(false);
-      setOnlineUsersOpen(false);
-      setFriendRequestsOpen(false);
-    }
-    setReadMessages(messages.map((message) => message.id));
-  };
+
   
 
 
@@ -120,75 +110,14 @@ const OnlineUsers = ({ drawerwidth }) => {
   };
 
   const colors = [
-    "#FF0000",
-    "#00FF00",
-    "#0000FF",
-    "#FFFF00",
-    "#00FFFF",
-    "#FF00FF",
-    "#C0C0C0",
-    "#808080",
-    "#800000",
-    "#808000",
-    "#008000",
-    "#800080",
-    "#008080",
-    "#000080",
-    "#FFA500",
-    "#FF4500",
-    "#DA70D6",
-    "#FA8072",
-    "#20B2AA",
-    "#7B68EE",
+    '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF',
+    '#FF00FF', '#C0C0C0', '#808080', '#800000', '#808000',
+    '#008000', '#800080', '#008080', '#000080', '#FFA500',
+    '#FF4500', '#DA70D6', '#FA8072', '#20B2AA', '#7B68EE'
   ];
 
   return (
-    // <Box>
-    //   <Typography
-    //     variant="h1"
-    //     style={{
-    //       fontSize: "16px",
-    //       fontFamily: "Helvetica",
-    //       textAlign: "center",
-    //       marginTop: "30px",
-    //       minHeight: "85px",
-    //     }}
-    //   >
-    //     WHO'S ONLINE
-    //   </Typography>
-    //   <div id="onlineFriends" style={{ overflowY: "auto" }}></div>
-
-      // {onlineUsers.map((user) => {
-      //   const randomIndex = Math.floor(Math.random() * colors.length);
-      //   const randomColor = colors[randomIndex];
-
-      //   const avatarStyle =
-      //     user && user.avatar
-      //       ? {
-      //           width: "20px",
-      //           height: "20px",
-      //           marginRight: "3px",
-      //         }
-      //       : {
-      //           width: "20px",
-      //           height: "20px",
-      //           marginRight: "3px",
-      //           color: randomColor,
-      //         };
-      //   return (
-      //     <Box
-      //       key={user.id}
-      //       sx={{
-      //         marginTop: "10px",
-      //         overflowY: "auto",
-      //         // maxHeight: "240px",
-      //         padding: "10px",
-      //         backgroundColor: "#f5f5f5",
-      //         display: "flex",
-      //         flexDirection: "column",
-      //         width: drawerwidth - 40,
-      //       }}
-      //     >
+  
 <Box
         sx={{
           minHeight: "20px",
