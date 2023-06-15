@@ -207,9 +207,7 @@ const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
                               overflow: "hidden",
                             }}
                           >
-                            {user.username &&
-                              user.username.charAt(0).toUpperCase() +
-                                user.username.slice(1)}
+                             {user.username || user.facebook_username}
                           </Typography>
                         </div>
                         {!isRequested(user) && (
