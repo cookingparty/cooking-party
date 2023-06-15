@@ -1,32 +1,69 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
   createFavoriteRecipePage,
   fetchIngredients,
   fetchInstructions,
+  fetchComments,
+  createComment,
 } from "../store";
 import * as DOMPurify from "dompurify";
-import { Button, CardActions, IconButton } from "@mui/material";
+import { Button, CardActions, IconButton, TextField } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const RecipePage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { recipes, ingredients, instructions, auth } = useSelector(
-    (state) => state
-  );
+  const { recipes, ingredients, instructions, auth, favorites, comments } =
+    useSelector((state) => state);
   const recipe = recipes.find((r) => r.id === id);
-
-  console.log("instructions", instructions);
 
   useEffect(() => {
     dispatch(fetchIngredients(id));
     dispatch(fetchInstructions(id));
+    dispatch(fetchComments());
   }, []);
+
+  const isFavorited = (recipeId) => {
+    const recipe = recipes.find((r) => r.id === recipeId);
+    if (!recipe) {
+      const seededFromSpoonRecipe = recipes.find(
+        (recipe) => recipe.spoonacular_id === recipeId
+      );
+      if (!seededFromSpoonRecipe) {
+        return false;
+      }
+      if (
+        !!favorites.find(
+          (favorite) =>
+            favorite.recipe_id === seededFromSpoonRecipe.id &&
+            favorite.userId === auth.id
+        )
+      ) {
+        return true;
+      }
+      return false;
+    } else {
+      if (!!favorites.find((favorite) => favorite.recipe_id === recipeId)) {
+        return true;
+      }
+      return false;
+    }
+  };
 
   const favorite = (id) => {
     dispatch(createFavoriteRecipePage({ recipe_id: id, userId: auth.id }));
+  };
+
+  const [subject, setSubject] = useState("");
+  const [rating, setRating] = useState(5);
+  const [body, setBody] = useState("");
+
+  const addComment = () => {
+    dispatch(
+      createComment({ subject, rating, body, userId: auth.id, recipeId: id })
+    );
   };
 
   if (!recipe) {
@@ -40,14 +77,14 @@ const RecipePage = () => {
     <div>
       <h1>{recipe.title}</h1>
       <CardActions disableSpacing>
-        {
+        {!isFavorited(recipe.id) && (
           <IconButton
             aria-label="add to favorites"
             onClick={() => favorite(id)}
           >
             <FavoriteIcon />
           </IconButton>
-        }
+        )}
       </CardActions>
       {/* <p>**** 4.6 (15) | 117 REVIEWS | 11 PHOTOS | +favorite</p> */}
       <Button>Add to Meal Planner</Button>
@@ -78,14 +115,53 @@ const RecipePage = () => {
               { FORBID_TAGS: ["li"] }
             );
             return (
-              <li dangerouslySetInnerHTML={{ __html: cleanInstruction }} />
+              <li
+                dangerouslySetInnerHTML={{ __html: cleanInstruction }}
+                key={instruction.id}
+              />
             );
           })}
       </ol>
       <hr />
-      <h3>Reviews (117)</h3>
-      <p>Review Form w/rating</p>
-      <p>Review 1</p>
+      <h3>
+        Comments ({comments.filter((comment) => comment.recipeId === id).length}
+        )
+      </h3>
+      <form className="commentForm">
+        <TextField
+          label="subject"
+          value={subject}
+          name="subject"
+          onChange={(ev) => setSubject(ev.target.value)}
+        />
+        <TextField
+          type="number"
+          label="rating"
+          value={rating}
+          name="rating"
+          onChange={(ev) => setRating(ev.target.value)}
+        />
+        <TextField
+          label="body"
+          value={body}
+          name="body"
+          onChange={(ev) => setBody(ev.target.value)}
+        />
+        <Button onClick={addComment} />
+      </form>
+      <ul>
+        {comments
+          .filter((comment) => comment.recipeId === id)
+          .map((comment) => {
+            return (
+              <li key={comment.id}>
+                {comment.subject} - rating: {comment.rating}
+                <hr />
+                {comment.body}
+              </li>
+            );
+          })}
+      </ul>
     </div>
   );
 };

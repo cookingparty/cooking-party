@@ -77,3 +77,12 @@ nav {
   display: flex;
   flex-direction: column;
 }
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.commentForm > * {
+  margin: 10px;
+}
