@@ -64,6 +64,9 @@ const RecipePage = () => {
     dispatch(
       createComment({ subject, rating, body, userId: auth.id, recipeId: id })
     );
+    setSubject("");
+    setRating(5);
+    setBody("");
   };
 
   if (!recipe) {
@@ -127,7 +130,7 @@ const RecipePage = () => {
         Comments ({comments.filter((comment) => comment.recipeId === id).length}
         )
       </h3>
-      <form className="commentForm">
+      <form>
         <TextField
           label="subject"
           value={subject}
@@ -136,7 +139,7 @@ const RecipePage = () => {
         />
         <TextField
           type="number"
-          label="rating"
+          label="rating 1-5"
           value={rating}
           name="rating"
           onChange={(ev) => setRating(ev.target.value)}
@@ -147,14 +150,14 @@ const RecipePage = () => {
           name="body"
           onChange={(ev) => setBody(ev.target.value)}
         />
-        <Button onClick={addComment} />
+        <Button onClick={addComment}>Add Comment</Button>
       </form>
-      <ul>
+      <ul className="commentList">
         {comments
           .filter((comment) => comment.recipeId === id)
           .map((comment) => {
             return (
-              <li key={comment.id}>
+              <li className="comment" key={comment.id}>
                 {comment.subject} - rating: {comment.rating}
                 <hr />
                 {comment.body}
