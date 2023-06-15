@@ -20,15 +20,14 @@ import {
   ListItem,
   TextField,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { handleToggleMessages } from "./Nav";
 
-const OnlineUsers = ({ drawerwidth }) => {
+
+const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
 
   const friends = friendships
     .filter(
@@ -66,6 +65,11 @@ const OnlineUsers = ({ drawerwidth }) => {
     return false;
   };
 
+  const requests = friends.filter((friend) => {
+    const friendship = findFriendship(friend.id);
+    return friendship && friendship.status === "PENDING";
+  });
+
   const confirmedFriend = (user) => {
     const friend = friends.find((f) => f.id === user.id);
     if (!!friend && findFriendship(friend.id)) {
@@ -86,47 +90,63 @@ const OnlineUsers = ({ drawerwidth }) => {
     }
     return false;
   };
-  console.log(onlineUsers);
+
 
   const colors = [
-    "#FF0000",
-    "#00FF00",
-    "#0000FF",
-    "#FFFF00",
-    "#00FFFF",
-    "#FF00FF",
-    "#C0C0C0",
-    "#808080",
-    "#800000",
-    "#808000",
-    "#008000",
-    "#800080",
-    "#008080",
-    "#000080",
-    "#FFA500",
-    "#FF4500",
-    "#DA70D6",
-    "#FA8072",
-    "#20B2AA",
-    "#7B68EE",
+    '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF',
+    '#FF00FF', '#C0C0C0', '#808080', '#800000', '#808000',
+    '#008000', '#800080', '#008080', '#000080', '#FFA500',
+    '#FF4500', '#DA70D6', '#FA8072', '#20B2AA', '#7B68EE'
   ];
 
   return (
-    <Box>
-      <Typography
-        variant="h1"
-        style={{
-          fontSize: "16px",
-          fontFamily: "Helvetica",
-          textAlign: "center",
-          marginTop: "30px",
+  
+<Box
+        sx={{
+          minHeight: "20px",
+          marginTop: "5px",
+          overflowY: "auto",
+          padding: "10px",
+          backgroundColor: "#f5f5f5",
+          display: "flex",
+          flexDirection: "column",
+          width: drawerwidth - 40,
         }}
       >
-        WHO'S ONLINE
-      </Typography>
-      <div id="onlineFriends" style={{ overflowY: "auto" }}></div>
 
-      {onlineUsers.map((user) => {
+      
+      <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '250px' }}>
+
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  sx={{
+                    position: "relative",
+                    margin: "0",
+                    padding: "2px 0",
+                  }}
+                >
+                  <Typography
+                    variant="h3"
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      textTransform: "capitalize",
+                      textAlign: "center",
+
+                      marginLeft: "20px",
+
+                    }}
+                  >
+                    See Who's Online
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
+
+                  
+                  <Box maxHeight="80px" overflow="auto">
+                    <List>
+                    {onlineUsers.map((user) => {
         const randomIndex = Math.floor(Math.random() * colors.length);
         const randomColor = colors[randomIndex];
 
@@ -144,46 +164,10 @@ const OnlineUsers = ({ drawerwidth }) => {
                 color: randomColor,
               };
         return (
-          <Box
-            key={user.id}
-            sx={{
-              marginTop: "10px",
-              overflowY: "auto",
-              // maxHeight: "240px",
-              padding: "10px",
-              backgroundColor: "#f5f5f5",
-              display: "flex",
-              flexDirection: "column",
-              width: drawerwidth - 40,
-            }}
-          >
-            <div style={{ background: "#f5f5f5", padding: "10px" }}>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  sx={{
-                    position: "relative",
-                    margin: "0",
-                    padding: "2px 0",
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                      textTransform: "capitalize",
-                      textAlign: "center",
-                      marginLeft: "8px",
-                    }}
-                  >
-                    See Who's Online
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
-                  <Box maxHeight="80px" overflow="auto">
-                    <List>
+          
                       <ListItem
+                      key={user.id}
+
                         sx={{
                           paddingRight: "8px",
                           paddingTop: "0",
@@ -233,12 +217,9 @@ const OnlineUsers = ({ drawerwidth }) => {
                             aria-label="Add Friend"
                             color="inherit"
                             onClick={() => {
-                              dispatch(
-                                createMessage({
-                                  toId: user.id,
-                                  txt: "Add Friend",
-                                })
-                              );
+                              sendRequest(user.id);
+                              // dispatch(createMessage({ toId: user.id, txt: "Add Friend" }));
+
                             }}
                           ></PersonAddAlt1Icon>
                         )}
@@ -248,8 +229,7 @@ const OnlineUsers = ({ drawerwidth }) => {
                             aria-label="let's chat"
                             color="inherit"
                             onClick={() => {
-                              // Use handleToggleMessages from Nav.js
-                              // handleToggerMessages();
+                              handleToggleMessages(user.id)
                               dispatch(
                                 createMessage({
                                   toId: user.id,
@@ -262,15 +242,15 @@ const OnlineUsers = ({ drawerwidth }) => {
                           </IconButton>
                         )}
                       </ListItem>
+
+                      );
+                    })}
                     </List>
                   </Box>
                 </AccordionDetails>
               </Accordion>
             </div>
           </Box>
-        );
-      })}
-    </Box>
   );
 };
 

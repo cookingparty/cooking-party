@@ -4,6 +4,8 @@ import { createMessage } from "../store";
 import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import { IconButton, Accordion, AccordionSummary, AccordionDetails, Box, Typography, List, ListItem, TextField } from "@mui/material";
 import { Badge } from "@mui/material";
+import { Button } from "@mui/material";
+
 
 const Chat = ({ drawerwidth }) => {
   const { messages, auth, onlineUsers, friendships, users } = useSelector(
@@ -19,21 +21,7 @@ const Chat = ({ drawerwidth }) => {
   }, [messages]);
 
   
-  // const handleToggleMessages = (withUserId) => {
-  //   setMessagesOpen(!messagesOpen);
-  //   setReadMessages((prevReadMessages) => ({
-  //     ...prevReadMessages,
-  //     [withUserId]: messages
-  //       .filter(
-  //         (message) =>
-  //           ((message.fromId === auth.id && message.toId === withUserId) ||
-  //             (message.fromId === withUserId && message.toId === auth.id)) &&
-  //           (!(withUserId in prevReadMessages) ||
-  //             !prevReadMessages[withUserId].includes(message.id))
-  //       )
-  //       .map((message) => message.id),
-  //   }));
-  // };
+
 
   const handleToggleMessages = (withUserId) => {
     setMessagesOpen(!messagesOpen);
@@ -45,7 +33,7 @@ const Chat = ({ drawerwidth }) => {
     }));
   };
   
-
+ 
   
   const chatMap = messages.reduce((acc, message) => {
     const withUser = message.fromId === auth.id ? message.to : message.from;
@@ -138,7 +126,7 @@ const Chat = ({ drawerwidth }) => {
                 width: drawerwidth - 40,
               }}
             >
-              <div style={{ background: "#f5f5f5", padding: "10px" }}>
+              <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '400px' }}>
                 <Accordion>
                 <AccordionSummary
   expandIcon={ <ExpandMoreIcon    onClick={() => handleToggleMessages(withUserId)} />
@@ -220,14 +208,13 @@ const Chat = ({ drawerwidth }) => {
 
                     {confirmedFriend(chat.withUser) ? (
                       <form
-                        onSubmit={(ev) => {
-                          ev.preventDefault();
-                          const txt = ev.target.querySelector("input").value;
-                          dispatch(
-                            createMessage({ txt, toId: chat.withUser.id })
-                          );
-                          ev.target.querySelector("input").value = "";
-                        }}
+                      onSubmit={(ev) => {
+                        ev.preventDefault();
+                        const txt = ev.target.querySelector("textarea").value; // Changed input to textarea
+                        dispatch(createMessage({ txt, toId: chat.withUser.id }));
+                        ev.target.querySelector("textarea").value = ""; // Changed input to textarea
+                      }}
+                      
                         style={{
                           display: "flex",
                           width: "100%",
