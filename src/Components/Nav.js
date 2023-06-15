@@ -657,7 +657,7 @@ const Nav = () => {
             sx={{marginTop: '0', marginBottom: "0"}}
             >
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && friendRequestsOpen && <FriendRequests drawerwidth={drawerwidth} />}
+            {!!auth.id && friendRequestsOpen && <FriendRequests  drawerwidth={drawerwidth} />}
 
 
             <Divider />
@@ -681,7 +681,7 @@ const Nav = () => {
             sx={{marginTop: '0', marginBottom: "0"}}
             >
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && onlineUsersOpen && <OnlineUsers handleMessages={handleToggleMessages} drawerwidth={drawerwidth} />}
+            {!!auth.id && onlineUsersOpen && <OnlineUsers handleToggleMessages={handleToggleMessages} drawerwidth={drawerwidth} />}
 
 
             <Divider />
