@@ -18,12 +18,13 @@ const MealPlanner = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchDay(date));
+    dispatch(fetchDay(dayjs(date).format("YYYY-MM-DD")));
   }, [date]);
 
   const breakfast = [];
   const lunch = [];
   const dinner = [];
+  const snacks = [];
 
   day.meals.map((meal) => {
     if (meal.type === "breakfast") {
@@ -45,6 +46,13 @@ const MealPlanner = () => {
         .map((mealrecipe) => mealrecipe.recipe)
         .map((recipe) => {
           dinner.push(recipe);
+        });
+    }
+    if (meal.type === "snack") {
+      meal.mealrecipes
+        .map((mealrecipe) => mealrecipe.recipe)
+        .map((recipe) => {
+          snack.push(recipe);
         });
     }
   });
@@ -89,6 +97,17 @@ const MealPlanner = () => {
         <h3>Dinner</h3>
         <ul>
           {dinner.map((recipe) => (
+            <li key={recipe.title}>
+              {recipe.title}{" "}
+              <Tooltip title="add to grocery list">
+                <Button startIcon={<Icon>add_circle</Icon>}></Button>
+              </Tooltip>
+            </li>
+          ))}
+        </ul>
+        <h3>Snacks</h3>
+        <ul>
+          {snacks.map((recipe) => (
             <li key={recipe.title}>
               {recipe.title}{" "}
               <Tooltip title="add to grocery list">

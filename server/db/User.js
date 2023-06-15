@@ -242,20 +242,22 @@ User.prototype.getDay = async function (date) {
 };
 
 // NEED TO TEST -AG
-User.prototype.addToDay = async function ({ recipe, type }) {
-  let day = await this.getDay();
+User.prototype.addToDay = async function ({ recipeId, type, date }) {
+  let day = await this.getDay(date);
   let meal = day.meals.find((meal) => {
-    return (meal.recipeId = recipe.id);
+    return meal.recipeId === recipeId;
   });
   if (!meal) {
-    await conn.models.meal.create({
+    const mealSeed = await conn.models.meal.create({
       dayId: day.id,
-      recipeId: recipe.id,
       type,
     });
+    const mealrecipe = await conn.models.mealrecipe.create({
+      recipeId,
+      mealId: mealSeed.id,
+    });
   }
-
-  return this.getDay();
+  return this.getDay(date);
 };
 
 module.exports = User;

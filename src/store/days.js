@@ -4,6 +4,9 @@ const day = (state = { meals: [] }, action) => {
   if (action.type === "SET_DAY") {
     return action.day;
   }
+  if (action.type === "CREATE_DAY") {
+    return action.day;
+  }
   return state;
 };
 
@@ -15,6 +18,22 @@ export const fetchDay = (date) => {
         authorization: token,
       },
     });
+    dispatch({ type: "SET_DAY", day: response.data });
+  };
+};
+
+export const addToMealPlanner = ({ id, type, date }) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const response = await axios.post(
+      `/api/mealplanner/${date}`,
+      { recipeId: id, date: date, type: type },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
     dispatch({ type: "SET_DAY", day: response.data });
   };
 };

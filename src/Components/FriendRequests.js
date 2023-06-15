@@ -83,7 +83,9 @@ const FriendRequests = ({ drawerwidth }) => {
     "#20B2AA",
     "#7B68EE",
   ];
-
+  if(!friends){
+    return null;
+  }
   return (
       <Box
         sx={{
@@ -127,11 +129,7 @@ const FriendRequests = ({ drawerwidth }) => {
               <Box maxHeight="240px" overflow="auto">
                 <List>
                   {friends
-                    .filter(
-                      (friend) =>
-                        findFriendship(friend.id).friendee_id === auth.id &&
-                        findFriendship(friend.id).status === "PENDING"
-                    )
+                    .filter((friend) => findFriendship(friend.id).status === "PENDING")
                     .map((friend) => {
                       const randomIndex = Math.floor(Math.random() * colors.length);
                       const randomColor = colors[randomIndex];

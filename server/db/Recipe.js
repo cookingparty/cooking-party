@@ -92,7 +92,7 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
       FORBID_TAGS: ["li", "ol"],
     });
     const instructionsArray = cleanInstructions.split(".");
-    console.log("instructionsArray", instructionsArray);
+    // console.log("instructionsArray", instructionsArray);
     instructionsArray.map(async (instruction, idx) => {
       if (instruction.length > 0) {
         return await conn.models.instruction.create({

@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
+  addToMealPlanner,
   createFavoriteRecipePage,
   fetchIngredients,
   fetchInstructions,
@@ -9,6 +10,16 @@ import {
 import * as DOMPurify from "dompurify";
 import { Button, CardActions, IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const RecipePage = () => {
   const dispatch = useDispatch();
@@ -18,15 +29,28 @@ const RecipePage = () => {
   );
   const recipe = recipes.find((r) => r.id === id);
 
-  console.log("instructions", instructions);
+  const types = ["snack", "breakfast", "lunch", "dinner"];
+  const today = dayjs().format("YYYY-MM-DD");
+
+  const [date, setDate] = useState(dayjs(today));
+  const [type, setType] = useState("");
 
   useEffect(() => {
     dispatch(fetchIngredients(id));
     dispatch(fetchInstructions(id));
   }, []);
 
+  const handleChange = (event) => {
+    setType(event.target.value);
+  };
+
   const favorite = (id) => {
     dispatch(createFavoriteRecipePage({ recipe_id: id, userId: auth.id }));
+  };
+
+  const addToPlanner = ({ id, type, date }) => {
+    const newDate = dayjs(date).format("YYYY-MM-DD");
+    dispatch(addToMealPlanner({ id, type, date: newDate }));
   };
 
   if (!recipe) {
@@ -38,19 +62,55 @@ const RecipePage = () => {
 
   return (
     <div>
-      <h1>{recipe.title}</h1>
-      <CardActions disableSpacing>
-        {
-          <IconButton
-            aria-label="add to favorites"
-            onClick={() => favorite(id)}
-          >
-            <FavoriteIcon />
-          </IconButton>
-        }
-      </CardActions>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <h1>{recipe.title}</h1>
+        <CardActions disableSpacing>
+          {
+            <IconButton
+              aria-label="add to favorites"
+              onClick={() => favorite(id)}
+            >
+              <FavoriteIcon />
+            </IconButton>
+          }
+        </CardActions>
+      </div>
       {/* <p>**** 4.6 (15) | 117 REVIEWS | 11 PHOTOS | +favorite</p> */}
-      <Button>Add to Meal Planner</Button>
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={["DatePicker", "DatePicker"]}>
+            <DatePicker value={date} onChange={(newDate) => setDate(newDate)} />
+          </DemoContainer>
+        </LocalizationProvider>
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Type of Meal</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={type}
+              label="type"
+              onChange={handleChange}
+            >
+              {types.map((type) => {
+                return (
+                  <MenuItem value={type} key={type}>
+                    {type}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Box>
+        <Button onClick={() => addToPlanner({ date, id, type })}>
+          Add to Meal Planner
+        </Button>
+      </div>
 
       <span dangerouslySetInnerHTML={{ __html: cleanDescription }} />
       {/* <p>Recipe by *USER23* | Updated June 8, 2023</p> */}
@@ -78,7 +138,10 @@ const RecipePage = () => {
               { FORBID_TAGS: ["li"] }
             );
             return (
-              <li dangerouslySetInnerHTML={{ __html: cleanInstruction }} />
+              <li
+                key={instruction.id}
+                dangerouslySetInnerHTML={{ __html: cleanInstruction }}
+              />
             );
           })}
       </ol>
