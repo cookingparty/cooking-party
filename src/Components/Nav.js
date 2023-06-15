@@ -494,10 +494,7 @@ const Nav = () => {
   {auth.id && (
     <Box
       sx={{
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
         textTransform: "capitalize",
         position: "absolute",
         bottom: 0,
@@ -637,7 +634,7 @@ const Nav = () => {
             sx={{marginTop: '0', marginBottom: "0"}}
             >
             <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)",  marginTop: "-10px" }}>
-            {!!auth.id && onlineUsersOpen && <OnlineUsers handleToggleMessages={handleToggleMessages} drawerwidth={drawerwidth} />}
+            {!!auth.id && onlineUsersOpen && <OnlineUsers handleMessages={handleToggleMessages} drawerwidth={drawerwidth} />}
 
               </Box>
             </ListItem>
