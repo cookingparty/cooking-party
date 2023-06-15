@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express.Router();
-const { Recipe, Ingredient } = require("../db");
+const { Recipe, Ingredient, Instruction } = require("../db");
 
 module.exports = app;
 
@@ -9,6 +9,20 @@ app.get("/:id/ingredients", async (req, res, next) => {
     console.log("Ingredient", Ingredient);
     res.send(
       await Ingredient.findAll({
+        where: {
+          recipeId: req.params.id,
+        },
+      })
+    );
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.get("/:id/instructions", async (req, res, next) => {
+  try {
+    res.send(
+      await Instruction.findAll({
         where: {
           recipeId: req.params.id,
         },
