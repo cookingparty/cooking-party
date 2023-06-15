@@ -54,7 +54,7 @@ const Login = () => {
       >
         <TextField
           label="Username"
-          value={credentials.username}
+          value={credentials.username || credentials.facebook_username}
           name="username"
           onChange={onChange}
         />
