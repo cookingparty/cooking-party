@@ -6,9 +6,11 @@ import {
   createFavoriteRecipePage,
   fetchIngredients,
   fetchInstructions,
+  fetchComments,
+  createComment,
 } from "../store";
 import * as DOMPurify from "dompurify";
-import { Button, CardActions, IconButton } from "@mui/material";
+import { Button, CardActions, IconButton, TextField } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -24,9 +26,8 @@ import Select from "@mui/material/Select";
 const RecipePage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { recipes, ingredients, instructions, auth } = useSelector(
-    (state) => state
-  );
+  const { recipes, ingredients, instructions, auth, favorites, comments } =
+    useSelector((state) => state);
   const recipe = recipes.find((r) => r.id === id);
 
   const types = ["snack", "breakfast", "lunch", "dinner"];
@@ -38,7 +39,34 @@ const RecipePage = () => {
   useEffect(() => {
     dispatch(fetchIngredients(id));
     dispatch(fetchInstructions(id));
+    dispatch(fetchComments());
   }, []);
+
+  const isFavorited = (recipeId) => {
+    const recipe = recipes.find((r) => r.id === recipeId);
+    if (!recipe) {
+      const seededFromSpoonRecipe = recipes.find(
+        (recipe) => recipe.spoonacular_id === recipeId
+      );
+      if (!seededFromSpoonRecipe) {
+        return false;
+      }
+      if (
+        !!favorites.find(
+          (favorite) =>
+            favorite.recipe_id === seededFromSpoonRecipe.id &&
+            favorite.userId === auth.id
+        )
+      ) {
+        return true;
+      }
+      return false;
+    } else {
+      if (!!favorites.find((favorite) => favorite.recipe_id === recipeId)) {
+        return true;
+      }
+      return false;
+    }
 
   const handleChange = (event) => {
     setType(event.target.value);
@@ -48,9 +76,22 @@ const RecipePage = () => {
     dispatch(createFavoriteRecipePage({ recipe_id: id, userId: auth.id }));
   };
 
+  const [subject, setSubject] = useState("");
+  const [rating, setRating] = useState(5);
+  const [body, setBody] = useState("");
+
+  const addComment = () => {
+    dispatch(
+      createComment({ subject, rating, body, userId: auth.id, recipeId: id })
+    );
+    setSubject("");
+    setRating(5);
+    setBody("");
+
   const addToPlanner = ({ id, type, date }) => {
     const newDate = dayjs(date).format("YYYY-MM-DD");
     dispatch(addToMealPlanner({ id, type, date: newDate }));
+
   };
 
   if (!recipe) {
@@ -146,9 +187,45 @@ const RecipePage = () => {
           })}
       </ol>
       <hr />
-      <h3>Reviews (117)</h3>
-      <p>Review Form w/rating</p>
-      <p>Review 1</p>
+      <h3>
+        Comments ({comments.filter((comment) => comment.recipeId === id).length}
+        )
+      </h3>
+      <form>
+        <TextField
+          label="subject"
+          value={subject}
+          name="subject"
+          onChange={(ev) => setSubject(ev.target.value)}
+        />
+        <TextField
+          type="number"
+          label="rating 1-5"
+          value={rating}
+          name="rating"
+          onChange={(ev) => setRating(ev.target.value)}
+        />
+        <TextField
+          label="body"
+          value={body}
+          name="body"
+          onChange={(ev) => setBody(ev.target.value)}
+        />
+        <Button onClick={addComment}>Add Comment</Button>
+      </form>
+      <ul className="commentList">
+        {comments
+          .filter((comment) => comment.recipeId === id)
+          .map((comment) => {
+            return (
+              <li className="comment" key={comment.id}>
+                {comment.subject} - rating: {comment.rating}
+                <hr />
+                {comment.body}
+              </li>
+            );
+          })}
+      </ul>
     </div>
   );
 };
