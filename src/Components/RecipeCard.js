@@ -2,7 +2,8 @@ import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  createFavorite,
+  createFavoriteSpoonacular,
+  createFavoriteCocktail,
   seedSpoonacularRecipe,
   seedCocktailRecipe,
 } from "../store";
@@ -69,34 +70,46 @@ export default function RecipeCard({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const favorite = (id) => {
-    dispatch(createFavorite({ recipe_id: id, userId: auth.id }));
+  const favorite = async (id) => {
+    if (isCocktail) {
+      dispatch(createFavoriteCocktail({ recipe_id: id, userId: auth.id }));
+    } else {
+      dispatch(createFavoriteSpoonacular({ recipe_id: id, userId: auth.id }));
+    }
   };
 
+  //need to work on this logic
   const isFavorited = (recipeId) => {
-    const recipe = recipes.find((r) => r.id === recipeId);
-    if (!recipe) {
-      const seededFromSpoonRecipe = recipes.find(
-        (recipe) => recipe.spoonacular_id === recipeId
-      );
-      if (!seededFromSpoonRecipe) {
+    if (isCocktail) {
+      const cocktailRecipe = recipes.find((r) => r.cocktail_id === recipeId);
+      if (!cocktailRecipe) {
+        return false;
+      } else {
+        if (!!favorites.find((f) => f.recipe_id === cocktailRecipe.id)) {
+          return true;
+        }
         return false;
       }
-      if (
-        !!favorites.find(
-          (favorite) =>
-            favorite.recipe_id === seededFromSpoonRecipe.id &&
-            favorite.userId === auth.id
-        )
-      ) {
-        return true;
-      }
-      return false;
     } else {
-      if (!!favorites.find((favorite) => favorite.recipe_id === recipeId)) {
-        return true;
+      const recipe = recipes.find((r) => r.id === recipeId);
+      if (!recipe) {
+        const seededFromSpoonRecipe = recipes.find(
+          (r) => r.spoonacular_id === recipeId
+        );
+        if (!seededFromSpoonRecipe) {
+          return false;
+        } else {
+          if (
+            !!favorites.find((f) => f.recipe_id === seededFromSpoonRecipe.id)
+          ) {
+            return true;
+          }
+        }
+      } else {
+        if (!!favorites.find((f) => f.recipeId === recipeId)) {
+          return true;
+        }
       }
-      return false;
     }
   };
 
@@ -180,7 +193,7 @@ export default function RecipeCard({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        {!isFavorited(id) && (
+        {!!auth.id && !isFavorited(id) && (
           <IconButton
             aria-label="add to favorites"
             onClick={() => favorite(id)}
