@@ -36,6 +36,7 @@ function TrendingCocktails() {
           description={recipe.strInstructions}
           avatar={"C"}
           avatarColor={"blue"}
+          isCocktail={true}
         />
       ))}
     </div>

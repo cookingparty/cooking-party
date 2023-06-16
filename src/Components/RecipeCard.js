@@ -1,7 +1,11 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { createFavorite, seedSpoonacularRecipe } from "../store";
+import {
+  createFavorite,
+  seedSpoonacularRecipe,
+  seedCocktailRecipe,
+} from "../store";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -58,6 +62,7 @@ export default function RecipeCard({
   avatar,
   avatarColor,
   maxDescriptionLength = 150,
+  isCocktail,
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const { auth, recipes, favorites } = useSelector((state) => state);
@@ -95,13 +100,42 @@ export default function RecipeCard({
     }
   };
 
+  /*const openRecipePage = async (ev, id) => {
+    ev.preventDefault();
+    if (isCocktail) {
+      const recipe = recipes.find((r) => r.id === id);
+      if (!recipe) {
+        const newRecipe = await dispatch(seedCocktailRecipe(id));
+        console.log("newRecipe", newRecipe);
+        navigate(`/recipes/${newRecipe.id}`);
+      } else {
+        navigate(`/recipes/${recipe.id}`);
+      }
+    } else {
+      const recipe = recipes.find((r) => r.id === id);
+      if (!recipe) {
+        const newRecipe = await dispatch(seedSpoonacularRecipe(id));
+        console.log("newRecipe", newRecipe);
+        navigate(`/recipes/${newRecipe.id}`);
+      } else {
+        navigate(`/recipes/${recipe.id}`);
+      }
+    }
+  };*/
+
   const openRecipePage = async (ev, id) => {
     ev.preventDefault();
     const recipe = recipes.find((r) => r.id === id);
     if (!recipe) {
-      const newRecipe = await dispatch(seedSpoonacularRecipe(id));
-      console.log("newRecipe", newRecipe);
-      navigate(`/recipes/${newRecipe.id}`);
+      if (isCocktail) {
+        const newRecipe = await dispatch(seedCocktailRecipe(id));
+        console.log("newRecipe", newRecipe);
+        navigate(`/recipes/${newRecipe.id}`);
+      } else {
+        const newRecipe = await dispatch(seedSpoonacularRecipe(id));
+        console.log("newRecipe", newRecipe);
+        navigate(`/recipes/${newRecipe.id}`);
+      }
     } else {
       navigate(`/recipes/${recipe.id}`);
     }

@@ -165,7 +165,8 @@ const RecipePage = () => {
         {ingredients.map((ingredient) => {
           return (
             <li key={ingredient.id}>
-              {ingredient.amount} {ingredient.measurementUnit} {ingredient.name}
+              {ingredient.amount > 0 ? ingredient.amount : null}{" "}
+              {ingredient.measurementUnit} {ingredient.name}
             </li>
           );
         })}
