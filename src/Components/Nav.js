@@ -42,7 +42,7 @@ import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
 import FriendRequests from "./FriendRequests";
 
-
+// add this if needed into Nav=({handleToggleMessages})
 
 const Nav = () => {
   const { auth, recipes, onlineUsers, messages, users, friendships } =
@@ -613,7 +613,14 @@ const Nav = () => {
             </List>
 
             <Divider />
-           
+            <ListItem>
+              <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
+                {!!auth.id && messagesOpen && (
+                  <Chat drawerwidth={drawerwidth} />
+                )}
+              </Box>
+            </ListItem>
+
             {/* <Divider/> */}
             <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
               <Box
@@ -629,15 +636,6 @@ const Nav = () => {
                 )}
               </Box>
             </ListItem>
-
-            <ListItem>
-              <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
-                {!!auth.id && messagesOpen && (
-                  <Chat drawerwidth={drawerwidth} />
-                )}
-              </Box>
-            </ListItem>
-
 
             {/* <Divider /> */}
             <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>

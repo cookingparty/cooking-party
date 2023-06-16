@@ -173,7 +173,7 @@ const Chat = ({ drawerwidth,  }) => {
               className={chat.online ? "online" : ""}
               sx={{
                 marginTop: "15px",
-                overflowY: "auto",
+                overflowY: "auto", // adds scrolling to each chat
                 maxHeight: "240px",
                 // padding: "10px",
                 backgroundColor: "#f5f5f5",
@@ -189,13 +189,10 @@ const Chat = ({ drawerwidth,  }) => {
                   minHeight: "400px",
                 }}
               >
-                {/* <Accordion> */}
-                {/* <AccordionSummary
+                <Accordion>
+                 <AccordionSummary
                 
-               expandIcon={ <ExpandMoreIcon onClick={() => handleToggleMessages(withUserId)} />
-
-
-  }
+            
   
   aria-controls={`panel-${chat.withUser.id}-content`}
   id={`panel-${chat.withUser.id}-header`}
@@ -227,11 +224,11 @@ const Chat = ({ drawerwidth,  }) => {
       right: "4px",
     }}
   />
-</AccordionSummary> */}
+</AccordionSummary> 
 
-                {/* <AccordionDetails */}
-                {/* > */}
-                <Typography
+                <AccordionDetails >
+               
+ {/* <Typography
     variant="h3"
     style={{
       paddingLeft: '5px',
@@ -254,7 +251,7 @@ const Chat = ({ drawerwidth,  }) => {
       top: "4px",
       right: "4px",
     }}
-  />
+  /> */}
                 <List>
                   <Box>
                     {chat.messages.map((message, index) => {
@@ -384,8 +381,8 @@ const Chat = ({ drawerwidth,  }) => {
                     the chat.
                   </Typography>
                 )}
-                {/* </AccordionDetails> */}
-                {/* </Accordion> */}
+                </AccordionDetails>
+                </Accordion>
               </div>
             </Box>
           );
