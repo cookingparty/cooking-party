@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, useTheme } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
-// import {handleToggleMessages} from "./Toggles";
+
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
 import Button from "@mui/material/Button";
@@ -42,7 +42,7 @@ import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
 import FriendRequests from "./FriendRequests";
 
-// add this if needed into Nav=({handleToggleMessages})
+
 
 const Nav = () => {
   const { auth, recipes, onlineUsers, messages, users, friendships } =
@@ -613,14 +613,7 @@ const Nav = () => {
             </List>
 
             <Divider />
-            <ListItem>
-              <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
-                {!!auth.id && messagesOpen && (
-                  <Chat drawerwidth={drawerwidth} />
-                )}
-              </Box>
-            </ListItem>
-
+           
             {/* <Divider/> */}
             <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>
               <Box
@@ -636,6 +629,15 @@ const Nav = () => {
                 )}
               </Box>
             </ListItem>
+
+            <ListItem>
+              <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
+                {!!auth.id && messagesOpen && (
+                  <Chat drawerwidth={drawerwidth} />
+                )}
+              </Box>
+            </ListItem>
+
 
             {/* <Divider /> */}
             <ListItem sx={{ marginTop: "0", marginBottom: "0" }}>

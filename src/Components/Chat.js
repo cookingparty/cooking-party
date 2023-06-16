@@ -142,7 +142,7 @@ const Chat = ({ drawerwidth,  }) => {
   return (
    
     <Box>
-       <OnlineFriends/>
+       {/* <OnlineFriends/> */}
       <Typography
         variant="h1"
         style={{
@@ -231,7 +231,30 @@ const Chat = ({ drawerwidth,  }) => {
 
                 {/* <AccordionDetails */}
                 {/* > */}
-
+                <Typography
+    variant="h3"
+    style={{
+      paddingLeft: '5px',
+      paddingRight: '5px',
+      fontSize: "12px",
+      fontWeight: "bold",
+      textTransform: "capitalize",
+      textAlign: "center",
+      height: "50%"
+    }}
+  >
+    Chat with{" "}
+    {chat.withUser.username || chat.withUser.facebook_username}
+  </Typography>
+  <Badge
+    badgeContent={!readMessages.length}
+    color="primary"
+    sx={{
+      position: "absolute",
+      top: "4px",
+      right: "4px",
+    }}
+  />
                 <List>
                   <Box>
                     {chat.messages.map((message, index) => {
