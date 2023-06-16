@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createRecipe } from "../store/recipes";
 import { Button, Checkbox, TextField } from "@mui/material";
+import Ingredient from "./Ingredient";
 
 const UploadRecipe = () => {
   const { auth } = useSelector((state) => state);
@@ -19,6 +20,12 @@ const UploadRecipe = () => {
     isCocktail: false,
     userId: auth.id,
   });
+  const [trigger, setTrigger] = useState(false);
+
+  const [instruction, setInstruction] = useState({
+    listOrder: "",
+    specification: "",
+  });
 
   const onChange = (ev) => {
     setRecipe({
@@ -29,7 +36,7 @@ const UploadRecipe = () => {
 
   const create = async (ev) => {
     ev.preventDefault();
-    console.log(recipe);
+    setTrigger(true);
     await dispatch(createRecipe(recipe));
     navigate("/recipes");
   };
@@ -44,12 +51,9 @@ const UploadRecipe = () => {
           name="title"
           onChange={onChange}
         />
-        <TextField
-          label="ingredients"
-          value={recipe.ingredients}
-          name="ingredients"
-          onChange={onChange}
-        />{" "}
+        <h4>Ingredients</h4>
+        <Ingredient trigger={trigger} />
+        <Button>add more</Button>
         <TextField
           label="instructions"
           value={recipe.instructions}

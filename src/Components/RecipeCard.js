@@ -117,7 +117,6 @@ export default function RecipeCard({
       : description;
 
   const clean = DOMPurify.sanitize(trimmedDescription);
-  console.log("typeof trimmedDescription", typeof trimmedDescription);
 
   return (
     <Card sx={{ maxWidth: 350, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>

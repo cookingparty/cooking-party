@@ -6,7 +6,6 @@ module.exports = app;
 
 app.get("/:id/ingredients", async (req, res, next) => {
   try {
-    console.log("Ingredient", Ingredient);
     res.send(
       await Ingredient.findAll({
         where: {
