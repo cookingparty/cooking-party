@@ -135,8 +135,6 @@ Recipe.seedCocktailRecipe = async function (cocktailId) {
       isCocktail: true,
     });
 
-    console.log("recipe", recipe);
-
     for (let i = 0; i < 14; i++) {
       if (response.data.drinks[0][`strIngredient${i + 1}`]) {
         const ingredient = await conn.models.ingredient.create({
@@ -144,7 +142,6 @@ Recipe.seedCocktailRecipe = async function (cocktailId) {
           recipeId: recipe.id,
           measurementUnit: response.data.drinks[0][`strMeasure${i + 1}`],
         });
-        console.log("ingredient", ingredient);
       }
     }
 
@@ -157,7 +154,6 @@ Recipe.seedCocktailRecipe = async function (cocktailId) {
           specification: instruction,
           recipeId: recipe.id,
         });
-        console.log("instruction", newInstruction);
       }
     });
   } else if (recipe) {

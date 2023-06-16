@@ -142,11 +142,9 @@ export default function RecipeCard({
     if (!recipe) {
       if (isCocktail) {
         const newRecipe = await dispatch(seedCocktailRecipe(id));
-        console.log("newRecipe", newRecipe);
         navigate(`/recipes/${newRecipe.id}`);
       } else {
         const newRecipe = await dispatch(seedSpoonacularRecipe(id));
-        console.log("newRecipe", newRecipe);
         navigate(`/recipes/${newRecipe.id}`);
       }
     } else {
