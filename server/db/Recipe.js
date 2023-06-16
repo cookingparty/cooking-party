@@ -20,10 +20,10 @@ const Recipe = conn.define("recipe", {
     type: STRING,
     allowNull: false,
   },
-  instructionsFake: {
-    type: TEXT,
-    /*allowNull: false,*/
-  },
+  // instructionsFake: {
+  //   type: TEXT,
+  //   /*allowNull: false,*/
+  // },
   description: {
     type: TEXT,
   },

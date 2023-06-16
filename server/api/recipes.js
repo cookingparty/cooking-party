@@ -51,8 +51,32 @@ app.post("/spoonacular", async (req, res, next) => {
 
 app.post("/", async (req, res, next) => {
   try {
-    const recipe = await Recipe.create(req.body);
-    res.status(201).send(recipe);
+    const { recipe, ingredients, instructions } = req.body;
+    console.log(req.body);
+    const createdRecipe = await Recipe.create({
+      title: recipe.title,
+      description: recipe.description,
+      image: recipe.image,
+      imageURL: recipe.imageURL,
+      isCocktail: recipe.isCocktail,
+      userId: recipe.userId,
+    });
+    for (const ingredient of ingredients) {
+      const createdIngredient = await Ingredient.create({
+        name: ingredient.name,
+        amount: ingredient.amount,
+        measurementUnit: ingredient.measurementUnit,
+        recipeId: createdRecipe.id,
+      });
+    }
+    for (const instruction of instructions) {
+      const createdIngredient = await Instruction.create({
+        listOrder: instruction.listOrder,
+        specification: instruction.specification,
+        recipeId: createdRecipe.id,
+      });
+    }
+    res.status(201).send(createdRecipe);
   } catch (ex) {
     next(ex);
   }

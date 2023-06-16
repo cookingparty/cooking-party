@@ -1,34 +1,48 @@
 import { TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { createIngredient } from "../store";
 
-const Ingredient = ({ trigger }) => {
+const Ingredient = ({ trigger, setTrigger, recipeId }) => {
   const dispatch = useDispatch();
+
+  console.log("trigger", trigger);
 
   const [ingredient, setIngredient] = useState({
     name: "",
     amount: 0,
     measurementUnit: "",
+    recipeId: recipeId,
   });
+
+  useEffect(() => {
+    const create = async () => {
+      await dispatch(createIngredient(ingredient));
+    };
+
+    if (trigger) {
+      create();
+    }
+    setTrigger(false);
+  }, [trigger]);
 
   const onChange = (ev) => {
     setIngredient({
       ...ingredient,
-      [ev.target.name]: ev.target.value || ev.target.checked,
+      [ev.target.name]: ev.target.value,
     });
   };
 
-  const create = async (ev) => {
-    ev.preventDefault();
-    if (trigger) {
-      await dispatch(createIngredient(ingredient));
-    }
-    trigger = false;
-  };
+  //   const create = async (ev) => {
+  //     ev.preventDefault();
+  //     if (trigger) {
+  //       await dispatch(createIngredient(ingredient));
+  //     }
+  //     trigger = false;
+  //   };
 
   return (
-    <div
-      style={{ display: "flex", justifyContent: "space-around" }} >
+    <div style={{ display: "flex", justifyContent: "space-around" }}>
       <TextField
         fullWidth
         label="amount"
@@ -47,7 +61,7 @@ const Ingredient = ({ trigger }) => {
         fullWidth
         label="measurement unit"
         value={ingredient.measurementUnit}
-        name="measurement unit"
+        name="measurementUnit"
         onChange={onChange}
       />
     </div>
