@@ -81,7 +81,7 @@ export default function RecipeCard({
   //need to work on this logic
   const isFavorited = (recipeId) => {
     if (isCocktail) {
-      const cocktailRecipe = recipes.find((r) => r.cocktail_id === recipeId);
+      const cocktailRecipe = recipes.find((r) => r.cocktail_id == recipeId);
       if (!cocktailRecipe) {
         return false;
       } else {
