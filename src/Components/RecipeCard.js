@@ -117,7 +117,6 @@ export default function RecipeCard({
       : description;
 
   const clean = DOMPurify.sanitize(trimmedDescription);
-  console.log("typeof trimmedDescription", typeof trimmedDescription);
 
   return (
     <Card sx={{ maxWidth: 350, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
@@ -143,7 +142,6 @@ export default function RecipeCard({
       <CardMedia component="img" height="194" image={image} alt={title} />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {/* Need to install a HTML parser to get rid of the HTML tags in the description */}
           <span dangerouslySetInnerHTML={{ __html: clean }} />
         </Typography>
       </CardContent>
@@ -176,7 +174,9 @@ export default function RecipeCard({
           <Typography paragraph>
             Summary (Do we want Ingredients here or comments?)
           </Typography>
-          <Typography paragraph>{description}</Typography>
+          <Typography paragraph>
+            <span dangerouslySetInnerHTML={{ __html: clean }} />
+          </Typography>
           <Typography paragraph>
             This is another place holder comment
           </Typography>
