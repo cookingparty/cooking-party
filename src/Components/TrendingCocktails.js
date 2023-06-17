@@ -27,21 +27,23 @@ function TrendingCocktails() {
 			console.error(error);
 		}
 	};
-
-	return (
-		<div className="recipe-grid">
-			{trendingCocktails.map((recipe) => (
-				<RecipeCard
-					key={recipe.idDrink}
-					title={recipe.strDrink}
-					image={recipe.strDrinkThumb}
-					description={recipe.strInstructions}
-          avatar={'C'}
-          avatarColor={'blue'}
-				/>
-			))}
-		</div>
-	);
+  
+  return (
+    <div className="recipe-grid">
+      {trendingCocktails.map((recipe) => (
+        <RecipeCard
+          key={recipe.idDrink}
+          id={recipe.idDrink}
+          title={recipe.strDrink}
+          image={recipe.strDrinkThumb}
+          description={recipe.strInstructions}
+          avatar={"C"}
+          avatarColor={"blue"}
+          isCocktail={true}
+        />
+      ))}
+    </div>
+  );
 }
 
 export default TrendingCocktails;

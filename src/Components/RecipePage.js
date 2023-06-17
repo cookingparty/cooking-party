@@ -43,30 +43,10 @@ const RecipePage = () => {
   }, []);
 
   const isFavorited = (recipeId) => {
-    const recipe = recipes.find((r) => r.id === recipeId);
-    if (!recipe) {
-      const seededFromSpoonRecipe = recipes.find(
-        (recipe) => recipe.spoonacular_id === recipeId
-      );
-      if (!seededFromSpoonRecipe) {
-        return false;
-      }
-      if (
-        !!favorites.find(
-          (favorite) =>
-            favorite.recipe_id === seededFromSpoonRecipe.id &&
-            favorite.userId === auth.id
-        )
-      ) {
-        return true;
-      }
-      return false;
-    } else {
-      if (!!favorites.find((favorite) => favorite.recipe_id === recipeId)) {
-        return true;
-      }
-      return false;
+    if (!!favorites.find((favorite) => favorite.recipe_id === recipeId)) {
+      return true;
     }
+    return false;
   };
 
   const handleChange = (event) => {
@@ -112,14 +92,14 @@ const RecipePage = () => {
       >
         <h1>{recipe.title}</h1>
         <CardActions disableSpacing>
-          {
+          {!!auth.id && !isFavorited(id) && (
             <IconButton
               aria-label="add to favorites"
               onClick={() => favorite(id)}
             >
               <FavoriteIcon />
             </IconButton>
-          }
+          )}
         </CardActions>
       </div>
       {/* <p>**** 4.6 (15) | 117 REVIEWS | 11 PHOTOS | +favorite</p> */}
@@ -165,7 +145,8 @@ const RecipePage = () => {
         {ingredients.map((ingredient) => {
           return (
             <li key={ingredient.id}>
-              {ingredient.amount} {ingredient.measurementUnit} {ingredient.name}
+              {ingredient.amount > 0 ? ingredient.amount : null}{" "}
+              {ingredient.measurementUnit} {ingredient.name}
             </li>
           );
         })}
