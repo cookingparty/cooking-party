@@ -7,6 +7,32 @@ import TrendingCocktails from './TrendingCocktails';
 import Instafeed from 'instafeed.js';
 import Box from '@mui/material/Box';
 import { accessTokenIg } from '../../secrets';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
+const photos = [
+  {
+    imageUrl: 'placeholder-link-1',
+    description: 'Photo 1 Description',
+  },
+  {
+    imageUrl: 'placeholder-link-2',
+    description: 'Photo 2 Description',
+  },
+  {
+    imageUrl: 'placeholder-link-3',
+    description: 'Photo 3 Description',
+  },
+  {
+    imageUrl: 'placeholder-link-4',
+    description: 'Photo 4 Description',
+  },
+];
+
+
+
+
+
 
 const InstagramCarousel = () => {
   const [instaFeed, setInstaFeed] = useState([]);
@@ -26,6 +52,7 @@ const InstagramCarousel = () => {
   }, []);
 
   return (
+    
     <div id="instafeed-container">
       {instaFeed.map((image, index) => (
         <img key={index} src={image} alt={`Instagram ${index}`} style={{ display: 'none' }} />
@@ -38,7 +65,7 @@ const Home = () => {
   const { auth } = useSelector((state) => state);
 
   return (
-    <div style={{ margin: '50px' }}>
+    <div style={{ margin: '50px', textAlign: 'center' }}>
       <div>
         {auth.id ? (
           <p>{''}</p>
@@ -64,6 +91,56 @@ const Home = () => {
         )}
         <div>
           <Box display="flex" flexDirection="column" alignItems="center" marginBottom={2}>
+           
+          <Box
+      sx={{
+        backgroundColor: 'almond',
+        margin: '40px',
+        height: 'calc(50% * 9 / 16)',
+        width: '50%',
+        border: '40px solid almond',
+      }}
+    >
+      <Box
+        sx={{
+          backgroundColor: 'white',
+          padding: '10px',
+          margin: '0 auto',
+        }}
+      >
+        
+        <Carousel showArrows={false} showThumbs={false} showStatus={false} centerMode={true} centerSlidePercentage={100}>
+          {photos.map((photo, index) => (
+            <Box key={index}>
+              <img
+                src={photo.imageUrl}
+                alt={`Photo ${index + 1}`}
+                sx={{
+                  objectFit: 'cover',
+                  width: '100%',
+                  height: '100%',
+                }}
+              />
+              <p sx={{ textAlign: 'center' }}>{photo.description}</p>
+            </Box>
+          ))}
+        </Carousel>
+      </Box>
+      <Box
+        sx={{
+          backgroundColor: 'white',
+          padding: '10px',
+          marginTop: '10px',
+        }}
+      >
+        <h3 sx={{ textAlign: 'center' }}>Current Featured Recipe</h3>
+        <p sx={{ textAlign: 'center' }}>
+          Placeholder text about the most current featured recipe. This is a brief description that should be under 100
+          words.
+        </p>
+      </Box>
+    </Box>
+           
             <p>Our Latest Recipes on Instagram</p>
             <InstagramCarousel />
           </Box>
