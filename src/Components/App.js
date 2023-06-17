@@ -17,6 +17,7 @@ import About from "./About";
 import TermsAndConditions from "./TermsAndConditions";
 import FAQ from "./FAQ";
 import ContactUs from "./ContactUs";
+import RecipeSearchPage from "./RecipeSearchPage";
 import RecipePage from "./RecipePage";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -115,6 +116,8 @@ const App = () => {
           <Route path="/cocktails" element={<Cocktails />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/shop/search/:filterString" element={<Recipes />} />
+          <Route path="/recipeSearch" element={<RecipeSearchPage />} />
+          <Route path="/recipeSearch/:filter" element={<RecipeSearchPage />} />
           <Route
             path="/terms-and-conditions"
             element={<TermsAndConditions />}
