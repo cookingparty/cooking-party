@@ -2,8 +2,7 @@ import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createRecipe } from "../store/recipes";
-import { Button, Checkbox, TextField } from "@mui/material";
-import Ingredient from "./Ingredient";
+import { Button, TextField } from "@mui/material";
 
 const UploadRecipe = () => {
   const { auth } = useSelector((state) => state);
