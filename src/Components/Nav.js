@@ -333,7 +333,7 @@ const Nav = () => {
         <StyledAppBar
           position="fixed"
           open={open}
-          sx={{ background: "#F9F6EE" }}
+          sx={{ background: "white" }}
         >
           <Toolbar disableGutters>
             {/* Dropdown menu (Nav) */}
@@ -394,7 +394,7 @@ const Nav = () => {
             >
               <Link to="/">
                 <img
-                  src="static/images/cooking-party-transparent.png"
+                  src="static/images/cookingPartyCircleBullseye2.png"
                   alt="Cooking Party Logo"
                   style={{ width: "110px", height: "auto" }}
                 />
@@ -514,7 +514,7 @@ const Nav = () => {
           >
             <DrawerHeader>
             <Box
-          sx={{ justifyContent: open ? "inital" : "center", padding: '20', background: "#F9F6EE",  fontSize: '10px', font: 'Helvetica'}}
+          sx={{ justifyContent: open ? "inital" : "center", padding: '20', background: "white",  fontSize: '10px', font: 'Helvetica'}}
           >
           <Typography
        sx={{fontSize: '10px', font: 'Helvetica',}}
