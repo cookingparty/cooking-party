@@ -7,6 +7,7 @@ const messages = (state = [], action) => {
   if (action.type === "CREATE_MESSAGE") {
     return [...state, action.message];
   }
+ 
   return state;
 };
 
@@ -33,5 +34,7 @@ export const createMessage = (message) => {
     dispatch({ type: "CREATE_MESSAGE", message: response.data });
   };
 };
+
+
 
 export default messages;

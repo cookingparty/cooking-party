@@ -10,9 +10,7 @@ import Cocktails from "./Cocktails";
 import Groups from "./Groups";
 import Group from "./Group";
 import GroupCreate from "./GroupCreate";
-
 import Chatting from "./Chatting";
-
 import MySavedRecipes from "./MySavedRecipes";
 import Friends from "./Friends";
 import About from "./About";
@@ -20,6 +18,7 @@ import TermsAndConditions from "./TermsAndConditions";
 import FAQ from "./FAQ";
 import ContactUs from "./ContactUs";
 import RecipeSearchPage from "./RecipeSearchPage";
+import RecipePage from "./RecipePage";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -106,11 +105,13 @@ const App = () => {
           <Route path="/friends" element={<Friends />} />
           <Route path="/about" element={<About />} />
           <Route path="/planner" element={<MealPlanner />} />
+          
 
           {!auth.id}
           <Route path="/" element={<Home />} />
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/recipes/upload" element={<UploadRecipe />} />
+          <Route path="/recipes/:id" element={<RecipePage />} />
           <Route path="/meals" element={<Meals />} />
           <Route path="/cocktails" element={<Cocktails />} />
           <Route path="/logout" element={<Logout />} />

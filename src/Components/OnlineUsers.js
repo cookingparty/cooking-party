@@ -1,10 +1,14 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createFriendship, createMessage } from "../store";
-import { Send, ExpandMore as ExpandMoreIcon, PersonAdd } from "@mui/icons-material";
+import {
+  Send,
+  ExpandMore as ExpandMoreIcon,
+  PersonAdd,
+} from "@mui/icons-material";
 import Chat from "@mui/icons-material/Chat";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import {
   IconButton,
   Accordion,
@@ -18,8 +22,7 @@ import {
 } from "@mui/material";
 
 
-
-const OnlineUsers = ({ drawerwidth }) => {
+const OnlineUsers = ({ drawerwidth, handleToggleMessages }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
@@ -62,6 +65,11 @@ const OnlineUsers = ({ drawerwidth }) => {
     return false;
   };
 
+  const requests = friends.filter((friend) => {
+    const friendship = findFriendship(friend.id);
+    return friendship && friendship.status === "PENDING";
+  });
+
   const confirmedFriend = (user) => {
     const friend = friends.find((f) => f.id === user.id);
     if (!!friend && findFriendship(friend.id)) {
@@ -82,154 +90,167 @@ const OnlineUsers = ({ drawerwidth }) => {
     }
     return false;
   };
-console.log(onlineUsers)
-
-const colors = [
-  '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF',
-  '#FF00FF', '#C0C0C0', '#808080', '#800000', '#808000',
-  '#008000', '#800080', '#008080', '#000080', '#FFA500',
-  '#FF4500', '#DA70D6', '#FA8072', '#20B2AA', '#7B68EE'
-];
 
 
+  const colors = [
+    '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF',
+    '#FF00FF', '#C0C0C0', '#808080', '#800000', '#808000',
+    '#008000', '#800080', '#008080', '#000080', '#FFA500',
+    '#FF4500', '#DA70D6', '#FA8072', '#20B2AA', '#7B68EE'
+  ];
 
   return (
-    <Box>
-      <Typography
-        variant="h1"
-        style={{
-          fontSize: "16px",
-          fontFamily: "Helvetica",
-          textAlign: "center",
-          marginTop: "30px",
+  
+<Box
+        sx={{
+          minHeight: "20px",
+          marginTop: "5px",
+          overflowY: "auto",
+          padding: "10px",
+          backgroundColor: "#f5f5f5",
+          display: "flex",
+          flexDirection: "column",
+          width: drawerwidth - 40,
         }}
       >
-        WHO'S ONLINE
-        </Typography>
-      <div id="onlineFriends" style={{ overflowY: "auto" }}></div>
+
       
-        {onlineUsers.map((user) => {
-           const randomIndex = Math.floor(Math.random() * colors.length);
-           const randomColor = colors[randomIndex];
-   
-           const avatarStyle = user && user.avatar ? {
-             width: '20px',
-             height: '20px',
-             marginRight: '3px'
-           } : {
-             width: '20px',
-             height: '20px',
-             marginRight: '3px',
-             color: randomColor
-           };
-          return (
-            <Box
-            key={user.id}
-            sx={{
-              marginTop: "10px",
-              overflowY: "auto",
-              // maxHeight: "240px",
-              padding: "10px",
-              backgroundColor: "#f5f5f5",
-              display: "flex",
-              flexDirection: "column",
-              width: drawerwidth - 40,
-            }}
-          >
-             <div style={{ background: "#f5f5f5", padding: "10px",  }}>
-             <Accordion>
+      <div style={{ background: "#f5f5f5", padding: "10px", minHeight: '250px' }}>
+
+              <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   sx={{
-                    position: 'relative',
-                    margin: '0',
-                    padding: '2px 0',
+                    position: "relative",
+                    margin: "0",
+                    padding: "2px 0",
                   }}
                 >
                   <Typography
                     variant="h3"
                     style={{
-                      fontSize: '12px',
-                      fontWeight: 'bold',
-                      textTransform: 'capitalize',
-                      textAlign: 'center',
-                      marginLeft: '8px'
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      textTransform: "capitalize",
+                      textAlign: "center",
+
+                      marginLeft: "20px",
+
                     }}
                   >
                     See Who's Online
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails style={{ margin: '-5px 0 0', padding: 0 }}>
-  <Box maxHeight="80px" overflow="auto">
-  <List>
-      <ListItem sx={{ paddingRight: "8px", paddingTop: '0', paddingBottom: '0' }}>
-      <div style={{ display: 'flex', alignItems: 'center', width: "100%" }}>
-  {user.avatar ? (
-    <img
-      src={user.avatar}
-      alt="User Avatar"
-      style={avatarStyle}
-    />
-  ) : (
-    <AccountCircleRoundedIcon style={avatarStyle} />
-  )}
-  <Typography
-    variant="body1"
-    style={{
-      paddingLeft: '5px',
-      paddingRight: '5px',
-      fontSize: '10px',
-      textTransform: 'capitalize',
-      overflowWrap: "break-word",
-      wordWrap: "break-word",
-      hyphens: "auto",
-      whiteSpace: "normal",
-      width: "100%",
-      lineHeight: '10px',
-      maxHeight: '20px',
-      overflow: 'hidden'
-    }}
-  >
-    {user.username && user.username.charAt(0).toUpperCase() + user.username.slice(1)}
-  </Typography>
-</div>
-{!isRequested(user) && (
-  <PersonAddAlt1Icon
-    aria-label="Add Friend"
-    color="inherit"
-    onClick={() => {
-      dispatch(createMessage({ toId: user.id, txt: "Add Friend" }));
-    }}
-    
-  >
-    </PersonAddAlt1Icon>
-)}
+                <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
 
-{isRequested(user) && (
-  <IconButton
-    aria-label="let's chat"
-    color="inherit"
-    onClick={() => {
-      // Use handleToggleMessages from Nav.js
-      //  handleToggleMessages();
-      dispatch(createMessage({ toId: user.id, txt: "Let's Chat" }));
-    }}
-  >
-    <Chat />
-  </IconButton>
-)}
+                  
+                  <Box maxHeight="80px" overflow="auto">
+                    <List>
+                    {onlineUsers.map((user) => {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        const randomColor = colors[randomIndex];
 
+        const avatarStyle =
+          user && user.avatar
+            ? {
+                width: "20px",
+                height: "20px",
+                marginRight: "3px",
+              }
+            : {
+                width: "20px",
+                height: "20px",
+                marginRight: "3px",
+                color: randomColor,
+              };
+        return (
+          
+                      <ListItem
+                      key={user.id}
 
-               </ListItem>
-    </List>
-  </Box>
-</AccordionDetails>
-</Accordion>
+                        sx={{
+                          paddingRight: "8px",
+                          paddingTop: "0",
+                          paddingBottom: "0",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        >
+                          {user.avatar ? (
+                            <img
+                              src={user.avatar}
+                              alt="User Avatar"
+                              style={avatarStyle}
+                            />
+                          ) : (
+                            <AccountCircleRoundedIcon style={avatarStyle} />
+                          )}
+                          <Typography
+                            variant="body1"
+                            style={{
+                              paddingLeft: "5px",
+                              paddingRight: "5px",
+                              fontSize: "10px",
+                              textTransform: "capitalize",
+                              overflowWrap: "break-word",
+                              wordWrap: "break-word",
+                              hyphens: "auto",
+                              whiteSpace: "normal",
+                              width: "100%",
+                              lineHeight: "10px",
+                              maxHeight: "20px",
+                              overflow: "hidden",
+                            }}
+                          >
+                            {user.username &&
+                              user.username.charAt(0).toUpperCase() +
+                                user.username.slice(1)}
+                          </Typography>
+                        </div>
+                        {!isRequested(user) && (
+                          <PersonAddAlt1Icon
+                            aria-label="Add Friend"
+                            color="inherit"
+                            onClick={() => {
+                              sendRequest(user.id);
+                              // dispatch(createMessage({ toId: user.id, txt: "Add Friend" }));
+
+                            }}
+                          ></PersonAddAlt1Icon>
+                        )}
+
+                        {isRequested(user) && (
+                          <IconButton
+                            aria-label="let's chat"
+                            color="inherit"
+                            onClick={() => {
+                              handleToggleMessages(user.id)
+                              dispatch(
+                                createMessage({
+                                  toId: user.id,
+                                  txt: "Let's Chat",
+                                })
+                              );
+                            }}
+                          >
+                            <Chat />
+                          </IconButton>
+                        )}
+                      </ListItem>
+
+                      );
+                    })}
+                    </List>
+                  </Box>
+                </AccordionDetails>
+              </Accordion>
             </div>
           </Box>
-          );
-        })}
-     </Box>
   );
 };
 
