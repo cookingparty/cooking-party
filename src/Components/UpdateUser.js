@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -62,14 +62,14 @@ const UpdateUser = () => {
       <label>Username</label>
       <TextField
         placeholder="username"
-        value={account.username}
+        value={account.username || account.facebook_username || ""}
         name="username"
         onChange={onChange}
       />
       <label>Password</label>
       <TextField
         placeholder="password"
-        value={account.password}
+        value={account.password || ""}
         name="password"
         onChange={onChange}
         type="password"
@@ -78,13 +78,13 @@ const UpdateUser = () => {
       <TextField
         type="text"
         multiline
-        value={account.about ? account.about : ""}
+        value={account.about || ""}
         name="about"
         onChange={onChange}
       />
       <label>Avatar (PNG, JPEG, JPG only)</label>
       <input type="file" ref={ref} />
-      <button variant="outlined"> update </button>
+      <Button variant="outlined"> update </Button>
     </form>
   );
 };
