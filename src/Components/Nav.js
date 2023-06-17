@@ -19,7 +19,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import Search from "./Search";
 import { Container, TextField } from "@mui/material";
 import Dashboard from "./Dashboard";
-import SearchAll from "./SearchALL";
+import SearchAll from "./SearchAll";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
