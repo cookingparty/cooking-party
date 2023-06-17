@@ -1,59 +1,116 @@
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-import axios from 'axios';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
+import { use } from 'chai';
 
-const Search = ({ onSearch }) => {
-  const [search, setSearch] = useState('');
+export default function SearchBar() {
+  const [recipeOptions, setRecipeOptions] = useState([]);
 
-  const handleInputChange = (event) => {
-    setSearch(event.target.value);
-  };
-
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.example.com/recipes?q=${search}`
-      );
-      const data = response.data;
-      onSearch(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      executeSearch();
-    }
-  };
-
-  const executeSearch = () => {
-    handleSearch();
-  };
+useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const response = await axios.get('YOUR_RECIPE_API_URL');
+        const recipes = response.data;
+        const recipeTitles = recipes.map((recipe) => recipe.title);
+        setRecipeOptions(recipeTitles);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchRecipes();
+  }, []);
+  
 
   return (
-    <div>
-      <TextField
-        label="Search"
-        variant="outlined"
-        value={search}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        InputProps={{
-          endAdornment: (
-            <IconButton onClick={handleSearch}>
-              <SearchIcon />
-            </IconButton>
-          ),
-        }}
+    <Stack spacing={2} sx={{ width: 300 }}>
+      <Autocomplete
+        id="free-solo-demo"
+        freeSolo
+        options={top100Films.map((option) => option.title)}
+        renderInput={(params) => <TextField {...params} label="freeSolo" />}
       />
-    </div>
+      <Autocomplete
+        freeSolo
+        id="free-solo-2-demo"
+        disableClearable
+        options={top100Films.map((option) => option.title)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search input"
+            InputProps={{
+              ...params.InputProps,
+              type: 'search',
+            }}
+          />
+        )}
+      />
+    </Stack>
   );
-};
+}
 
-export default Search;
+
+
+
+// import React, { useState } from 'react';
+// import TextField from '@mui/material/TextField';
+// import IconButton from '@mui/material/IconButton';
+// import SearchIcon from '@mui/icons-material/Search';
+// import axios from 'axios';
+
+// const Search = ({ onSearch }) => {
+//   const [search, setSearch] = useState('');
+
+//   const handleInputChange = (event) => {
+//     setSearch(event.target.value);
+//   };
+
+//   const handleSearch = async () => {
+//     try {
+//       const response = await axios.get(
+//         `https://api.example.com/recipes?q=${search}`
+//       );
+//       const data = response.data;
+//       onSearch(data);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   const handleKeyDown = (event) => {
+//     if (event.key === 'Enter') {
+//       executeSearch();
+//     }
+//   };
+
+//   const executeSearch = () => {
+//     handleSearch();
+//   };
+
+//   return (
+//     <div>
+//       <TextField
+//         label="Search"
+//         variant="outlined"
+//         value={search}
+//         onChange={handleInputChange}
+//         onKeyDown={handleKeyDown}
+//         InputProps={{
+//           endAdornment: (
+//             <IconButton onClick={handleSearch}>
+//               <SearchIcon />
+//             </IconButton>
+//           ),
+//         }}
+//       />
+//     </div>
+//   );
+// };
+
+// export default Search;
 
 
 // import React, { useState } from 'react';

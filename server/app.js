@@ -27,6 +27,7 @@ app.use("/api/users", require("./api/users"));
 app.use("/api/messages", require("./api/messages"));
 app.use("/api/favorites", require("./api/favorites"));
 app.use("/api/mealplanner", require("./api/mealplanner"));
+app.use('/api/recipeSearch', require('./api/recipeSearch')); 
 
 app.get("/api/onlineUsers", (req, res, next) => {
   try {

@@ -21,52 +21,52 @@ import { Button, Icon, Tooltip } from "@mui/material";
 import * as DOMPurify from "dompurify";
 
 const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
+	const { expand, ...other } = props;
+	return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
+	transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+	marginLeft: 'auto',
+	transition: theme.transitions.create('transform', {
+		duration: theme.transitions.duration.shortest,
+	}),
 }));
 
 const TitleTypography = styled(Typography)(({ theme }) => ({
-  display: "-webkit-box",
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: "vertical",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  wordBreak: "break-word",
-  WebkitBoxPack: "center",
-  WebkitBoxAlign: "center",
-  textAlign: "center",
-  WebkitBoxFlex: 1,
-  marginBottom: theme.spacing(1),
-  maxHeight: 64, // Adjust the height as needed
-  lineHeight: "1.2em",
+	display: '-webkit-box',
+	WebkitLineClamp: 2,
+	WebkitBoxOrient: 'vertical',
+	overflow: 'hidden',
+	textOverflow: 'ellipsis',
+	wordBreak: 'break-word',
+	WebkitBoxPack: 'center',
+	WebkitBoxAlign: 'center',
+	textAlign: 'center',
+	WebkitBoxFlex: 1,
+	marginBottom: theme.spacing(1),
+	maxHeight: 64, // Adjust the height as needed
+	lineHeight: '1.2em',
 }));
 
 export default function RecipeCard({
-  id,
-  title,
-  description,
-  image,
-  subheader,
-  readyInMinutes,
-  serves,
-  avatar,
-  avatarColor,
-  maxDescriptionLength = 150,
+	id,
+	title,
+	description,
+	image,
+	subheader,
+	readyInMinutes,
+	serves,
+	avatar,
+	avatarColor,
+	maxDescriptionLength = 150,
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const { auth, recipes, favorites } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const favorite = (id) => {
-    dispatch(createFavorite({ recipe_id: id, userId: auth.id }));
-  };
+	const favorite = (id) => {
+		dispatch(createFavorite({ recipe_id: id, userId: auth.id }));
+	};
 
   const isFavorited = (recipeId) => {
     const recipe = recipes.find((r) => r.id === recipeId);
@@ -111,10 +111,10 @@ export default function RecipeCard({
     setExpanded(!expanded);
   };
 
-  const trimmedDescription =
-    description.length > maxDescriptionLength
-      ? `${description.slice(0, maxDescriptionLength)}...`
-      : description;
+	const trimmedDescription =
+		description && description.length > maxDescriptionLength
+			? `${description.slice(0, maxDescriptionLength)}...`
+			: description;
 
   const clean = DOMPurify.sanitize(trimmedDescription);
 
@@ -136,6 +136,16 @@ export default function RecipeCard({
             <Link onClick={(ev) => openRecipePage(ev, id)}>{title}</Link>
           </TitleTypography>
         }
+
+        //NR Link test
+        // <Link
+				// 		to={`/recipePage/${id}`}
+				// 		style={{ textDecoration: 'none', color: 'inherit' }}
+				// 	>
+				// 		<TitleTypography variant="h6" component="div">
+				// 			{title}
+				// 		</TitleTypography>
+				// 	</Link>
         // subheader={subheader}
       />
 
@@ -187,12 +197,12 @@ export default function RecipeCard({
             mussels, tucking them down into the rice, and cook again without
             stirring, until mussels have opened and rice is just tender, 5 to 7
             minutes more. (Discard any mussels that don&apos;t open.) */}
-          </Typography>
-          <Typography>
-            {/* Set aside off of the heat to let rest for 10 minutes, and then serve. */}
-          </Typography>
-        </CardContent>
-      </Collapse>
-    </Card>
-  );
+					</Typography>
+					<Typography>
+						{/* Set aside off of the heat to let rest for 10 minutes, and then serve. */}
+					</Typography>
+				</CardContent>
+			</Collapse>
+		</Card>
+	);
 }
