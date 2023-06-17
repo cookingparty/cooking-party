@@ -99,7 +99,7 @@ return (
     width: '700px', 
   }}
 >
-<Carousel autoPlay={true} animation="slide" interval={7000}>
+<Carousel autoPlay={true} animation="slide" interval={6000}>
     {recipes.map((recipe, index) => {
       console.log(`Recipe ${index} Image URL:`, recipe.imageURL); // Add the console.log statement here
       return   <img
