@@ -26,7 +26,6 @@ const InstagramCarousel = () => {
   }, []);
 
   return (
-    
     <div id="instafeed-container">
       {instaFeed.map((image, index) => (
         <img key={index} src={image} alt={`Instagram ${index}`} style={{ display: 'none' }} />
@@ -39,50 +38,47 @@ const Home = () => {
   const { auth } = useSelector((state) => state);
 
   return (
-    <div>
-     
-      {auth.id ? (
-        <p>{''}</p>
-      ) : (
-        <Button
-          component={Link}
-          to="/auth/login"
-          variant="contained"
-          color="primary"
-          size="large"
-          sx={{
-            mt: 3,
-            color: '#333',
-            backgroundColor: '#F9F6EE',
-            '&:hover': {
-              backgroundColor: '#F5F5F5',
-              color: '#888',
-            },
-          }}
-        >
-          Login Here
-        </Button>
-      )}
+    <div style={{ margin: '50px' }}>
       <div>
-      <Box display="flex" flexDirection="column" alignItems="center">
-<p>Our Latest Recipes on Instagram</p>
-        <InstagramCarousel  />
-        </Box>
-        <h2>Trending Meal Recipes</h2>
-        <TrendingMeals />
+        {auth.id ? (
+          <p>{''}</p>
+        ) : (
+          <Button
+            component={Link}
+            to="/auth/login"
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{
+              mt: 3,
+              color: '#333',
+              backgroundColor: '#F9F6EE',
+              '&:hover': {
+                backgroundColor: '#F5F5F5',
+                color: '#888',
+              },
+            }}
+          >
+            Login Here
+          </Button>
+        )}
+        <div>
+          <Box display="flex" flexDirection="column" alignItems="center" marginBottom={2}>
+            <p>Our Latest Recipes on Instagram</p>
+            <InstagramCarousel />
+          </Box>
+          <h2>Trending Meal Recipes</h2>
+          <TrendingMeals />
 
-        <h2>Trending Cocktail Recipes</h2>
-        <TrendingCocktails />
+          <h2>Trending Cocktail Recipes</h2>
+          <TrendingCocktails />
+        </div>
       </div>
     </div>
   );
 };
 
 export default Home;
-
-
-
-
 
 
 
