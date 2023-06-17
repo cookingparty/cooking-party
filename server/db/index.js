@@ -159,11 +159,12 @@ const syncAndSeed = async () => {
     status: "APPROVED",
   });
 
-  const classicRoastChicken = await Recipe.create({
-    title: "Classic Roast Chicken",
-    description: " Perfect your dinner party skills with this perfect Roasted Chicken recipe.",
-    imageURL: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6'
+  const aperolSpritz = await Recipe.create({
+    title: 'Aperol Spritz',
+    description: 'Make the summer drink that will delight everyone this summer',
+    imageURL: 'https://images.unsplash.com/photo-1560512823-829485b8bf24'
   })
+
 
   const roastedEggplantwithvegetablesandyogurt = await Recipe.create({
     title: "Roasted Eggplant With Vegetables And A Yogurt Sauce",
@@ -175,6 +176,12 @@ const syncAndSeed = async () => {
     title: "Asian Mushroom Soup With Glass Noodles",
     description: "A light and flavourful soup with several varieties of mushrooms, glass noodles and summer vegetables.",
     imageURL: 'https://images.unsplash.com/photo-1511910849309-0dffb8785146'
+  })
+
+  const classicRoastChicken = await Recipe.create({
+    title: "Classic Roast Chicken",
+    description: " Perfect your dinner party skills with this perfect Roasted Chicken recipe.",
+    imageURL: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6'
   })
 
   const limeAndMintCoolerWithGin = await Recipe.create({

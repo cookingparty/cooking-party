@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-// import FacebookLogin from "@greatsumini/react-facebook-login";
-// import CustomComponent from "@greatsumini/react-facebook-login";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { fetchRecipes } from '../store';
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { attemptLogin, updateAuth, logout, register } from "../store/auth";
+import Carousel from 'react-material-ui-carousel';
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+const { recipes} = useSelector(state => state);
   const { account } = useParams();
 
   const [credentials, setCredentials] = useState({
@@ -23,6 +23,15 @@ const Login = () => {
   const onChange = (ev) => {
     setCredentials({ ...credentials, [ev.target.name]: ev.target.value });
   };
+
+   useEffect(() => {
+  dispatch(fetchRecipes());
+    }
+, [dispatch]);
+
+if (recipes.length === 0) {
+  return <p>Loading recipes...</p>;
+}
 
   const login = async (ev) => {
     ev.preventDefault();
@@ -46,10 +55,65 @@ const Login = () => {
   };
 
   return (
+
+     <Box display="flex" flexDirection="column" alignItems="center" marginBottom='120px'  >
+       <Box
+  sx={{
+    backgroundColor: 'almond',
+    margin: '60px',
+    marginBottom: "80px",
+    border: '40px solid almond',
+    height: '400px', 
+    width: '700px', 
+  }}
+>
+<Carousel autoPlay={true} animation="slide" interval={6000}>
+  {recipes.slice(0, 9).map((recipe, index) => (
+    <img
+      key={index}
+      src={recipe.imageURL}
+      alt={`Recipe ${index}`}
+      style={{ width: '700px', height: '400px', objectFit: 'cover' }}
+    />
+  ))}
+</Carousel>
+
+
+  <p
+    style={{
+      textAlign: 'center',
+      marginTop: '0',
+      fontSize: '1.5rem',
+      fontWeight: 'bold',
+    }}
+  
+>Featured Recipes</p>
+          </Box>
+    <Box
+    display="flex"
+    flexDirection="column"
+    alignItems="center"
+    textAlign="center"
+    marginTop={10}
+    p={2}
+    // maxWidth={600}
+    mx="auto"
+    pt={4}
+    bgcolor="#F5F5F5"
+    sx={{width: '700px'}}
+  >
     <div>
       <h2>{account === "login" ? "Login" : "Register"}</h2>
       <form
-        style={{ margin: "10px 0" }}
+         sx={{
+    backgroundColor: 'almond',
+    paddingBottom: "50px",
+    margin: '60px',
+    marginBottom: "120px",
+    border: '40px solid almond',
+    height: '400px', 
+    width: '700px', 
+  }}
         onSubmit={account === "login" ? login : _register}
       >
         <TextField
@@ -121,6 +185,8 @@ const Login = () => {
         </p>
       ) : null}
     </div>
+    </Box>
+    </Box>
   );
 };
 
