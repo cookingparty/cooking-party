@@ -159,6 +159,14 @@ const syncAndSeed = async () => {
     status: "APPROVED",
   });
 
+
+  const overnightOatsWithStrawberries = await Recipe.create({
+    title: "Classic Chocolate Brownies",
+    description: 'Overnight Oats with Strawberries',
+    imageURL: "https://images.unsplash.com/photo-1654584240523-6b8d3f6c33b4",
+
+  })
+
   const classicChocolateBrownies = await Recipe.create({
     title: "Classic Chocolate Brownies",
     description: "brownies",
