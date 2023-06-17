@@ -95,8 +95,8 @@ return (
     backgroundColor: 'almond',
     margin: '40px',
     border: '40px solid almond',
-    height: '300px', // Set the height to 300px
-    width: '500px', // Set the width to 500px
+    height: '400px', 
+    width: '700px', 
   }}
 >
 <Carousel autoPlay={true} animation="slide" interval={5000}>
@@ -106,7 +106,7 @@ return (
       key={index}
       src={recipe.imageURL}
       alt={`Recipe ${index}`}
-      style={{ width: '500px', height: '300px', objectFit: 'cover' }}
+      style={{ width: '700px', height: '400px', objectFit: 'cover' }}
     />
     })}
   </Carousel>
