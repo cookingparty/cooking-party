@@ -24,10 +24,6 @@ const Recipe = conn.define("recipe", {
     type: STRING,
     allowNull: false,
   },
-  // instructionsFake: {
-  //   type: TEXT,
-  //   /*allowNull: false,*/
-  // },
   description: {
     type: TEXT,
   },
@@ -38,7 +34,7 @@ const Recipe = conn.define("recipe", {
       const prefix_JPEG = "data:image/jpeg;base64,";
       const prefix_JPG = "data:image/jpg;base64,";
 
-      const data = this.getDataValue("avatar");
+      let data = this.getDataValue("image");
       if (!data) {
         return data;
       }
@@ -50,6 +46,8 @@ const Recipe = conn.define("recipe", {
   },
   imageURL: {
     type: TEXT,
+    defaultValue:
+      "https://live.staticflickr.com/65535/52983207456_5c25daeb1e_d.jpg",
   },
   isCocktail: {
     type: BOOLEAN,
@@ -96,7 +94,6 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
       FORBID_TAGS: ["li", "ol", "br"],
     });
     const instructionsArray = cleanInstructions.split(".");
-    // console.log("instructionsArray", instructionsArray);
     instructionsArray.map(async (instruction, idx) => {
       if (instruction.length > 0) {
         return await conn.models.instruction.create({

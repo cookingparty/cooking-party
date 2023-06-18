@@ -136,7 +136,18 @@ const RecipePage = () => {
 
       <span dangerouslySetInnerHTML={{ __html: cleanDescription }} />
       {/* <p>Recipe by *USER23* | Updated June 8, 2023</p> */}
-      <img src={recipe.imageURL} alt="Recipe Image" />
+      <img
+        src={recipe.imageURL || recipe.image}
+        alt="Recipe Image"
+        style={{
+          margin: "50px",
+          marginTop: "50px",
+          padding: "30px",
+          backgroundColor: "#d7dbd8",
+          width: "75%",
+          alignItems: "center",
+        }}
+      />
       <hr />
       {/* <p>Info block/hero...Ready in?...Servings</p> */}
       <hr />
