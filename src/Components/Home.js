@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import TrendingMeals from './TrendingMeals';
-import TrendingCocktails from './TrendingCocktails';
-import Instafeed from 'instafeed.js';
-import Box from '@mui/material/Box';
-import { accessTokenIg } from '../../secrets';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
+import { fetchRecipes } from "../store";
+import TrendingMeals from "./TrendingMeals";
+import TrendingCocktails from "./TrendingCocktails";
+import Instafeed from "instafeed.js";
+import Box from "@mui/material/Box";
+import { accessTokenIg } from "../../secrets";
+import Carousel from "react-material-ui-carousel";
+import { useParams } from "react-router-dom";
 
 const InstagramCarousel = () => {
   const [instaFeed, setInstaFeed] = useState([]);
 
   useEffect(() => {
     const userFeed = new Instafeed({
-      get: 'user',
-      resolution: 'medium_resolution',
-      limit: 2,
+      get: "user",
+      resolution: "medium_resolution",
+      limit: 4,
       accessToken: accessTokenIg,
-      target: 'instafeed-container',
+      target: "instafeed-container",
       after: (images) => {
         setInstaFeed(images.map((image) => image.image));
       },
@@ -26,141 +28,140 @@ const InstagramCarousel = () => {
   }, []);
 
   return (
-    
-    <div id="instafeed-container">
-      {instaFeed.map((image, index) => (
-        <img key={index} src={image} alt={`Instagram ${index}`} style={{ display: 'none' }} />
-      ))}
-    </div>
+    <div id="instafeed-container" style={{ display: "flex", justifyContent: "center", margin: "50px" }}>
+    {instaFeed.map((image, index) => (
+      <a key={index} style={{ margin: "10px" }}>
+        <img
+          key={index}
+          src={image}
+          alt={`Instagram ${index}`}
+          style={{
+            width: "300px", // Adjust the width of the image
+            height: "300px", // Adjust the height of the image
+            objectFit: "cover",
+          }}
+        />
+      </a>
+    ))}
+  </div>
   );
 };
 
 const Home = () => {
-  const { auth } = useSelector((state) => state);
+  const { recipes } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    dispatch(fetchRecipes());
+  }, [dispatch]);
+
+  if (recipes.length === 0) {
+    return <p>Loading recipes...</p>;
+  }
+
+  
+
+  const carouselWidth = '85%'; // Width for both carousels
+  const carouselBackground = '#d7dbd8'; // Background color for carousels
 
   return (
-    <div>
-      <h1>Home</h1>
-      {auth.id ? (
-        <p>Welcome {auth.username || auth.facebook_username}!</p>
-      ) : (
-        <Button
-          component={Link}
-          to="/auth/login"
-          variant="contained"
-          color="primary"
-          size="large"
-          sx={{
-            mt: 3,
-            color: '#333',
-            backgroundColor: '#F9F6EE',
-            '&:hover': {
-              backgroundColor: '#F5F5F5',
-              color: '#888',
-            },
-          }}
-        >
-          Login Here
-        </Button>
-      )}
+    <div style={{ margin: '50px', textAlign: 'center' }}>
       <div>
-      <Box display="flex" flexDirection="column" alignItems="center">
-<p>Our Latest Recipes on Instagram</p>
-        <InstagramCarousel  />
-        </Box>
-        <h2>Trending Meal Recipes</h2>
-        <TrendingMeals />
+        {/* ...existing code... */}
+        <div>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            marginBottom={2}
+          >
+            <Box
+              sx={{
+                backgroundColor: carouselBackground,
+                margin: '60px',
+                marginBottom: '80px',
+                height: '600px',
+                width: carouselWidth,
+              }}
+            >
+              <Carousel autoPlay={true} animation="slide" interval={6000}>
+                {recipes.slice(0, 9).map((recipe, index) => (
+                  <img
+                    key={index}
+                    src={recipe.imageURL}
+                    alt={`Recipe ${index}`}
+                    style={{
+                      width: '100%',
+                      height: '600px',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ))}
+              </Carousel>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: carouselBackground,
+                margin: '50px',
+                marginTop: '50px',
+                padding: '30px',
+                width: carouselWidth,
+              }}
+            >
+              <InstagramCarousel />
+              <p
+                style={{
+                  textAlign: 'center',
+                  marginTop: '10px',
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                  color: "#4e5052"
+                }}
+              >
+                Our Latest Recipes On Instagram
+              </p>
+            </Box>
+            <Box
+              sx={{
+                width: carouselWidth,
+                margin: '30px',
+                backgroundColor: carouselBackground,
+                padding: '30px',
+              }}
+            >
+              <p
+                style={{
+                  textAlign: 'center',
+                  marginTop: '10px',
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                }}
+              >
+                Trending Meal Recipes
+              </p>
+              <TrendingMeals />
 
-        <h2>Trending Cocktail Recipes</h2>
-        <TrendingCocktails />
+              <p
+                style={{
+                  textAlign: 'center',
+                  marginTop: '10px',
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                }}
+              >
+                Trending Cocktail Recipes
+              </p>
+              <TrendingCocktails />
+            </Box>
+          </Box>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Home;
-
-
-
-
-
-
-
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import { Link } from 'react-router-dom';
-// import Button from '@mui/material/Button';
-// import TrendingMeals from './TrendingMeals';
-// import TrendingCocktails from './TrendingCocktails';
-// import Instafeed from 'instafeed.js';
-
-// const InstagramCarousel = () => {
-//   const [instaFeed, setInstaFeed] = useState([]);
-
-//   useEffect(() => {
-//     const userFeed = new Instafeed({
-//       get: 'user',
-//       resolution: 'medium_resolution',
-//       limit: 6,
-//       accessToken: 'IGQVJWOFR4VzVuSGtQZAjNQQUpCRU12dEp0anNHU1dFbTE3QkxVM0tzSS1fRGVSU0swZA1RJQWVQWmszYTZAibVEtdmdwNFJQRnQtTk50Q1VaQ0s4N19UaUs4ZATlGUDUzQmpJTnRrOGttMXRLOXNqdzg4bQZDZD',
-//       target: 'instafeed-container',
-//       after: (images) => {
-//         setInstaFeed(images.map((image) => image.image));
-//       },
-//     });
-//     userFeed.run();
-//   }, []);
-
-//   return (
-//     <div id="instafeed-container">
-//       {instaFeed.map((image, index) => (
-//         <img key={index} src={image} alt={`Instagram ${index}`} style={{ display: 'none' }} />
-//       ))}
-//     </div>
-//   );
-// };
-
-// const Home = () => {
-//   const { auth } = useSelector((state) => state);
-
-//   return (
-//     <div>
-//       <h1>Home</h1>
-//       {auth.id ? (
-//         <p>Welcome {auth.username || auth.facebook_username}!</p>
-//       ) : (
-//         <Button
-//           component={Link}
-//           to="/auth/login"
-//           variant="contained"
-//           color="primary"
-//           size="large"
-//           sx={{
-//             mt: 3,
-//             color: '#333',
-//             backgroundColor: '#F9F6EE',
-//             '&:hover': {
-//               backgroundColor: '#F5F5F5',
-//               color: '#888',
-//             },
-//           }}
-//         >
-//           Login Here
-//         </Button>
-//       )}
-//       <div>
-//         <InstagramCarousel />
-//         <h2>Trending Meal Recipes</h2>
-//         <TrendingMeals />
-
-//         <h2>Trending Cocktail Recipes</h2>
-//         <TrendingCocktails />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Home;

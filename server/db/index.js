@@ -159,6 +159,50 @@ const syncAndSeed = async () => {
     status: "APPROVED",
   });
 
+  const aperolSpritz = await Recipe.create({
+    title: 'Aperol Spritz',
+    description: 'Make the summer drink that will delight everyone this summer',
+    imageURL: 'https://images.unsplash.com/photo-1560512823-829485b8bf24'
+  })
+
+
+  const roastedEggplantwithvegetablesandyogurt = await Recipe.create({
+    title: "Roasted Eggplant With Vegetables And A Yogurt Sauce",
+    description: "A beautiful vegetarian dish inspired by Greece using Eggplants, roasted pepper and a tangy yoghurt sauce made with sheep feta.",
+    imageURL: 'https://images.unsplash.com/photo-1518779578993-ec3579fee39f'
+  })
+
+  const asianMushroomSoupWithGlassNoodles = await Recipe.create({
+    title: "Asian Mushroom Soup With Glass Noodles",
+    description: "A light and flavourful soup with several varieties of mushrooms, glass noodles and summer vegetables.",
+    imageURL: 'https://images.unsplash.com/photo-1511910849309-0dffb8785146'
+  })
+
+  const classicRoastChicken = await Recipe.create({
+    title: "Classic Roast Chicken",
+    description: " Perfect your dinner party skills with this perfect Roasted Chicken recipe.",
+    imageURL: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6'
+  })
+
+  const limeAndMintCoolerWithGin = await Recipe.create({
+    title: "Lime And Mint Cooler With Gin",
+    description: "A refreshing summer cooler with Lime and Mint and your favourite Gin.",
+    imageURL: 'https://images.unsplash.com/photo-1510626176961-4b57d4fbad03'
+  })
+
+  const chocolateCookies = await Recipe.create({
+    title: "The Best Chocolate Cookies",
+    description: "Chocolate cookies that melt in your mouth!",
+    imageURL: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e'
+  })
+
+  const overnightOatsWithStrawberries = await Recipe.create({
+    title: "Classic Chocolate Brownies",
+    description: 'Overnight Oats with Strawberries',
+    imageURL: "https://images.unsplash.com/photo-1654584240523-6b8d3f6c33b4",
+
+  })
+
   const classicChocolateBrownies = await Recipe.create({
     title: "Classic Chocolate Brownies",
     description: "brownies",
