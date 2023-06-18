@@ -19,10 +19,15 @@ export const fetchRecipes = () => {
 };
 
 //create a new recipe from scratch
-export const createRecipe = (recipe) => {
+export const createRecipe = ({ recipe, ingredients, instructions }) => {
   return async (dispatch) => {
-    const response = await axios.post("/api/recipes", recipe);
+    const response = await axios.post("/api/recipes", {
+      recipe,
+      ingredients,
+      instructions,
+    });
     dispatch({ type: "CREATE_RECIPE", recipe: response.data });
+    return response.data;
   };
 };
 
@@ -31,6 +36,17 @@ export const seedSpoonacularRecipe = (spoonacularId) => {
   return async (dispatch) => {
     const response = await axios.post("/api/recipes/spoonacular", {
       recipe_id: spoonacularId,
+    });
+    dispatch({ type: "CREATE_RECIPE", recipe: response.data });
+    return response.data;
+  };
+};
+
+//seed a recipe from the Cocktail db
+export const seedCocktailRecipe = (cocktailId) => {
+  return async (dispatch) => {
+    const response = await axios.post("/api/recipes/cocktail", {
+      recipe_id: cocktailId,
     });
     dispatch({ type: "CREATE_RECIPE", recipe: response.data });
     return response.data;

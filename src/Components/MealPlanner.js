@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDay } from "../store";
 import { Button, Icon, Tooltip } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const MealPlanner = () => {
   const { day } = useSelector((state) => state);
@@ -18,12 +19,13 @@ const MealPlanner = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchDay(date));
+    dispatch(fetchDay(dayjs(date).format("YYYY-MM-DD")));
   }, [date]);
 
   const breakfast = [];
   const lunch = [];
   const dinner = [];
+  const snacks = [];
 
   day.meals.map((meal) => {
     if (meal.type === "breakfast") {
@@ -47,6 +49,13 @@ const MealPlanner = () => {
           dinner.push(recipe);
         });
     }
+    if (meal.type === "snack") {
+      meal.mealrecipes
+        .map((mealrecipe) => mealrecipe.recipe)
+        .map((recipe) => {
+          snacks.push(recipe);
+        });
+    }
   });
 
   return (
@@ -67,8 +76,8 @@ const MealPlanner = () => {
         <h3>Breakfast</h3>
         <ul>
           {breakfast.map((recipe) => (
-            <li key={recipe.title}>
-              {recipe.title}{" "}
+            <li key={recipe.id}>
+              <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
               <Tooltip title="add to grocery list">
                 <Button startIcon={<Icon>add_circle</Icon>}></Button>
               </Tooltip>
@@ -78,8 +87,8 @@ const MealPlanner = () => {
         <h3>Lunch</h3>
         <ul>
           {lunch.map((recipe) => (
-            <li key={recipe.title}>
-              {recipe.title}{" "}
+            <li key={recipe.id}>
+              <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
               <Tooltip title="add to grocery list">
                 <Button startIcon={<Icon>add_circle</Icon>}></Button>
               </Tooltip>
@@ -89,7 +98,18 @@ const MealPlanner = () => {
         <h3>Dinner</h3>
         <ul>
           {dinner.map((recipe) => (
-            <li key={recipe.title}>
+            <li key={recipe.id}>
+              <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+              <Tooltip title="add to grocery list">
+                <Button startIcon={<Icon>add_circle</Icon>}></Button>
+              </Tooltip>
+            </li>
+          ))}
+        </ul>
+        <h3>Snacks</h3>
+        <ul>
+          {snacks.map((recipe) => (
+            <li key={recipe.id}>
               {recipe.title}{" "}
               <Tooltip title="add to grocery list">
                 <Button startIcon={<Icon>add_circle</Icon>}></Button>

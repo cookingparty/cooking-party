@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import RecipeCard from "./RecipeCard";
 import { red } from "@mui/material/colors";
+import { apiKeyMeal } from "../../secrets";
 
 function TrendingMeals() {
   const [trending, setTrending] = useState([]);
@@ -11,7 +12,7 @@ function TrendingMeals() {
   }, []);
 
   const getTrendingMeals = async () => {
-    const apiKey = "6f3684ac356b4745a101f882b28c9a3a";
+    const apiKey = apiKeyMeal;
     try {
       const response = await axios.get(
         "https://api.spoonacular.com/recipes/random",

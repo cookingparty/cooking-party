@@ -1,7 +1,12 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { createFavorite, seedSpoonacularRecipe } from "../store";
+import {
+  createFavoriteSpoonacular,
+  createFavoriteCocktail,
+  seedSpoonacularRecipe,
+  seedCocktailRecipe,
+} from "../store";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -58,50 +63,90 @@ export default function RecipeCard({
   avatar,
   avatarColor,
   maxDescriptionLength = 150,
+  isCocktail,
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const { auth, recipes, favorites } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const favorite = (id) => {
-    dispatch(createFavorite({ recipe_id: id, userId: auth.id }));
-  };
-
-  const isFavorited = (recipeId) => {
-    const recipe = recipes.find((r) => r.id === recipeId);
-    if (!recipe) {
-      const seededFromSpoonRecipe = recipes.find(
-        (recipe) => recipe.spoonacular_id === recipeId
-      );
-      if (!seededFromSpoonRecipe) {
-        return false;
-      }
-      if (
-        !!favorites.find(
-          (favorite) =>
-            favorite.recipe_id === seededFromSpoonRecipe.id &&
-            favorite.userId === auth.id
-        )
-      ) {
-        return true;
-      }
-      return false;
+  const favorite = async (id) => {
+    if (isCocktail) {
+      dispatch(createFavoriteCocktail({ recipe_id: id, userId: auth.id }));
     } else {
-      if (!!favorites.find((favorite) => favorite.recipe_id === recipeId)) {
-        return true;
-      }
-      return false;
+      dispatch(createFavoriteSpoonacular({ recipe_id: id, userId: auth.id }));
     }
   };
+
+  //need to work on this logic
+  const isFavorited = (recipeId) => {
+    if (isCocktail) {
+      const cocktailRecipe = recipes.find((r) => r.cocktail_id == recipeId);
+      if (!cocktailRecipe) {
+        return false;
+      } else {
+        if (!!favorites.find((f) => f.recipe_id === cocktailRecipe.id)) {
+          return true;
+        }
+        return false;
+      }
+    } else {
+      const recipe = recipes.find((r) => r.id === recipeId);
+      if (!recipe) {
+        const seededFromSpoonRecipe = recipes.find(
+          (r) => r.spoonacular_id === recipeId
+        );
+        if (!seededFromSpoonRecipe) {
+          return false;
+        } else {
+          if (
+            !!favorites.find((f) => f.recipe_id === seededFromSpoonRecipe.id)
+          ) {
+            return true;
+          }
+        }
+      } else {
+        if (!!favorites.find((f) => f.recipeId === recipeId)) {
+          return true;
+        }
+      }
+    }
+  };
+
+  /*const openRecipePage = async (ev, id) => {
+    ev.preventDefault();
+    if (isCocktail) {
+      const recipe = recipes.find((r) => r.id === id);
+      if (!recipe) {
+        const newRecipe = await dispatch(seedCocktailRecipe(id));
+        console.log("newRecipe", newRecipe);
+        navigate(`/recipes/${newRecipe.id}`);
+      } else {
+        navigate(`/recipes/${recipe.id}`);
+      }
+    } else {
+      const recipe = recipes.find((r) => r.id === id);
+      if (!recipe) {
+        const newRecipe = await dispatch(seedSpoonacularRecipe(id));
+        console.log("newRecipe", newRecipe);
+        navigate(`/recipes/${newRecipe.id}`);
+      } else {
+        navigate(`/recipes/${recipe.id}`);
+      }
+    }
+  };*/
 
   const openRecipePage = async (ev, id) => {
     ev.preventDefault();
     const recipe = recipes.find((r) => r.id === id);
     if (!recipe) {
-      const newRecipe = await dispatch(seedSpoonacularRecipe(id));
-      console.log("newRecipe", newRecipe);
-      navigate(`/recipes/${newRecipe.id}`);
+      if (isCocktail) {
+        const newRecipe = await dispatch(seedCocktailRecipe(id));
+        navigate(`/recipes/${newRecipe.id}`);
+      } else {
+        const newRecipe = await dispatch(seedSpoonacularRecipe(id));
+        navigate(`/recipes/${newRecipe.id}`);
+      }
     } else {
       navigate(`/recipes/${recipe.id}`);
     }
@@ -112,12 +157,11 @@ export default function RecipeCard({
   };
 
   const trimmedDescription =
-    description.length > maxDescriptionLength
+    description && description.length > maxDescriptionLength
       ? `${description.slice(0, maxDescriptionLength)}...`
       : description;
 
   const clean = DOMPurify.sanitize(trimmedDescription);
-  console.log("typeof trimmedDescription", typeof trimmedDescription);
 
   return (
     <Card sx={{ maxWidth: 350, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
@@ -137,18 +181,27 @@ export default function RecipeCard({
             <Link onClick={(ev) => openRecipePage(ev, id)}>{title}</Link>
           </TitleTypography>
         }
+
+        //NR Link test
+        // <Link
+        // 		to={`/recipePage/${id}`}
+        // 		style={{ textDecoration: 'none', color: 'inherit' }}
+        // 	>
+        // 		<TitleTypography variant="h6" component="div">
+        // 			{title}
+        // 		</TitleTypography>
+        // 	</Link>
         // subheader={subheader}
       />
 
       <CardMedia component="img" height="194" image={image} alt={title} />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {/* Need to install a HTML parser to get rid of the HTML tags in the description */}
           <span dangerouslySetInnerHTML={{ __html: clean }} />
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        {!isFavorited(id) && (
+        {!!auth.id && !isFavorited(id) && (
           <IconButton
             aria-label="add to favorites"
             onClick={() => favorite(id)}
@@ -176,7 +229,9 @@ export default function RecipeCard({
           <Typography paragraph>
             Summary (Do we want Ingredients here or comments?)
           </Typography>
-          <Typography paragraph>{description}</Typography>
+          <Typography paragraph>
+            <span dangerouslySetInnerHTML={{ __html: clean }} />
+          </Typography>
           <Typography paragraph>
             This is another place holder comment
           </Typography>

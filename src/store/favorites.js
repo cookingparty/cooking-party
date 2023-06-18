@@ -33,10 +33,28 @@ export const fetchFavorites = () => {
   };
 };
 
-export const createFavorite = (favorite) => {
+export const createFavoriteSpoonacular = (favorite) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
     const recipe = await axios.post("/api/recipes/spoonacular", favorite);
+    dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
+    const response = await axios.post(
+      "/api/favorites",
+      { recipe_id: recipe.data.id, userId: favorite.userId },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    dispatch({ type: "ADD_FAVORITE", favorite: response.data });
+  };
+};
+
+export const createFavoriteCocktail = (favorite) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const recipe = await axios.post("/api/recipes/cocktail", favorite);
     dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
     const response = await axios.post(
       "/api/favorites",
