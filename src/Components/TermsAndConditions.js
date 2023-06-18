@@ -2,8 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 
 const TermsAndConditions = () => {
-  const carouselWidth = "85%"; // Width for both carousels
-  const carouselBackground = "#d7dbd8"; // Background color for carousels
+  const carouselWidth = "85%";
+  const carouselBackground = "#d7dbd8";
 
   return (
     <div style={{ margin: "50px", textAlign: "center" }}>
@@ -15,7 +15,7 @@ const TermsAndConditions = () => {
       >
         <img
           src="static/images/pizza.jpg"
-          alt="search bar photo"
+          alt="pizza photo"
           style={{
             top: 0,
             left: 0,
