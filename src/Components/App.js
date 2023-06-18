@@ -1,25 +1,27 @@
-import React, { useEffect, useRef } from 'react';
-import Nav from './Nav';
-import FooterNav from './FooterNav';
-import Home from './Home';
-import Login from './LoginRegister';
-import Logout from './Logout';
-import Recipes from './Recipes';
-import Meals from './Meals';
-import Cocktails from './Cocktails';
-import Groups from './Groups';
-import Group from './Group';
-import GroupCreate from './GroupCreate';
-import Chatting from './Chatting';
-import MySavedRecipes from './MySavedRecipes';
-import Friends from './Friends';
-import About from './About';
-import TermsAndConditions from './TermsAndConditions';
-import FAQ from './FAQ';
-import ContactUs from './ContactUs';
-import RecipePage from './RecipePage';
+import React, { useEffect, useRef } from "react";
+import Nav from "./Nav";
+import FooterNav from "./FooterNav";
+import Home from "./Home";
+import Login from "./LoginRegister";
+import Logout from "./Logout";
+import Recipes from "./Recipes";
+import Meals from "./Meals";
+import Cocktails from "./Cocktails";
+import Groups from "./Groups";
+import Group from "./Group";
+import GroupCreate from "./GroupCreate";
+import Chatting from "./Chatting";
+import MySavedRecipes from "./MySavedRecipes";
+import Friends from "./Friends";
+import About from "./About";
+import TermsAndConditions from "./TermsAndConditions";
+import FAQ from "./FAQ";
+import ContactUs from "./ContactUs";
+import RecipeSearchPage from "./RecipeSearchPage";
+import RecipePage from "./RecipePage";
+import Messages from "./Messages";
+import { useSelector, useDispatch } from "react-redux";
 
-import { useSelector, useDispatch } from 'react-redux';
 import {
 	loginWithToken,
 	fetchOnlineUsers,
