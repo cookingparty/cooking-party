@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createMessage } from "../store";
+import { createMessage, createFriendship } from "../store";
 import Chat from "@mui/icons-material/Chat";
 import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import {
   IconButton,
   Accordion,
@@ -16,6 +17,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Badge } from "@mui/material";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 
 const Messages = ({ drawerwidth, handleToggleMessages }) => {
@@ -25,14 +27,17 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
   const dispatch = useDispatch();
 
   const [readMessages, setReadMessages] = useState({});
-  const [messagesOpen, setMessagesOpen] = useState(false);
+  // const [messagesOpen, setMessagesOpen] = useState(false);
   const [expanded, setExpanded] = React.useState(true);
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [activeChatId, setActiveChatId] = useState(null);
-
+  const [showChat, setShowChat] = useState(false);
+  
   const handleOpenChat = (chatId) => {
     setActiveChatId(chatId);
+    setShowChat(true); // Set showChat to true when the chat is opened
   };
+
   
 
   // const handleOpenChat = (chatId) => {
@@ -88,6 +93,22 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
     return friendship;
   };
 
+  const sendRequest = (id) => {
+    dispatch(createFriendship({ friender_id: auth.id, friendee_id: id }));
+  };
+
+  const requests = friends.filter((friend) => {
+    const friendship = findFriendship(friend.id);
+    return friendship && friendship.status === "PENDING";
+  });
+
+  const isRequested = (user) => {
+    if (!!friends.find((f) => f.id === user.id)) {
+      return true;
+    }
+    return false;
+  };
+
   const confirmedFriend = (user) => {
     const friend = friends.find((f) => f.id === user.id);
     if (!!friend && findFriendship(friend.id)) {
@@ -113,11 +134,13 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
     return false;
   };
 
-  useEffect(() => {
-    if (messagesOpen && scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messagesOpen]);
+  // useEffect(() => {
+  //   if (messagesOpen && scrollRef.current) {
+  //     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  //   }
+  // }, [messagesOpen]);
+
+  
 
   const colors = [
     "#FF0000",
@@ -283,134 +306,135 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
           </AccordionDetails>
         </Accordion>
 
-   
-
         <Accordion>
-  <AccordionSummary
-    expandIcon={<ExpandMoreIcon />}
-    sx={{
-      position: "relative",
-      margin: "0",
-      padding: "2px 0",
-    }}
-  >
-    <Typography
-      variant="h3"
-      style={{
-        fontSize: "12px",
-        fontWeight: "bold",
-        textTransform: "capitalize",
-        textAlign: "center",
-        marginLeft: "20px",
-      }}
-    >
-      Ended Chats
-    </Typography>
-  </AccordionSummary>
-  <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
-    <Box maxHeight="80px" overflow="auto">
-      <List>
-        {onlineFriends.map((user) => {
-          const randomIndex = Math.floor(Math.random() * colors.length);
-          const randomColor = colors[randomIndex];
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            sx={{
+              position: "relative",
+              margin: "0",
+              padding: "2px 0",
+            }}
+          >
+            <Typography
+              variant="h3"
+              style={{
+                fontSize: "12px",
+                fontWeight: "bold",
+                textTransform: "capitalize",
+                textAlign: "center",
 
-          const avatarStyle =
-            user && user.avatar
-              ? {
-                  width: "20px",
-                  height: "20px",
-                  marginRight: "3px",
-                }
-              : {
-                  width: "20px",
-                  height: "20px",
-                  marginRight: "3px",
-                  color: randomColor,
-                };
-          return (
-            <ListItem
-              key={user.id}
-              sx={{
-                paddingRight: "8px",
-                paddingTop: "0",
-                paddingBottom: "0",
+                marginLeft: "20px",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                {user.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt="User Avatar"
-                    style={avatarStyle}
-                  />
-                ) : (
-                  <AccountCircleRoundedIcon style={avatarStyle} />
-                )}
+              See Who's Online
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
+            <Box maxHeight="80px" overflow="auto">
+            <List>
+                {onlineUsers.map((user) => {
+                  const randomIndex = Math.floor(Math.random() * colors.length);
+                  const randomColor = colors[randomIndex];
 
-                <Typography
-                  variant="body1"
-                  style={{
-                    paddingLeft: "5px",
-                    paddingRight: "5px",
-                    fontSize: "10px",
-                    textTransform: "capitalize",
-                    overflowWrap: "break-word",
-                    wordWrap: "break-word",
-                    hyphens: "auto",
-                    whiteSpace: "normal",
-                    width: "100%",
-                    lineHeight: "10px",
-                    maxHeight: "20px",
-                    overflow: "hidden",
-                  }}
-                >
-                  {user.username || user.facebook_username}
-                </Typography>
-              </div>
+                  const avatarStyle =
+                    user && user.avatar
+                      ? {
+                          width: "20px",
+                          height: "20px",
+                          marginRight: "3px",
+                        }
+                      : {
+                          width: "20px",
+                          height: "20px",
+                          marginRight: "3px",
+                          color: randomColor,
+                        };
+                  return (
+                    <ListItem
+                      key={user.id}
+                      sx={{
+                        paddingRight: "8px",
+                        paddingTop: "0",
+                        paddingBottom: "0",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                        }}
+                      >
+                        {user.avatar ? (
+                          <img
+                            src={user.avatar}
+                            alt="User Avatar"
+                            style={avatarStyle}
+                          />
+                        ) : (
+                          <AccountCircleRoundedIcon style={avatarStyle} />
+                        )}
+                        <Typography
+                          variant="body1"
+                          style={{
+                            paddingLeft: "5px",
+                            paddingRight: "5px",
+                            fontSize: "10px",
+                            textTransform: "capitalize",
+                            overflowWrap: "break-word",
+                            wordWrap: "break-word",
+                            hyphens: "auto",
+                            whiteSpace: "normal",
+                            width: "100%",
+                            lineHeight: "10px",
+                            maxHeight: "20px",
+                            overflow: "hidden",
+                          }}
+                        >
+                          {user.username || user.facebook_username}
+                        </Typography>
+                      </div>
+                      {!isRequested(user) && (
+                        <PersonAddAlt1Icon
+                          aria-label="Add Friend"
+                          color="inherit"
+                          onClick={() => {
+                            sendRequest(user.id);
+                          }}
+                        ></PersonAddAlt1Icon>
+                      )}
 
-              {!hasChat(user) && (
-                <IconButton
-                  aria-label="let's chat"
-                  color="inherit"
-                  onClick={() => {
-                    handleOpenChat(user.id);
-                    dispatch(
-                      createMessage({
-                        toId: user.id,
-                        txt: "Let's Chat",
-                      })
-                    );
-                  }}
-                >
-                  <Chat />
-                </IconButton>
-              )}
+                      {isRequested(user) && (
+                        <IconButton
+                          aria-label="let's chat"
+                          color="inherit"
+                          onClick={() => {
+                            
+                            dispatch(
+                              createMessage({
+                                toId: user.id,
+                                txt: "Let's Chat",
+                              })
+                            );
+                          }}
+                        >
+                          <Chat />
+                        </IconButton>
+                      )}
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+ 
 
-              {hasChat(user) && (
-                <IconButton
-                  aria-label="existing chat"
-                  color="inherit"
-                  onClick={() => handleOpenChat(user.id)}
-                >
-                  <Chat />
-                </IconButton>
-              )}
-            </ListItem>
-          );
-        })}
-      </List>
-    </Box>
-  </AccordionDetails>
-</Accordion>
+
+
 
       </div>
-  
+      {showChat && (
         <Box>
           {/* <Messages/> */}
           <Typography
@@ -629,7 +653,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
             })}
           </div>
         </Box>
-     
+      )}
     </Box>
   );
 };
