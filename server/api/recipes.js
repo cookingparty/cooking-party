@@ -108,7 +108,24 @@ app.delete("/:id", async (req, res, next) => {
 app.put("/:id", async (req, res, next) => {
   try {
     const recipe = await Recipe.findByPk(req.params.id);
-    res.send(await recipe.update(req.body));
+    const ingredient = await Ingredient.findAll({
+      where: {
+        recipeId: req.params.id,
+      },
+    });
+    const instruction = await Instruction.findAll({
+      where: {
+        recipeId: req.params.id,
+      },
+    });
+
+    const update = await Promise.all([
+      recipe.update(req.body),
+      ingredient.update(req.body),
+      instruction.update(req.body),
+    ]);
+
+    res.send(update);
   } catch (ex) {
     next(ex);
   }
