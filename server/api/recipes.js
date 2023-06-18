@@ -65,7 +65,9 @@ app.post("/", async (req, res, next) => {
       title: recipe.title,
       description: recipe.description,
       image: recipe.image,
-      imageURL: recipe.imageURL,
+      imageURL:
+        recipe.imageURL ||
+        "https://live.staticflickr.com/65535/52983207456_5c25daeb1e_d.jpg",
       isCocktail: recipe.isCocktail,
       userId: recipe.userId,
       groupId: recipe.groupId || null,

@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-function SearchBar({ onSearch }) {
+function SearchBar({ onSearch, inputProps }) {
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const handleKeyDown = (event) => {
@@ -25,6 +25,7 @@ function SearchBar({ onSearch }) {
 				onChange={(e) => setSearchQuery(e.target.value)}
 				onKeyDown={handleKeyDown}
 				InputProps={{
+					...inputProps,
 					endAdornment: (
 						<IconButton onClick={executeSearch}>
 							<SearchIcon />

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createRecipe } from "../store/recipes";
@@ -35,8 +35,21 @@ const UploadRecipe = () => {
     },
   ]);
 
-  const onChangeRecipe = (ev) => {
+  useEffect(() => {
+    ref.current.addEventListener("change", (ev) => {
+      const file = ev.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.addEventListener("load", () => [
+        setRecipe((currentVal) => ({
+          ...currentVal,
+          image: reader.result,
+        })),
+      ]);
+    });
+  }, [ref]);
 
+  const onChangeRecipe = (ev) => {
     setRecipe({
       ...recipe,
       [ev.target.name]: ev.target.value || ev.target.checked,
@@ -169,6 +182,7 @@ const UploadRecipe = () => {
 
         <label>Image (PNG, JPEG, JPG only)</label>
         <input type="file" ref={ref} />
+
         <TextField
           label="image URL"
           value={recipe.imageURL}
