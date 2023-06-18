@@ -1,12 +1,12 @@
 
 
-body {
+/* body {
   font-family: verdana;
   margin-top: 700px;
   min-height: 100vh;
   display: grid;
   grid-template-rows: 1fr auto;
-}
+} */
 
 form {
   display: flex;

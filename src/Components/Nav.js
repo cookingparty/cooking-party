@@ -29,7 +29,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Chat from "./Chat";
+import Messages from "./Messages";
 import MailIcon from "@mui/icons-material/Mail";
 import Badge from "@mui/material/Badge";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -516,13 +516,12 @@ const Nav = () => {
               <Box
                 sx={{
                   justifyContent: open ? "inital" : "center",
-                  padding: "20",
-                  background: "white",
+                  color:"#ed4218",
                   fontSize: "10px",
                   font: "Helvetica",
                 }}
               >
-                <Typography sx={{ fontSize: "10px", font: "Helvetica" }}>
+                <Typography sx={{ fontSize: "14px", font: "Helvetica" }}>
                   FRIENDS AND MESSENGER
                 </Typography>
               </Box>
@@ -620,7 +619,7 @@ const Nav = () => {
             <ListItem>
               <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
                 {!!auth.id && messagesOpen && (
-                  <Chat drawerwidth={drawerwidth} />
+                  <Messages drawerwidth={drawerwidth} />
                 )}
               </Box>
             </ListItem>

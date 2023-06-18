@@ -19,7 +19,7 @@ import FAQ from "./FAQ";
 import ContactUs from "./ContactUs";
 import RecipeSearchPage from "./RecipeSearchPage";
 import RecipePage from "./RecipePage";
-
+import Messages from "./Messages";
 import { useSelector, useDispatch } from "react-redux";
 import {
   loginWithToken,
