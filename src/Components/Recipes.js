@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Search from "./Search";
-import SearchAll from "./SearchAll";
+import SearchBar from "./SearchBar";
 import Instafeed from "instafeed.js";
 import { accessTokenIg } from "../../secrets";
 import Box from "@mui/material/Box";
 
 
-const handleSearch = (filteredRecipes) => {
+const executeSearch = (filteredRecipes) => {
   // Handle the filtered recipes here
   console.log(filteredRecipes);
 };
@@ -33,7 +33,7 @@ const Recipes = () => {
 
   const inputProps = {
 	style: {
-	  width: '1200px',
+	  width: '800px',
 	  height: '100px',
 	  border: '2px solid #ed4218',
 	  fontSize: '22px', 
@@ -93,8 +93,8 @@ const Recipes = () => {
             zIndex: 1,
           }}
         >
-          <SearchAll
-            onSearch={handleSearch}
+          <SearchBar
+            onSearch={executeSearch}
             inputProps={inputProps}
           />
         </div>
