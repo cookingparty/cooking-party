@@ -31,12 +31,17 @@ const Recipes = () => {
 
 
   const inputProps = {
-    style: {
-      width: '800px', // Customize the width here
-      height: '100px', // Customize the height here
-    },
-    // Other props like `className`, `placeholder`, etc.
+	style: {
+	  width: '1200px',
+	  height: '100px',
+	  border: '2px solid #ed4218',
+	  fontSize: '22px', 
+	},
+	inputStyle: {
+		fontSize: '22px',
+	  },
   };
+  
 
   useEffect(() => {
     const userFeed = new Instafeed({
