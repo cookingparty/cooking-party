@@ -3,38 +3,41 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-function SearchBar({ onSearch, inputProps }) {
-	const [searchQuery, setSearchQuery] = useState('');
+function SearchBar({ onSearch, inputProps, activeFilter, setActiveFilter }) {
+  const [searchQuery, setSearchQuery] = useState('');
 
-	const handleKeyDown = (event) => {
-		if (event.key === 'Enter') {
-			executeSearch();
-		}
-	};
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      executeSearch();
+    }
+  };
 
-	const executeSearch = () => {
-		onSearch(searchQuery);
-	};
+  const executeSearch = () => {
+    onSearch(searchQuery);
+    setActiveFilter(''); 
+  };
+  
 
-	return (
-		<div>
-			<TextField
-				label="Search"
-				variant="standard"
-				value={searchQuery}
-				onChange={(e) => setSearchQuery(e.target.value)}
-				onKeyDown={handleKeyDown}
-				InputProps={{
-					...inputProps,
-					endAdornment: (
-						<IconButton onClick={executeSearch}>
-							<SearchIcon />
-						</IconButton>
-					),
-				}}
-			/>
-		</div>
-	);
+  return (
+    <div>
+      <TextField
+        label="Search"
+        variant="outlined"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        onKeyDown={handleKeyDown}
+        InputProps={{
+          ...inputProps,
+          endAdornment: (
+            <IconButton onClick={executeSearch}>
+              <SearchIcon style={{ fontSize: '24px' }} />
+            </IconButton>
+          ),
+        }}
+      />
+    </div>
+  );
 }
 
 export default SearchBar;
+
