@@ -172,10 +172,14 @@ export default function RecipeCard({
         //   </Avatar>
         // }
         action={
-          <IconButton aria-label="settings">
-            <FavoriteIcon />
-            {/* <MoreVertIcon /> */}
-          </IconButton>
+          !!auth.id &&
+          !isFavorited(id) && (
+            <IconButton aria-label="settings" onClick={() => favorite(id)}>
+              <FavoriteIcon />
+              {/* <MoreVertIcon /> */}
+            </IconButton>
+          )
+
         }
         title={
           <TitleTypography variant="h6" component="div">
