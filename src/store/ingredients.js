@@ -4,6 +4,7 @@ const ingredients = (state = [], action) => {
   if (action.type === "SET_INGREDIENTS") {
     return action.ingredients;
   }
+
   return state;
 };
 
