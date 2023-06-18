@@ -58,6 +58,15 @@ const Recipes = () => {
   }, []);
 
   return (
+	<Box
+	sx={{
+        marginBottom: "60px",
+
+        minHeight: "100vh",
+        display: "grid",
+        gridtemplaterows: "1fr auto",
+      }}
+	>
     <div style={styles.root}>
       <div
         style={{
@@ -93,6 +102,7 @@ const Recipes = () => {
       </div>
       <div style={styles.instafeedContainer} id="instafeed-container"></div>
     </div>
+	</Box>
   );
 };
 
