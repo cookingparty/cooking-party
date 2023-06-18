@@ -8,7 +8,20 @@ const Profile = () => {
 
   return (
     <>
-      <div> {auth.avatar ? <img src={auth.avatar} /> : "no avatar yet!"}</div>
+      <div>
+        {" "}
+        {auth.avatar ? (
+          <img
+            style={{
+              width: "50%",
+              height: "450px",
+            }}
+            src={auth.avatar}
+          />
+        ) : (
+          "no avatar yet!"
+        )}
+      </div>
       <h2>{auth.username || auth.facebook_username}</h2>
       <p>{auth.about}</p>
     </>
