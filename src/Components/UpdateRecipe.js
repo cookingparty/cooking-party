@@ -125,8 +125,17 @@ const UpdateRecipe = () => {
   const myGroups = groups.filter((group) => myGroupIds.includes(group.id));
 
   return (
-    <div>
-      <h2>Update Recipe</h2>
+    <div
+      style={{
+        width: "80%",
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "space-around",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <h2 style={{ textAlign: "center" }}>Update Recipe</h2>
       <form onSubmit={edit}>
         <TextField
           label="title"
@@ -135,6 +144,7 @@ const UpdateRecipe = () => {
           onChange={onChangeRecipe}
         />
         <TextField
+          multiline
           label="description"
           value={recipe.description}
           name="description"
@@ -202,9 +212,10 @@ const UpdateRecipe = () => {
         <Button onClick={addInstruction} aria-haspopup="true">
           add more
         </Button>
-
-        <label>Image (PNG, JPEG, JPG only)</label>
-        <input type="file" ref={ref} />
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <label>Image (PNG, JPEG, JPG only)</label>
+          <input type="file" ref={ref} />
+        </div>
 
         <TextField
           label="image URL"
@@ -212,8 +223,10 @@ const UpdateRecipe = () => {
           name="imageURL"
           onChange={onChangeRecipe}
         />
-        <label htmlFor="cocktail">Cocktail?</label>
-        <input type="checkbox" name="isCocktail" onChange={onChangeRecipe} />
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <label htmlFor="cocktail">Cocktail?</label>
+          <input type="checkbox" name="isCocktail" onChange={onChangeRecipe} />
+        </div>
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Group</InputLabel>
@@ -235,7 +248,7 @@ const UpdateRecipe = () => {
             </Select>
           </FormControl>
         </Box>
-        <Button type="submit">edit</Button>
+        <Button type="submit">update</Button>
       </form>
     </div>
   );

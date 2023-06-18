@@ -102,8 +102,17 @@ const UploadRecipe = () => {
   const myGroups = groups.filter((group) => myGroupIds.includes(group.id));
 
   return (
-    <div>
-      <h2>Upload Recipe</h2>
+    <div
+      style={{
+        width: "80%",
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "space-around",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <h2 style={{ textAlign: "center" }}>Upload Recipe</h2>
       <form onSubmit={create}>
         <TextField
           label="title"
@@ -113,6 +122,7 @@ const UploadRecipe = () => {
         />
         <TextField
           label="description"
+          multiline
           value={recipe.description}
           name="description"
           onChange={onChangeRecipe}
@@ -180,8 +190,10 @@ const UploadRecipe = () => {
           add more
         </Button>
 
-        <label>Image (PNG, JPEG, JPG only)</label>
-        <input type="file" ref={ref} />
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <label>Image (PNG, JPEG, JPG only)</label>
+          <input type="file" ref={ref} />
+        </div>
 
         <TextField
           label="image URL"
@@ -189,8 +201,11 @@ const UploadRecipe = () => {
           name="imageURL"
           onChange={onChangeRecipe}
         />
-        <label htmlFor="cocktail">Cocktail?</label>
-        <input type="checkbox" name="isCocktail" onChange={onChangeRecipe} />
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <label htmlFor="cocktail">Cocktail?</label>
+          <input type="checkbox" name="isCocktail" onChange={onChangeRecipe} />
+        </div>
+
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Group</InputLabel>
