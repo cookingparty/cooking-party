@@ -13,7 +13,6 @@ const recipes = (state = [], action) => {
 export const fetchRecipes = () => {
   return async (dispatch) => {
     const response = await axios.get("/api/recipes");
-    console.log("Fetched Recipes:", response.data);
     dispatch({ type: "SET_RECIPES", recipes: response.data });
   };
 };

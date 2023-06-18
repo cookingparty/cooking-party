@@ -330,11 +330,7 @@ const Nav = () => {
     <Box sx={{ display: "flex", marginBottom: "100px" }}>
       <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
-        <StyledAppBar
-          position="fixed"
-          open={open}
-          sx={{ background: "white" }}
-        >
+        <StyledAppBar position="fixed" open={open} sx={{ background: "white" }}>
           <Toolbar disableGutters>
             {/* Dropdown menu (Nav) */}
             {auth.id && (
@@ -497,7 +493,11 @@ const Nav = () => {
             >
               <Typography
                 variant="body1"
-                sx={{ fontFamily: "Helvetica", color: "black", fontSize: '9px' }}
+                sx={{
+                  fontFamily: "Helvetica",
+                  color: "black",
+                  fontSize: "9px",
+                }}
               >
                 Hello {auth.username || auth.facebook_username}!
               </Typography>
@@ -513,15 +513,19 @@ const Nav = () => {
             sx={{ marginBottom: "40px" }}
           >
             <DrawerHeader>
-            <Box
-          sx={{ justifyContent: open ? "inital" : "center", padding: '20', background: "white",  fontSize: '10px', font: 'Helvetica'}}
-          >
-          <Typography
-       sx={{fontSize: '10px', font: 'Helvetica',}}
-          >
-            FRIENDS AND MESSENGER
-          </Typography>
-          </Box>
+              <Box
+                sx={{
+                  justifyContent: open ? "inital" : "center",
+                  padding: "20",
+                  background: "white",
+                  fontSize: "10px",
+                  font: "Helvetica",
+                }}
+              >
+                <Typography sx={{ fontSize: "10px", font: "Helvetica" }}>
+                  FRIENDS AND MESSENGER
+                </Typography>
+              </Box>
             </DrawerHeader>
 
             <Divider />
@@ -533,7 +537,7 @@ const Nav = () => {
                 "Friends",
                 "Online Users",
               ].map((text, index) => (
-                <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItem disablePadding sx={{ display: "block" }} key={text}>
                   <ListItemButton
                     disabled={!open}
                     key={text}
@@ -631,8 +635,10 @@ const Nav = () => {
                 }}
               >
                 {!!auth.id && onlineFriendsOpen && (
-                  <OnlineFriends handleToggleMessages={handleToggleMessages}
-                  drawerwidth={drawerwidth} />
+                  <OnlineFriends
+                    handleToggleMessages={handleToggleMessages}
+                    drawerwidth={drawerwidth}
+                  />
                 )}
               </Box>
             </ListItem>
