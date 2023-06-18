@@ -3,9 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createRecipe } from "../store/recipes";
 import { Button, TextField } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import Box from "@mui/material/Box";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const UploadRecipe = () => {
-  const { auth } = useSelector((state) => state);
+  const { auth, groups, memberships } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const ref = useRef();
@@ -17,6 +22,7 @@ const UploadRecipe = () => {
     imageURL: "",
     isCocktail: false,
     userId: auth.id,
+    groupId: "",
   });
   const [ingredients, setIngredients] = useState([
     { name: "", amount: 0, measurementUnit: "" },
@@ -34,6 +40,7 @@ const UploadRecipe = () => {
       ...recipe,
       [ev.target.name]: ev.target.value || ev.target.checked,
     });
+    console.log("recipe", recipe);
   };
   const onChangeIngredients = (ev, idx) => {
     const { name, value } = ev.target;
@@ -74,6 +81,12 @@ const UploadRecipe = () => {
     );
     navigate(`/recipes/${newRecipe.id}`);
   };
+
+  const myMemberships = memberships.filter(
+    (membership) => membership.member_id === auth.id
+  );
+  const myGroupIds = myMemberships.map((membership) => membership.groupId);
+  const myGroups = groups.filter((group) => myGroupIds.includes(group.id));
 
   return (
     <div>
@@ -164,6 +177,29 @@ const UploadRecipe = () => {
         />
         <label htmlFor="cocktail">Cocktail?</label>
         <input type="checkbox" name="isCocktail" onChange={onChangeRecipe} />
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Group</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={recipe.groupId}
+              label="groupId"
+              onChange={onChangeRecipe}
+              /*renderValue={(selected) => {
+                if (selected) return group.id;
+              }}*/
+            >
+              {myGroups.map((group) => {
+                return (
+                  <MenuItem value={recipe.groupId} key={group.id}>
+                    {group.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Box>
         <Button type="submit">upload</Button>
       </form>
     </div>
