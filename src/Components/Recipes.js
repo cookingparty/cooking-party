@@ -6,6 +6,7 @@ import Instafeed from "instafeed.js";
 import { accessTokenIg } from "../../secrets";
 import Box from "@mui/material/Box";
 
+
 const handleSearch = (filteredRecipes) => {
   // Handle the filtered recipes here
   console.log(filteredRecipes);
@@ -36,11 +37,18 @@ const Recipes = () => {
 	  height: '100px',
 	  border: '2px solid #ed4218',
 	  fontSize: '22px', 
+	  background: '#faf6e8',
+	  opacity: '0.4'
+
 	},
-	inputStyle: {
-		fontSize: '22px',
-	  },
+	
   };
+
+  const sizeProps = {
+	style: {
+		height: '20px'
+	}
+  }
   
 
   useEffect(() => {
