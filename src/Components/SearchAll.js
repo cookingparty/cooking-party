@@ -6,7 +6,7 @@ import axios from 'axios';
 import { apiKeyCocktail, apiKeyMeal } from '../../secrets';
 import { useNavigate } from 'react-router'; 
 
-const SearchAll = ({ onSearch }) => {
+const SearchAll = ({ onSearch, inputProps  }) => {
 	const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
@@ -64,6 +64,7 @@ const SearchAll = ({ onSearch }) => {
 				onChange={handleInputChange}
 				onKeyDown={handleKeyDown}
 				InputProps={{
+					...inputProps,
 					endAdornment: (
 						<IconButton onClick={handleSearch}>
 							<SearchIcon />

@@ -16,7 +16,7 @@ const InstagramCarousel = () => {
   useEffect(() => {
     const userFeed = new Instafeed({
       get: "user",
-      resolution: "medium_resolution",
+      resolution: "low_resolution",
       limit: 4,
       accessToken: accessTokenIg,
       target: "instafeed-container",
@@ -28,24 +28,28 @@ const InstagramCarousel = () => {
   }, []);
 
   return (
-    <div id="instafeed-container" style={{ display: "flex", justifyContent: "center", margin: "50px" }}>
-    {instaFeed.map((image, index) => (
-      <a key={index} style={{ margin: "10px" }}>
+    <div
+      id="instafeed-container"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "50px",
+      }}
+    >
+      {instaFeed.map((image, index) => (
+        <a key={index} style={{ margin: "10px" }}>
         <img
           key={index}
           src={image}
           alt={`Instagram ${index}`}
-          style={{
-            width: "300px", // Adjust the width of the image
-            height: "300px", // Adjust the height of the image
-            objectFit: "cover",
-          }}
         />
       </a>
-    ))}
-  </div>
+      ))}
+    </div>
   );
 };
+
 
 const Home = () => {
   const { recipes } = useSelector((state) => state);
@@ -112,14 +116,16 @@ const Home = () => {
                 width: carouselWidth,
               }}
             >
-              <InstagramCarousel />
+              <InstagramCarousel 
+              sx={{height: '600px', width: '1100px'}}
+              />
               <p
                 style={{
                   textAlign: 'center',
                   marginTop: '10px',
                   fontSize: '1.5rem',
                   fontWeight: 'bold',
-                  color: "#4e5052"
+                  color: '#ed4218',
                 }}
               >
                 Our Latest Recipes On Instagram
@@ -133,29 +139,17 @@ const Home = () => {
                 padding: '30px',
               }}
             >
-              <p
-                style={{
-                  textAlign: 'center',
-                  marginTop: '10px',
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold',
-                }}
+              <Box
+              sx={{marginBottom: "30px"}}
               >
-                Trending Meal Recipes
-              </p>
               <TrendingMeals />
+              </Box>
 
-              <p
-                style={{
-                  textAlign: 'center',
-                  marginTop: '10px',
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold',
-                }}
+              <Box
+              sx={{marginBottom: "30px"}}
               >
-                Trending Cocktail Recipes
-              </p>
               <TrendingCocktails />
+              </Box>
             </Box>
           </Box>
         </div>
