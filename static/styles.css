@@ -1,6 +1,11 @@
+
+
 body {
   font-family: verdana;
   margin-top: 700px;
+  margin-left: 80px;
+  margin-right: 80px;
+  margin-bottom: 50px
 }
 
 form {
