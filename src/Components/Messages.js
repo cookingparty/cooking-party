@@ -538,7 +538,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                                   fontSize: "10px",
                                   fontWeight: "bold",
                                   lineHeight: "12px",
-                                  color: message.mine ? "#FFF" : "#000",
+                                  color: message.mine ? "#FFF" : "#FFF",
                                 }}
                               >
                                 {message.txt}
