@@ -55,6 +55,9 @@ const Login = () => {
 
   return (
     <Box
+    sx={{marginBottom: '60px'}}
+    >
+    <Box
       display="flex"
       flexDirection="column"
       alignItems="center"
@@ -110,9 +113,9 @@ const Login = () => {
           <form
             sx={{
               backgroundColor: "almond",
-              paddingBottom: "50px",
+              paddingBottom: "100px",
               margin: "60px",
-              marginBottom: "120px",
+              marginBottom: "200px",
               border: "40px solid almond",
               height: "400px",
               width: "700px",
@@ -191,6 +194,7 @@ const Login = () => {
           ) : null}
         </div>
       </Box>
+    </Box>
     </Box>
   );
 };
