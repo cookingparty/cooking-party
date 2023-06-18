@@ -61,7 +61,7 @@ app.post("/spoonacular", async (req, res, next) => {
 app.post("/", async (req, res, next) => {
   try {
     const { recipe, ingredients, instructions } = req.body;
-    console.log(req.body);
+    console.log("req.body", req.body);
     const createdRecipe = await Recipe.create({
       title: recipe.title,
       description: recipe.description,
@@ -69,6 +69,7 @@ app.post("/", async (req, res, next) => {
       imageURL: recipe.imageURL,
       isCocktail: recipe.isCocktail,
       userId: recipe.userId,
+      groupId: recipe.groupId,
     });
     for (const ingredient of ingredients) {
       const createdIngredient = await Ingredient.create({
