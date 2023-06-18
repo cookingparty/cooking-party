@@ -241,7 +241,6 @@ const Nav = () => {
   });
 
   const handleToggleMessages = () => {
-    console.log("hello");
     if (messagesOpen) {
       setMessagesOpen(false);
     } else {

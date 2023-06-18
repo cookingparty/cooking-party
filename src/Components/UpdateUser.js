@@ -54,11 +54,7 @@ const UpdateUser = () => {
   };
 
   return (
-    <form
-      component="form"
-      onSubmit={update}
-      sx={{ display: "flex", flexDirection: "column" }}
-    >
+    <form component="form" sx={{ display: "flex", flexDirection: "column" }}>
       <label>Username</label>
       <TextField
         placeholder="username"
@@ -84,7 +80,10 @@ const UpdateUser = () => {
       />
       <label>Avatar (PNG, JPEG, JPG only)</label>
       <input type="file" ref={ref} />
-      <Button variant="outlined"> update </Button>
+      <Button variant="outlined" onClick={update}>
+        {" "}
+        update{" "}
+      </Button>
     </form>
   );
 };
