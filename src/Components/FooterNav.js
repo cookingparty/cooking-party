@@ -26,7 +26,7 @@ export default function FooterNav() {
         zIndex: 10,
         zIndex: (theme) => theme.zIndex.drawer + 1,
         marginTop: "30px",
-        padding: "10px 20px",
+        padding: "30px 40px",
         margin: "20px auto",
         boxSizing: "border-box", // Ensure padding and border are included in width calculation
       }}
@@ -36,7 +36,7 @@ export default function FooterNav() {
         component={Link}
         to="/about"
         sx={{
-          fontSize: 10,
+          fontSize: 12,
           ml: 2,
           textTransform: "uppercase",
           textDecoration: "none",
@@ -60,7 +60,7 @@ export default function FooterNav() {
             component={Link}
             to={`/${page.toLowerCase().replace(" ", "-").replace(" ", "-")}`}
             sx={{
-              fontSize: 10,
+              fontSize: 12,
               ml: 2,
               textTransform: "uppercase",
               textDecoration: "none",
