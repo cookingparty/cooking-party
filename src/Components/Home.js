@@ -28,18 +28,22 @@ const InstagramCarousel = () => {
   }, []);
 
   return (
-    <div id="instafeed-container">
-      {instaFeed.map((image, index) => (
-        <a key={index} style={{ margin: "50px" }}>
-          <img
-            key={index}
-            src={image}
-            alt={`Instagram ${index}`}
-            style={{ display: "none", margin: "10px" }}
-          />
-        </a>
-      ))}
-    </div>
+    <div id="instafeed-container" style={{ display: "flex", justifyContent: "center", margin: "50px" }}>
+    {instaFeed.map((image, index) => (
+      <a key={index} style={{ margin: "10px" }}>
+        <img
+          key={index}
+          src={image}
+          alt={`Instagram ${index}`}
+          style={{
+            width: "300px", // Adjust the width of the image
+            height: "300px", // Adjust the height of the image
+            objectFit: "cover",
+          }}
+        />
+      </a>
+    ))}
+  </div>
   );
 };
 
@@ -115,6 +119,7 @@ const Home = () => {
                   marginTop: '10px',
                   fontSize: '1.5rem',
                   fontWeight: 'bold',
+                  color: "#4e5052"
                 }}
               >
                 Our Latest Recipes On Instagram
@@ -148,7 +153,7 @@ const Home = () => {
                   fontWeight: 'bold',
                 }}
               >
-                Trending Meal Recipes
+                Trending Cocktail Recipes
               </p>
               <TrendingCocktails />
             </Box>
