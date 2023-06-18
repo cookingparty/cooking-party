@@ -22,7 +22,7 @@ function TrendingMeals() {
             "X-API-Key": apiKey,
           },
           params: {
-            number: 5,
+            number: 4,
           },
         }
       );
