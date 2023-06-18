@@ -6,7 +6,6 @@ import Instafeed from "instafeed.js";
 import { accessTokenIg } from "../../secrets";
 import Box from "@mui/material/Box";
 
-
 const executeSearch = (filteredRecipes) => {
   // Handle the filtered recipes here
   console.log(filteredRecipes);
@@ -30,26 +29,22 @@ const Recipes = () => {
     setOpen(!open);
   };
 
-
   const inputProps = {
-	style: {
-	  width: '800px',
-	  height: '100px',
-	  border: '2px solid #ed4218',
-	  fontSize: '22px', 
-	  background: '#faf6e8',
-	  opacity: '0.4'
-
-	},
-	
+    style: {
+      width: "800px",
+      height: "100px",
+      border: "2px solid #ed4218",
+      fontSize: "22px",
+      background: "#faf6e8",
+      opacity: "0.4",
+    },
   };
 
   const sizeProps = {
-	style: {
-		height: '20px'
-	}
-  }
-  
+    style: {
+      height: "20px",
+    },
+  };
 
   useEffect(() => {
     const userFeed = new Instafeed({
@@ -66,37 +61,34 @@ const Recipes = () => {
     <div style={styles.root}>
       <div
         style={{
-          position: 'relative',
-          width: '100vw',
-          height: '400px',
+          position: "relative",
+          width: "100vw",
+          height: "400px",
         }}
       >
         <img
           src="static/images/citrus edit.jpg"
           alt="search bar photo"
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
-            width: '100%',
-            height: '400px',
-            objectFit: 'cover',
+            width: "100%",
+            height: "400px",
+            objectFit: "cover",
             zIndex: -1,
           }}
         />
         <div
           style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             zIndex: 1,
           }}
         >
-          <SearchBar
-            onSearch={executeSearch}
-            inputProps={inputProps}
-          />
+          <SearchBar onSearch={executeSearch} inputProps={inputProps} />
         </div>
       </div>
       <div style={styles.instafeedContainer} id="instafeed-container"></div>
