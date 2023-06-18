@@ -24,10 +24,10 @@ const Recipe = conn.define("recipe", {
     type: STRING,
     allowNull: false,
   },
-  instructionsFake: {
-    type: TEXT,
-    /*allowNull: false,*/
-  },
+  // instructionsFake: {
+  //   type: TEXT,
+  //   /*allowNull: false,*/
+  // },
   description: {
     type: TEXT,
   },
@@ -93,7 +93,7 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
       });
     });
     const cleanInstructions = DOMPurify.sanitize(response.data.instructions, {
-      FORBID_TAGS: ["li", "ol"],
+      FORBID_TAGS: ["li", "ol", "br"],
     });
     const instructionsArray = cleanInstructions.split(".");
     // console.log("instructionsArray", instructionsArray);
