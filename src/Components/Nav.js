@@ -378,6 +378,7 @@ const Nav = () => {
                 display: "flex",
                 justifyContent: "flex-start",
                 paddingLeft: "20px",
+              
               }}
             >
               <SearchAll onSearch={handleSearch} />
@@ -385,7 +386,7 @@ const Nav = () => {
 
             {/* Logo */}
             <Box
-              sx={{ flexGrow: "1.3", display: "flex", alignItems: "center" }}
+              sx={{ flexGrow: "1", display: "flex", alignItems: "center" }}
             >
               <Link to="/">
                 <img
@@ -465,7 +466,7 @@ const Nav = () => {
                   component={Link}
                   to="/auth/login"
                   style={{
-                    color: "#0C090A",
+                    color: '#ed4218',
                     textDecoration: "none",
                     paddingLeft: "10px",
                     paddingRight: "20px",

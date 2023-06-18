@@ -38,6 +38,7 @@ import UpdateUser from "./UpdateUser";
 import Profile from "./Profile";
 import UploadRecipe from "./UploadRecipe";
 import MealPlanner from "./MealPlanner";
+import MyRecipes from "./MyRecipes";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
@@ -102,10 +103,10 @@ const App = () => {
           <Route path="/groups/create" element={<GroupCreate />} />
           <Route path="/groups/:id" element={<Group />} />
           <Route path="/my-saved-recipes" element={<MySavedRecipes />} />
+          <Route path="/my-recipes" element={<MyRecipes />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/about" element={<About />} />
           <Route path="/planner" element={<MealPlanner />} />
-          
 
           {!auth.id}
           <Route path="/" element={<Home />} />

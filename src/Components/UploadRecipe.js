@@ -36,14 +36,11 @@ const UploadRecipe = () => {
   ]);
 
   const onChangeRecipe = (ev) => {
-    console.log("ev.target.name", ev.target.name);
-    console.log("ev.target.value", ev.target.value);
 
     setRecipe({
       ...recipe,
       [ev.target.name]: ev.target.value || ev.target.checked,
     });
-    console.log("recipe", recipe);
   };
   const onChangeIngredients = (ev, idx) => {
     const { name, value } = ev.target;
