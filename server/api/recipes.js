@@ -40,6 +40,15 @@ app.get("/", async (req, res, next) => {
   }
 });
 
+app.post("/cocktail", async (req, res, next) => {
+  try {
+    const recipe = await Recipe.seedCocktailRecipe(req.body.recipe_id);
+    res.status(201).send(recipe);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 app.post("/spoonacular", async (req, res, next) => {
   try {
     const recipe = await Recipe.seedSpoonacularRecipe(req.body.recipe_id);

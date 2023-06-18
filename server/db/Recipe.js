@@ -16,6 +16,10 @@ const Recipe = conn.define("recipe", {
     type: INTEGER,
     unique: true,
   },
+  cocktail_id: {
+    type: INTEGER,
+    unique: true,
+  },
   title: {
     type: STRING,
     allowNull: false,
@@ -96,6 +100,56 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
     instructionsArray.map(async (instruction, idx) => {
       if (instruction.length > 0) {
         return await conn.models.instruction.create({
+          listOrder: idx + 1,
+          specification: instruction,
+          recipeId: recipe.id,
+        });
+      }
+    });
+  } else if (recipe) {
+    return recipe;
+  }
+  return recipe;
+};
+
+Recipe.seedCocktailRecipe = async function (cocktailId) {
+  const apiKey = "9973533";
+  const response = await axios.get(
+    `https://www.thecocktaildb.com/api/json/v2/${apiKey}/lookup.php?i=${cocktailId}`
+  );
+  if (response.data.error) {
+    const error = Error(response.data.error);
+    error.status = 401;
+    throw error;
+  }
+  let recipe = await Recipe.findOne({
+    where: {
+      cocktail_id: cocktailId,
+    },
+  });
+  if (!recipe) {
+    recipe = await Recipe.create({
+      cocktail_id: cocktailId,
+      title: response.data.drinks[0].strDrink,
+      imageURL: response.data.drinks[0].strDrinkThumb,
+      isCocktail: true,
+    });
+
+    for (let i = 0; i < 14; i++) {
+      if (response.data.drinks[0][`strIngredient${i + 1}`]) {
+        const ingredient = await conn.models.ingredient.create({
+          name: response.data.drinks[0][`strIngredient${i + 1}`],
+          recipeId: recipe.id,
+          measurementUnit: response.data.drinks[0][`strMeasure${i + 1}`],
+        });
+      }
+    }
+
+    const instructionsArray =
+      response.data.drinks[0].strInstructions.split(".");
+    instructionsArray.map(async (instruction, idx) => {
+      if (instruction.length > 0) {
+        const newInstruction = await conn.models.instruction.create({
           listOrder: idx + 1,
           specification: instruction,
           recipeId: recipe.id,

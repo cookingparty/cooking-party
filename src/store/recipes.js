@@ -41,4 +41,15 @@ export const seedSpoonacularRecipe = (spoonacularId) => {
   };
 };
 
+//seed a recipe from the Cocktail db
+export const seedCocktailRecipe = (cocktailId) => {
+  return async (dispatch) => {
+    const response = await axios.post("/api/recipes/cocktail", {
+      recipe_id: cocktailId,
+    });
+    dispatch({ type: "CREATE_RECIPE", recipe: response.data });
+    return response.data;
+  };
+};
+
 export default recipes;

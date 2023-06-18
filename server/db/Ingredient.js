@@ -17,7 +17,6 @@ const Ingredient = conn.define("ingredient", {
   },
   measurementUnit: {
     type: STRING,
-    allowNull: false,
     defaultValue: "",
   },
 });
