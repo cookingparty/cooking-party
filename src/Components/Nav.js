@@ -41,6 +41,7 @@ import OnlineFriends from "./OnlineFriends";
 import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
 import FriendRequests from "./FriendRequests";
+import SearchBar from "./Search";
 
 // add this if needed into Nav=({handleToggleMessages})
 
@@ -98,7 +99,7 @@ const Nav = () => {
 
   const handleSearch = (filteredRecipes) => {
     // Handle the filtered recipes here
-    console.log(filteredRecipes);
+    console.log('searchAll', filteredRecipes);
   };
 
   //{* Chat Drawer *}
