@@ -16,11 +16,12 @@ const MyRecipes = () => {
 
   return (
     <div>
-      <h1>My Recipes</h1>
+      <h1 style={{ textAlign: "center" }}>My Recipes</h1>
       <div
         style={{
           display: "flex",
           justifyContent: "space-around",
+          flexWrap: "wrap",
         }}
       >
         {myRecipes.map((recipe) => {
@@ -43,7 +44,7 @@ const MyRecipes = () => {
                       <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
                     </Typography>
                   </CardContent>
-                  <Button>Edit</Button>
+                  <Button disabled={true}>Edit</Button>
                 </div>
               </Card>
             </div>
