@@ -7,10 +7,16 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const MyRecipes = () => {
   const { auth, recipes } = useSelector((state) => state);
+
+  const navigate = useNavigate();
+
+  const edit = (id) => {
+    navigate(`/recipes/${id}/edit`);
+  };
 
   const myRecipes = recipes.filter((recipe) => recipe.userId === auth.id);
 
@@ -44,7 +50,7 @@ const MyRecipes = () => {
                       <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
                     </Typography>
                   </CardContent>
-                  <Button disabled={true}>Edit</Button>
+                  <Button onClick={(ev) => edit(recipe.id)}>Edit</Button>
                 </div>
               </Card>
             </div>

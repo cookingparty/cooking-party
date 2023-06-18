@@ -8,6 +8,7 @@ import {
   fetchInstructions,
   fetchComments,
   createComment,
+  fetchRecipes,
 } from "../store";
 import * as DOMPurify from "dompurify";
 import { Button, CardActions, IconButton, TextField } from "@mui/material";
@@ -38,6 +39,7 @@ const RecipePage = () => {
   const [type, setType] = useState("");
 
   useEffect(() => {
+    dispatch(fetchRecipes());
     dispatch(fetchIngredients(id));
     dispatch(fetchInstructions(id));
     dispatch(fetchComments());
