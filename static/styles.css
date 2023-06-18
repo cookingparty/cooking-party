@@ -3,9 +3,7 @@
 body {
   font-family: verdana;
   margin-top: 700px;
-  margin-left: 80px;
-  margin-right: 80px;
-  margin-bottom: 50px
+  
 }
 
 form {
@@ -71,6 +69,8 @@ nav {
   border-style: solid;
   border-color: white;
   border-bottom: 10px;
+  height: 550px !important;
+  width: 450px !important;
 }
 
 .mealPlannerCalendar {
@@ -83,15 +83,10 @@ nav {
   flex-direction: column;
 }
 
-.commentList {
-  display: flex;
-  flex-direction: column;
-  list-style: none;
-  padding-left: 0;
-}
 
-.comment {
-  margin: 5px;
-  border: 1px solid black;
-  padding-left: 5px;
-}
+  /* #ig-images{
+    height: 500px !important;
+    width: 400px !important;
+} */
+
+
