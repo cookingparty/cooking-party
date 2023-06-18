@@ -390,7 +390,7 @@ const Nav = () => {
 
             {/* Logo */}
             <Box
-              sx={{ flexGrow: "1.3", display: "flex", alignItems: "center" }}
+              sx={{ flexGrow: "1", display: "flex", alignItems: "center" }}
             >
               <Link to="/">
                 <img
