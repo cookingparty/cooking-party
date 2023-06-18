@@ -62,7 +62,7 @@ export default function RecipeCard({
   serves,
   avatar,
   avatarColor,
-  maxDescriptionLength = 150,
+  maxDescriptionLength = 300,
   isCocktail,
 }) {
   const [expanded, setExpanded] = React.useState(false);
@@ -166,52 +166,44 @@ export default function RecipeCard({
   return (
     <Card sx={{ maxWidth: 350, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
       <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: avatarColor }} aria-label="recipe">
-            {avatar}
-          </Avatar>
-        }
+        // avatar={
+        //   <Avatar sx={{ bgcolor: avatarColor }} aria-label="recipe">
+        //     {avatar}
+        //   </Avatar>
+        // }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          !!auth.id &&
+          !isFavorited(id) && (
+            <IconButton aria-label="settings" onClick={() => favorite(id)}>
+              <FavoriteIcon />
+              {/* <MoreVertIcon /> */}
+            </IconButton>
+          )
+
         }
         title={
           <TitleTypography variant="h6" component="div">
             <Link onClick={(ev) => openRecipePage(ev, id)}>{title}</Link>
           </TitleTypography>
         }
-
-        //NR Link test
-        // <Link
-        // 		to={`/recipePage/${id}`}
-        // 		style={{ textDecoration: 'none', color: 'inherit' }}
-        // 	>
-        // 		<TitleTypography variant="h6" component="div">
-        // 			{title}
-        // 		</TitleTypography>
-        // 	</Link>
-        // subheader={subheader}
       />
 
       <CardMedia component="img" height="194" image={image} alt={title} />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          <span dangerouslySetInnerHTML={{ __html: clean }} />
-        </Typography>
-      </CardContent>
       <CardActions disableSpacing>
         {!!auth.id && !isFavorited(id) && (
           <IconButton
             aria-label="add to favorites"
             onClick={() => favorite(id)}
           >
-            <FavoriteIcon />
+            {/* <FavoriteIcon /> */}
           </IconButton>
         )}
-        <IconButton aria-label="share">
+        <Typography variant="body2" color="text.secondary">
+          Click for more info...
+        </Typography>
+        {/* <IconButton aria-label="share">
           <ShareIcon />
-        </IconButton>
+        </IconButton> */}
         {/* <Tooltip title="add to meal planner">
           <Button startIcon={<Icon>add_circle</Icon>}></Button>
         </Tooltip> */}
@@ -227,14 +219,9 @@ export default function RecipeCard({
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
-            Summary (Do we want Ingredients here or comments?)
-          </Typography>
-          <Typography paragraph>
             <span dangerouslySetInnerHTML={{ __html: clean }} />
           </Typography>
-          <Typography paragraph>
-            This is another place holder comment
-          </Typography>
+          <Link onClick={(ev) => openRecipePage(ev, id)}>Learn more...</Link>
           <Typography paragraph>
             {/* Add rice and stir very gently to distribute. Top with artichokes and
             peppers, and cook without stirring, until most of the liquid is absorbed,
