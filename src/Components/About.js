@@ -14,8 +14,8 @@ const About = () => {
         marginBottom={2}
       >
         <img
-          src="static/images/diningtable.jpg"
-          alt="dining table photo"
+          src="static/images/salmon.jpg"
+          alt="salmon photo"
           style={{
             top: 0,
             left: 0,
