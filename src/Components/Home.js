@@ -125,7 +125,7 @@ const Home = () => {
                   marginTop: '10px',
                   fontSize: '1.5rem',
                   fontWeight: 'bold',
-                  color: "#4e5052"
+                  color: '#ed4218',
                 }}
               >
                 Our Latest Recipes On Instagram
@@ -139,11 +139,15 @@ const Home = () => {
                 padding: '30px',
               }}
             >
-              <Box>
+              <Box
+              sx={{marginBottom: "30px"}}
+              >
               <TrendingMeals />
               </Box>
 
-              <Box>
+              <Box
+              sx={{marginBottom: "30px"}}
+              >
               <TrendingCocktails />
               </Box>
             </Box>

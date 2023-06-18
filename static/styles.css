@@ -66,11 +66,17 @@ nav {
 
 #instafeed-container img {
   width: 18em;
-  border-style: solid;
-  border-color: white;
-  border-bottom: 10px;
   height: 550px !important;
   width: 450px !important;
+  margin-right: 40px;
+  
+}
+
+
+#instafeed-container img:hover{
+opacity: 0.8;
+-moz-opacity:0.8;
+-webkit-opacity:0.8
 }
 
 .mealPlannerCalendar {
@@ -83,10 +89,5 @@ nav {
   flex-direction: column;
 }
 
-
-  /* #ig-images{
-    height: 500px !important;
-    width: 400px !important;
-} */
 
 
