@@ -27,7 +27,7 @@ export default function FooterNav() {
         zIndex: (theme) => theme.zIndex.drawer + 1,
         marginTop: "30px",
         padding: "30px 40px",
-        margin: "20px auto",
+        
         boxSizing: "border-box", // Ensure padding and border are included in width calculation
       }}
     >
