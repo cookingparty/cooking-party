@@ -36,6 +36,9 @@ const UploadRecipe = () => {
   ]);
 
   const onChangeRecipe = (ev) => {
+    console.log("ev.target.name", ev.target.name);
+    console.log("ev.target.value", ev.target.value);
+
     setRecipe({
       ...recipe,
       [ev.target.name]: ev.target.value || ev.target.checked,
@@ -185,14 +188,12 @@ const UploadRecipe = () => {
               id="demo-simple-select"
               value={recipe.groupId}
               label="groupId"
+              name="groupId"
               onChange={onChangeRecipe}
-              /*renderValue={(selected) => {
-                if (selected) return group.id;
-              }}*/
             >
               {myGroups.map((group) => {
                 return (
-                  <MenuItem value={recipe.groupId} key={group.id}>
+                  <MenuItem value={group.id} key={group.id}>
                     {group.name}
                   </MenuItem>
                 );
