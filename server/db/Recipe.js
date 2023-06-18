@@ -89,7 +89,7 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
       });
     });
     const cleanInstructions = DOMPurify.sanitize(response.data.instructions, {
-      FORBID_TAGS: ["li", "ol"],
+      FORBID_TAGS: ["li", "ol", "br"],
     });
     const instructionsArray = cleanInstructions.split(".");
     // console.log("instructionsArray", instructionsArray);
