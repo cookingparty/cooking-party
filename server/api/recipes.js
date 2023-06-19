@@ -81,7 +81,7 @@ app.post("/", async (req, res, next) => {
       });
     }
     for (const instruction of instructions) {
-      const createdIngredient = await Instruction.create({
+      const createdInstruction = await Instruction.create({
         listOrder: instruction.listOrder,
         specification: instruction.specification,
         recipeId: createdRecipe.id,
@@ -107,8 +107,38 @@ app.delete("/:id", async (req, res, next) => {
 //couldn't test
 app.put("/:id", async (req, res, next) => {
   try {
-    const recipe = await Recipe.findByPk(req.params.id);
-    res.send(await recipe.update(req.body));
+    const { recipe, _ingredients, _instructions } = req.body;
+
+    const updatedRecipe = await Recipe.findByPk(req.params.id);
+    for (const ingredient of _ingredients) {
+      if (!ingredient.id) {
+        await Ingredient.create({
+          name: ingredient.name,
+          amount: ingredient.amount,
+          measurementUnit: ingredient.measurementUnit,
+          recipeId: recipe.id,
+        });
+      } else {
+        const found = await Ingredient.findByPk(ingredient.id);
+        found.update(ingredient);
+      }
+    }
+    for (const instruction of _instructions) {
+      if (!instruction.id) {
+        await Instruction.create({
+          listOrder: instruction.listOrder,
+          specification: instruction.specification,
+          recipeId: recipe.id,
+        });
+      } else {
+        const found = await Instruction.findByPk(instruction.id);
+        found.update(instruction);
+      }
+    }
+    updatedRecipe.update(recipe),
+      res.send({
+        recipe: updatedRecipe,
+      });
   } catch (ex) {
     next(ex);
   }

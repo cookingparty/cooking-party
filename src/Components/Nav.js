@@ -29,7 +29,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Chat from "./Chat";
+import Messages from "./Messages";
 import MailIcon from "@mui/icons-material/Mail";
 import Badge from "@mui/material/Badge";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -57,7 +57,6 @@ const Nav = () => {
     "Home",
     "Recipes",
     "Planner",
-    "Grocery List",
     "About",
     "Friends",
     "Groups",
@@ -99,7 +98,7 @@ const Nav = () => {
 
   const handleSearch = (filteredRecipes) => {
     // Handle the filtered recipes here
-    console.log('searchAll', filteredRecipes);
+    console.log("searchAll", filteredRecipes);
   };
 
   //{* Chat Drawer *}
@@ -379,16 +378,13 @@ const Nav = () => {
                 display: "flex",
                 justifyContent: "flex-start",
                 paddingLeft: "20px",
-              
               }}
             >
               <SearchAll onSearch={handleSearch} />
             </Box>
 
             {/* Logo */}
-            <Box
-              sx={{ flexGrow: "1", display: "flex", alignItems: "center" }}
-            >
+            <Box sx={{ flexGrow: "1", display: "flex", alignItems: "center" }}>
               <Link to="/">
                 <img
                   src="static/images/cookingPartyCircleBullseye2.png"
@@ -467,7 +463,7 @@ const Nav = () => {
                   component={Link}
                   to="/auth/login"
                   style={{
-                    color: '#ed4218',
+                    color: "#ed4218",
                     textDecoration: "none",
                     paddingLeft: "10px",
                     paddingRight: "20px",
@@ -517,13 +513,12 @@ const Nav = () => {
               <Box
                 sx={{
                   justifyContent: open ? "inital" : "center",
-                  padding: "20",
-                  background: "white",
+                  color: "#ed4218",
                   fontSize: "10px",
                   font: "Helvetica",
                 }}
               >
-                <Typography sx={{ fontSize: "10px", font: "Helvetica" }}>
+                <Typography sx={{ fontSize: "14px", font: "Helvetica" }}>
                   FRIENDS AND MESSENGER
                 </Typography>
               </Box>
@@ -621,7 +616,7 @@ const Nav = () => {
             <ListItem>
               <Box sx={{ overflowY: "auto", height: "calc(100% - 64px)" }}>
                 {!!auth.id && messagesOpen && (
-                  <Chat drawerwidth={drawerwidth} />
+                  <Messages drawerwidth={drawerwidth} />
                 )}
               </Box>
             </ListItem>

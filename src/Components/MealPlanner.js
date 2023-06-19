@@ -110,7 +110,7 @@ const MealPlanner = () => {
         <ul>
           {snacks.map((recipe) => (
             <li key={recipe.id}>
-              {recipe.title}{" "}
+              <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
               <Tooltip title="add to grocery list">
                 <Button startIcon={<Icon>add_circle</Icon>}></Button>
               </Tooltip>

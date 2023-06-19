@@ -8,6 +8,7 @@ import {
   fetchInstructions,
   fetchComments,
   createComment,
+  fetchRecipes,
 } from "../store";
 import * as DOMPurify from "dompurify";
 import { Button, CardActions, IconButton, TextField } from "@mui/material";
@@ -22,6 +23,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Card from "@mui/material/Card";
 
 const RecipePage = () => {
   const dispatch = useDispatch();
@@ -37,6 +39,7 @@ const RecipePage = () => {
   const [type, setType] = useState("");
 
   useEffect(() => {
+    dispatch(fetchRecipes());
     dispatch(fetchIngredients(id));
     dispatch(fetchInstructions(id));
     dispatch(fetchComments());
@@ -80,145 +83,239 @@ const RecipePage = () => {
   }
 
   const cleanDescription = DOMPurify.sanitize(recipe.description);
-  const cleanInstructions = DOMPurify.sanitize(instructions);
+
+  const carouselWidth = "85%";
+  const carouselBackground = "#d7dbd8";
 
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
+    <div style={{ margin: "50px", textAlign: "center" }}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginBottom={2}
       >
-        <h1>{recipe.title}</h1>
-        <CardActions disableSpacing>
-          {!!auth.id && !isFavorited(id) && (
-            <IconButton
-              aria-label="add to favorites"
-              onClick={() => favorite(id)}
-            >
-              <FavoriteIcon />
-            </IconButton>
-          )}
-        </CardActions>
-      </div>
-      {/* <p>**** 4.6 (15) | 117 REVIEWS | 11 PHOTOS | +favorite</p> */}
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DatePicker", "DatePicker"]}>
-            <DatePicker value={date} onChange={(newDate) => setDate(newDate)} />
-          </DemoContainer>
-        </LocalizationProvider>
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Type of Meal</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={type}
-              label="type"
-              onChange={handleChange}
-            >
-              {types.map((type) => {
+        <Box
+          sx={{
+            backgroundColor: carouselBackground,
+            margin: "15px",
+            padding: "10px",
+            height: "auto",
+            width: carouselWidth,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <h1>{recipe.title}</h1>
+          <CardActions disableSpacing>
+            {!!auth.id && !isFavorited(id) && (
+              <IconButton
+                aria-label="add to favorites"
+                onClick={() => favorite(id)}
+              >
+                <FavoriteIcon />
+              </IconButton>
+            )}
+          </CardActions>
+        </Box>
+
+        <Box
+          sx={{
+            backgroundColor: carouselBackground,
+            margin: "15px",
+            padding: "10px",
+            height: "auto",
+            width: carouselWidth,
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={["DatePicker", "DatePicker"]}>
+              <DatePicker
+                value={date}
+                onChange={(newDate) => setDate(newDate)}
+              />
+            </DemoContainer>
+          </LocalizationProvider>
+          <Box sx={{ minWidth: 250 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                Type of Meal
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={type}
+                label="type"
+                onChange={handleChange}
+              >
+                {types.map((type) => {
+                  return (
+                    <MenuItem value={type} key={type}>
+                      {type}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Box>
+          <Button onClick={() => addToPlanner({ date, id, type })}>
+            Add to Meal Planner
+          </Button>
+        </Box>
+
+        <Box
+          sx={{
+            backgroundColor: carouselBackground,
+            margin: "15px",
+            padding: "10px",
+            height: "auto",
+            width: carouselWidth,
+          }}
+        >
+          <span
+            dangerouslySetInnerHTML={{
+              __html: cleanDescription || "This recipe has no description yet.",
+            }}
+          />
+        </Box>
+
+        <img
+          src={recipe.imageURL || recipe.image}
+          alt="Recipe Image"
+          style={{
+            margin: "15px",
+            padding: "30px",
+            backgroundColor: "#d7dbd8",
+            width: carouselWidth,
+            alignItems: "center",
+          }}
+        />
+        <Box
+          sx={{
+            backgroundColor: carouselBackground,
+            margin: "15px",
+            padding: "10px",
+            height: "auto",
+            width: carouselWidth,
+          }}
+        >
+          <h3>Ingredients</h3>
+          <ul style={{ listStyle: "none", paddingLeft: "0" }}>
+            {ingredients.map((ingredient) => {
+              return (
+                <li key={ingredient.id}>
+                  {ingredient.amount > 0 ? ingredient.amount : null}{" "}
+                  {ingredient.measurementUnit} {ingredient.name}
+                </li>
+              );
+            })}
+          </ul>
+          <h3>Directions</h3>
+          <ol style={{ listStyle: "none", paddingLeft: "0" }}>
+            {instructions
+              .sort((a, b) => a.listOrder - b.listOrder)
+              .map((instruction) => {
+                const cleanInstruction = DOMPurify.sanitize(
+                  instruction.specification,
+                  { FORBID_TAGS: ["li"] }
+                );
                 return (
-                  <MenuItem value={type} key={type}>
-                    {type}
-                  </MenuItem>
+                  <li
+                    key={instruction.id}
+                    dangerouslySetInnerHTML={{ __html: cleanInstruction }}
+                  />
                 );
               })}
-            </Select>
-          </FormControl>
+          </ol>
         </Box>
-        <Button onClick={() => addToPlanner({ date, id, type })}>
-          Add to Meal Planner
-        </Button>
-      </div>
-
-      <span dangerouslySetInnerHTML={{ __html: cleanDescription }} />
-      {/* <p>Recipe by *USER23* | Updated June 8, 2023</p> */}
-      <img
-        src={recipe.imageURL || recipe.image}
-        alt="Recipe Image"
-        style={{
-          margin: "50px",
-          marginTop: "50px",
-          padding: "30px",
-          backgroundColor: "#d7dbd8",
-          width: "75%",
-          alignItems: "center",
-        }}
-      />
-      <hr />
-      {/* <p>Info block/hero...Ready in?...Servings</p> */}
-      <hr />
-      <h3>Ingredients</h3>
-      <ul>
-        {ingredients.map((ingredient) => {
-          return (
-            <li key={ingredient.id}>
-              {ingredient.amount > 0 ? ingredient.amount : null}{" "}
-              {ingredient.measurementUnit} {ingredient.name}
-            </li>
-          );
-        })}
-      </ul>
-      <h3>Directions</h3>
-      <ol>
-        {instructions
-          .sort((a, b) => a.listOrder - b.listOrder)
-          .map((instruction) => {
-            const cleanInstruction = DOMPurify.sanitize(
-              instruction.specification,
-              { FORBID_TAGS: ["li"] }
-            );
-            return (
-              <li
-                key={instruction.id}
-                dangerouslySetInnerHTML={{ __html: cleanInstruction }}
-              />
-            );
-          })}
-      </ol>
-      <hr />
-      <h3>
-        Comments ({comments.filter((comment) => comment.recipeId === id).length}
-        )
-      </h3>
-      <form>
-        <TextField
-          label="subject"
-          value={subject}
-          name="subject"
-          onChange={(ev) => setSubject(ev.target.value)}
-        />
-        <TextField
-          type="number"
-          label="rating 1-5"
-          value={rating}
-          name="rating"
-          onChange={(ev) => setRating(ev.target.value)}
-        />
-        <TextField
-          label="body"
-          value={body}
-          name="body"
-          onChange={(ev) => setBody(ev.target.value)}
-        />
-        <Button onClick={addComment}>Add Comment</Button>
-      </form>
-      <ul className="commentList">
-        {comments
-          .filter((comment) => comment.recipeId === id)
-          .map((comment) => {
-            return (
-              <li className="comment" key={comment.id}>
-                {comment.subject} - rating: {comment.rating}
-                <hr />
-                {comment.body}
-              </li>
-            );
-          })}
-      </ul>
+        <Box
+          sx={{
+            backgroundColor: carouselBackground,
+            margin: "15px",
+            padding: "10px",
+            height: "auto",
+            width: carouselWidth,
+          }}
+        >
+          <h3>
+            Comments (
+            {comments.filter((comment) => comment.recipeId === id).length})
+          </h3>
+          <form
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              sx={{ width: "50%", margin: "10px" }}
+              label="subject"
+              value={subject}
+              name="subject"
+              onChange={(ev) => setSubject(ev.target.value)}
+            />
+            <TextField
+              sx={{ width: "50%", margin: "10px" }}
+              type="number"
+              label="rating 1-5"
+              value={rating}
+              name="rating"
+              onChange={(ev) => setRating(ev.target.value)}
+            />
+            <TextField
+              sx={{ width: "50%", margin: "10px" }}
+              label="body"
+              value={body}
+              name="body"
+              onChange={(ev) => setBody(ev.target.value)}
+            />
+            <Button sx={{ width: "50%", margin: "10px" }} onClick={addComment}>
+              Add Comment
+            </Button>
+          </form>
+          <ul
+            style={{
+              listStyle: "none",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+            }}
+          >
+            {comments
+              .filter((comment) => comment.recipeId === id)
+              .sort((a, b) => {
+                if (a.createdAt < b.createdAt) {
+                  return 1;
+                }
+                if (a.createdAt > b.createdAt) {
+                  return -1;
+                }
+                return 0;
+              })
+              .map((comment) => {
+                return (
+                  <Card
+                    key={comment.id}
+                    sx={{
+                      margin: "10px",
+                    }}
+                  >
+                    <span style={{ fontWeight: "bold" }}>
+                      {comment.subject}
+                    </span>{" "}
+                    - rating: {comment.rating}
+                    <br />
+                    {comment.body}
+                  </Card>
+                );
+              })}
+          </ul>
+        </Box>
+      </Box>
     </div>
   );
 };

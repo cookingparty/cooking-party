@@ -54,37 +54,51 @@ const UpdateUser = () => {
   };
 
   return (
-    <form component="form" sx={{ display: "flex", flexDirection: "column" }}>
-      <label>Username</label>
-      <TextField
-        placeholder="username"
-        value={account.username || account.facebook_username || ""}
-        name="username"
-        onChange={onChange}
-      />
-      <label>Password</label>
-      <TextField
-        placeholder="password"
-        value={account.password || ""}
-        name="password"
-        onChange={onChange}
-        type="password"
-      />
-      <label>About</label>
-      <TextField
-        type="text"
-        multiline
-        value={account.about || ""}
-        name="about"
-        onChange={onChange}
-      />
-      <label>Avatar (PNG, JPEG, JPG only)</label>
-      <input type="file" ref={ref} />
-      <Button variant="outlined" onClick={update}>
-        {" "}
-        update{" "}
-      </Button>
-    </form>
+    <div
+      style={{
+        width: "80%",
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "space-around",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <form>
+        <label>Username</label>
+        <TextField
+          placeholder="username"
+          value={account.username || account.facebook_username || ""}
+          name="username"
+          onChange={onChange}
+        />
+        <label>Password</label>
+        <TextField
+          placeholder="password"
+          value={account.password || ""}
+          name="password"
+          onChange={onChange}
+          type="password"
+        />
+        <label>About</label>
+        <TextField
+          type="text"
+          multiline
+          value={account.about || ""}
+          name="about"
+          onChange={onChange}
+        />
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <label>Avatar (PNG, JPEG, JPG only)</label>
+          <input type="file" ref={ref} />
+        </div>
+
+        <Button variant="outlined" onClick={update}>
+          {" "}
+          update{" "}
+        </Button>
+      </form>
+    </div>
   );
 };
 
