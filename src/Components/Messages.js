@@ -32,26 +32,39 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [activeChatId, setActiveChatId] = useState(null);
   const [showChat, setShowChat] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent form submission behavior
-    event.stopPropagation(); // Stop event propagation
-    setExpanded(true);
+  const handleSubmit = (event, chat, chatId) => {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log("let's all eat")
+    const txt = event.target.querySelector("textarea").value;
+    dispatch(createMessage({ txt, toId: chat.withUser.id }));
+
+    event.target.querySelector("textarea").value = "";
+    event.target.querySelector("textarea").focus();
+
+    setShowChat(true)
+   
   };
+
+
 
   const handleOpenChat = (chatId, ev) => {
     ev.stopPropagation();
-  ev.preventDefault();
-  setActiveChatId(chatId);
-  setShowChat(true); // Set showChat to true when the chat is opened
+    ev.preventDefault();
+    setActiveChatId(chatId);
+    setShowChat(true);
+    console.log("Hey fam! Food's ready!");
   };
+
 
  
 
-  const handleMessage = (chat) => {
-    const txt = ev.target.querySelector("textarea").value; // Changed input to textarea
+  const handleMessage = (chat, event) => {
+    const txt = event.target.querySelector("textarea").value;
     dispatch(createMessage({ txt, toId: chat.withUser.id }));
-    ev.target.querySelector("textarea").value = ""; // Changed input to textarea
+    event.target.querySelector("textarea").value = "";
   };
 
   const scrollRef = useRef(null);
@@ -65,6 +78,15 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
   useEffect(() => {
     setReadMessages([]);
   }, [messages]);
+
+
+  //function to scroll the message log
+  const _scroll = (() =>{
+    const log = document.getElementById('log');
+    log.scrollTop = log.scrollHeight;
+  })
+    
+  
 
   const chatMap = messages.reduce((acc, message) => {
     const withUser = message.fromId === auth.id ? message.to : message.from;
@@ -511,7 +533,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
 
                       <Box>
                         <List>
-                          <Box>
+                          {/* <Box> */}
                             {chat.messages.map((message, index) => {
                               console.log(chat.withUser);
                               return (
@@ -554,83 +576,77 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                                 </Box>
                               );
                             })}
-                          </Box>
+                          {/* </Box> */}
                         </List>
                       </Box>
                       <div ref={scrollRef}></div>
 
                       {confirmedFriend(chat.withUser) ? (
-                        <form
-                          onSubmit={(ev) => {
-                            setExpanded(true)
-                            ev.stopPropagation()
-                            ev.preventDefault()
-                            const txt =
-                              ev.target.querySelector("textarea").value; // Changed input to textarea
-                            dispatch(
-                              createMessage({ txt, toId: chat.withUser.id })
-                            );
-                            ev.target.querySelector("textarea").value = ""; // Changed input to textarea
-                          }}
-                          style={{
-                            display: "flex",
-                            width: "100%",
-                            marginTop: "5px",
-                            position: "relative",
-                          }}
-                        >
-                          <TextField
-                            placeholder={`Send a message to ${
-                              chat.withUser.username ||
-                              chat.withUser.facebook_username
-                            }`}
-                            sx={{
-                              flex: "1",
-                              marginRight: "10px",
-                              height: "100%",
-                              resize: "vertical",
-                              overflow: "auto",
-                              fontSize: "10px",
-                              fontFamily: "Helvetica",
-                              marginBottom: "10px",
-                              position: "relative",
-                            }}
-                            multiline
-                            InputProps={{
-                              endAdornment: (
-                                <IconButton
-                                  type="submit"
-                                  variant="contained"
-                                  style={{
-                                    position: "absolute",
-                                    top: "50%",
-                                    right: "5px",
-                                    transform: "translateY(-50%)",
-                                    textTransform: "none",
-                                    width: "20px",
-                                    height: "20px",
-                                    padding: 0,
-                                    backgroundColor: "#007aff",
-                                    borderRadius: "5px",
-                                  }}
-                                >
-                                  <Send
-                                    sx={{ fontSize: "10px", color: "#ffffff" }}
-                                  />
-                                </IconButton>
-                              ),
-                              style: {
-                                height: "100%",
-                                fontSize: "10px",
-                                resize: "vertical",
-                                overflow: "auto",
-                                maxHeight: "calc(100% - 16px)",
-                                fontFamily: "Helvetica",
-                                paddingRight: "48px",
-                              },
-                            }}
-                          />
-                        </form>
+                      <form
+                      
+                      style={{
+                        
+                        display: "flex",
+                        width: "100%",
+                        marginTop: "5px",
+                        position: "relative",
+                      }}
+                      onSubmit={(ev) => {
+                        ev.preventDefault(); // Prevent the form from closing
+                        handleSubmit(ev, chat);
+                        console.log("Molly is cooking fluffy eggs...");
+                      }}
+                    >
+                      <TextField
+                        placeholder={`Send a message to ${
+                          chat.withUser.username || chat.withUser.facebook_username
+                        }`}
+                        sx={{
+                          flex: "1",
+                          marginRight: "10px",
+                          height: "100%",
+                          resize: "vertical",
+                          overflow: "auto",
+                          fontSize: "10px",
+                          fontFamily: "Helvetica",
+                          marginBottom: "10px",
+                          position: "relative",
+                        }}
+                        multiline
+                        InputProps={{
+                          endAdornment: (
+                            <IconButton
+                              type="submit"
+                              variant="contained"
+                              style={{
+                                position: "absolute",
+                                top: "50%",
+                                right: "5px",
+                                transform: "translateY(-50%)",
+                                textTransform: "none",
+                                width: "20px",
+                                height: "20px",
+                                padding: 0,
+                                backgroundColor: "#007aff",
+                                borderRadius: "5px",
+                              }}
+                            >
+                              <Send sx={{ fontSize: "10px", color: "#ffffff" }} />
+                            </IconButton>
+                          ),
+                          style: {
+                            height: "100%",
+                            fontSize: "10px",
+                            resize: "vertical",
+                            overflow: "auto",
+                            maxHeight: "calc(100% - 16px)",
+                            fontFamily: "Helvetica",
+                            paddingRight: "48px",
+                          },
+                        }}
+                      />
+                    </form>
+                    
                       ) : (
                         <Typography
                           variant="body1"
