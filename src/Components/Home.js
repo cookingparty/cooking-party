@@ -35,6 +35,8 @@ const InstagramCarousel = () => {
         justifyContent: "center",
         alignItems: "center",
         margin: "50px",
+        maxWidth: "100%", // Add this line
+        overflow: "hidden", // Add this line
       }}
     >
       {instaFeed.map((image, index) => (
@@ -90,6 +92,8 @@ const Home = () => {
                 marginBottom: '80px',
                 height: '600px',
                 width: carouselWidth,
+                maxWidth: "100%", // Add this line
+                overflow: "hidden", // Add this line
               }}
             >
               <Carousel autoPlay={true} animation="slide" interval={6000}>
