@@ -58,9 +58,7 @@ const Nav = () => {
     "Recipes",
     "Planner",
     "About",
-    "Friends",
     "Groups",
-    "My Saved Recipes",
     "Add Recipe",
   ];
 

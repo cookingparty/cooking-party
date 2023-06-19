@@ -59,6 +59,7 @@ const MealPlanner = () => {
   });
 
   return (
+    <div>
     <div className="mealPlannerCalendar">
       {/* calendar */}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -118,6 +119,7 @@ const MealPlanner = () => {
           ))}
         </ul>
       </div>
+    </div>
     </div>
   );
 };
