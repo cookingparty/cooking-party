@@ -57,46 +57,62 @@ const UpdateUser = () => {
     <div
       style={{
         textAlign: "center",
-        display: "flex",
-        justifyContent: "space-around",
-        flexDirection: "column",
-        alignItems: "center",
+        minHeight: "100vh",
+        display: "grid",
+        gridtemplaterows: "1fr auto",
       }}
     >
-      <form>
-        <label>Username</label>
-        <TextField
-          placeholder="username"
-          value={account.username || account.facebook_username || ""}
-          name="username"
-          onChange={onChange}
-        />
-        <label>Password</label>
-        <TextField
-          placeholder="password"
-          value={account.password || ""}
-          name="password"
-          onChange={onChange}
-          type="password"
-        />
-        <label>About</label>
-        <TextField
-          type="text"
-          multiline
-          value={account.about || ""}
-          name="about"
-          onChange={onChange}
-        />
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <label>Avatar (PNG, JPEG, JPG only)</label>
-          <input type="file" ref={ref} />
-        </div>
+      ,
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginBottom: "120px",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "700px",
+          }}
+        >
+          <h2 style={{ textAlign: "center" }}>Edit Account</h2>
+          <form>
+            <label>Username</label>
+            <TextField
+              placeholder="username"
+              value={account.username || account.facebook_username || ""}
+              name="username"
+              onChange={onChange}
+            />
+            <label>Password</label>
+            <TextField
+              placeholder="password"
+              value={account.password || ""}
+              name="password"
+              onChange={onChange}
+              type="password"
+            />
+            <label>About</label>
+            <TextField
+              type="text"
+              multiline
+              value={account.about || ""}
+              name="about"
+              onChange={onChange}
+            />
+            <div style={{ display: "flex", justifyContent: "space-around" }}>
+              <label>Avatar (PNG, JPEG, JPG only)</label>
+              <input type="file" ref={ref} />
+            </div>
 
-        <Button variant="outlined" onClick={update}>
-          {" "}
-          update{" "}
-        </Button>
-      </form>
+            <Button variant="outlined" onClick={update}>
+              {" "}
+              update{" "}
+            </Button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

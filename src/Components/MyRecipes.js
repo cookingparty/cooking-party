@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -20,9 +21,35 @@ const MyRecipes = () => {
 
   const myRecipes = recipes.filter((recipe) => recipe.userId === auth.id);
 
+  const carouselWidth = "85%";
+ 
+
   return (
+    <div style={{ margin: "50px", textAlign: "center", 
+    minHeight: "100vh",
+      display: "grid",
+      gridtemplaterows: "1fr auto"
+    }}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginBottom={2}
+      >
+        <Box
+          sx={{
+           
+            margin: "60px",
+            marginBottom: "80px",
+            padding: "10px",
+            height: "auto",
+            width: carouselWidth,
+          }}
+        >
+
+        </Box>
     <div>
-      <h1 style={{ textAlign: "center" }}>My Recipes</h1>
+      <h1 style={{ textAlign: "center", font: 'Helvetica' }}>My Recipes</h1>
       <div
         style={{
           display: "flex",
@@ -56,7 +83,9 @@ const MyRecipes = () => {
             </div>
           );
         })}
+        </div>
       </div>
+      </Box>
     </div>
   );
 };

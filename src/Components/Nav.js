@@ -53,14 +53,7 @@ const Nav = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const pages = [
-    "Home",
-    "Recipes",
-    "Planner",
-    "About",
-    "Groups",
-    "Add Recipe",
-  ];
+  const pages = ["Home", "Recipes", "Planner", "About", "Groups", "Add Recipe"];
 
   const settings = ["Profile", "Settings", "Logout"];
 
@@ -382,7 +375,7 @@ const Nav = () => {
             </Box>
 
             {/* Logo */}
-            <Box sx={{ flexGrow: "1", display: "flex", alignItems: "center" }}>
+            <Box sx={{ flexGrow: "1.175", display: "flex", alignItems: "center" }}>
               <Link to="/">
                 <img
                   src="static/images/cookingPartyCircleBullseye2.png"
