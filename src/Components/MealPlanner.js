@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDay } from "../store";
 import { Button, Icon, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";
 
 const MealPlanner = () => {
   const { day } = useSelector((state) => state);
@@ -17,6 +18,7 @@ const MealPlanner = () => {
   const [date, setDate] = React.useState(dayjs(today));
 
   const dispatch = useDispatch();
+  const carouselWidth = "50%";
 
   useEffect(() => {
     dispatch(fetchDay(dayjs(date).format("YYYY-MM-DD")));
@@ -66,6 +68,26 @@ const MealPlanner = () => {
       gridtemplaterows: "1fr auto"
   }}
     >
+       <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginBottom={2}
+      >
+        <img
+          src="static/images/fruit cocktails.jpg"
+          alt="fruit cocktails"
+          style={{
+            top: 0,
+            left: 0,
+            width: carouselWidth,
+            height: "auto",
+            objectFit: "cover",
+          }}
+        />
+        <h1
+        style={{font: 'Helvetica', textAlign: "center"}}
+        >Meal Planner</h1>
     <div className="mealPlannerCalendar">
       {/* calendar */}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -126,6 +148,7 @@ const MealPlanner = () => {
         </ul>
       </div>
     </div>
+    </Box>
     </div>
   );
 };
