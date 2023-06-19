@@ -133,6 +133,40 @@ const syncAndSeed = async () => {
     isPrivate: true,
   });
 
+  const weLoveSushi = await Group.create({
+    name: "we love sushi!!!",
+    description: "for sushi lovers",
+    status: "APPROVED",
+  });
+
+  const grannyGroup = await Group.create({
+    name: "Sunday Night Dinners at Granny's",
+    description: "For preserving Granny's recipes, and our own new ones!",
+    status: "APPROVED",
+    isPrivate: true,
+  });
+
+  const bakingGroup = await Group.create({
+    name: "Baking Bonanza",
+    description:
+      "A group dedicated to all things baking! Share your favorite baking recipes, tips, and tricks with fellow baking enthusiasts.reserving Granny's recipes, and our own new ones!",
+    status: "APPROVED",
+  });
+
+  const veganGroup = await Group.create({
+    name: "Vegan Delights",
+    description:
+      "A group for vegans and plant-based enthusiasts. Discover and exchange delicious vegan recipes, discuss vegan cooking techniques, and support each other on the vegan journey.",
+    status: "APPROVED",
+  });
+
+  const internationalGroup = await Group.create({
+    name: "International Flavors",
+    description:
+      "Explore the diverse world of international cuisines in this group. Share recipes, cultural food traditions, and embark on a culinary adventure together.",
+    status: "APPROVED",
+  });
+
   await Membership.create({
     member_id: lucy.id,
     groupId: cookingParty.id,
@@ -140,9 +174,31 @@ const syncAndSeed = async () => {
     status: "APPROVED",
   });
 
-  const weLoveSushi = await Group.create({
-    name: "we love sushi!!!",
-    description: "for sushi lovers",
+  await Membership.create({
+    member_id: larry.id,
+    groupId: grannyGroup.id,
+    role: "Group Admin",
+    status: "APPROVED",
+  });
+
+  await Membership.create({
+    member_id: ethyl.id,
+    groupId: bakingGroup.id,
+    role: "Group Admin",
+    status: "APPROVED",
+  });
+
+  await Membership.create({
+    member_id: lucy.id,
+    groupId: veganGroup.id,
+    role: "Group Admin",
+    status: "APPROVED",
+  });
+
+  await Membership.create({
+    member_id: lucy.id,
+    groupId: internationalGroup.id,
+    role: "Group Admin",
     status: "APPROVED",
   });
 
@@ -209,8 +265,16 @@ const syncAndSeed = async () => {
     title: "Classic Chocolate Brownies",
     description: "brownies",
     imageURL: "https://images.unsplash.com/photo-1515037893149-de7f840978e2",
-    groupId: weLoveSushi.id,
     userId: moe.id,
+  });
+
+  const edamame = await Recipe.create({
+    title: "Quick and Easy Salted Edamame",
+    description:
+      "Enjoy your delicious and nutritious salted edamame as a snack or appetizer. They make a great addition to any meal or gathering.",
+    imageURL:
+      "https://plus.unsplash.com/premium_photo-1666318300285-37575cdfa659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+    groupId: weLoveSushi.id,
   });
 
   await Promise.all([
@@ -274,18 +338,39 @@ const syncAndSeed = async () => {
         "Cut the brownies into squares and serve. They can be stored in an airtight container at room temperature for up to 3 days.",
       recipeId: classicChocolateBrownies.id,
     }),
+    Instruction.create({
+      listOrder: 1,
+      specification:
+        "Bring a pot of water to a boil. Add a generous amount of salt to the boiling water.",
+      recipeId: edamame.id,
+    }),
+    Instruction.create({
+      listOrder: 2,
+      specification:
+        "Add the edamame pods to the boiling water and cook for about 5 minutes or until they are tender.",
+      recipeId: edamame.id,
+    }),
+    Instruction.create({
+      listOrder: 3,
+      specification:
+        "Drain the cooked edamame pods and transfer them to a serving bowl.",
+      recipeId: edamame.id,
+    }),
+    Instruction.create({
+      listOrder: 4,
+      specification:
+        "Sprinkle additional salt over the edamame pods according to your taste preference. Toss the pods gently to coat them evenly with salt.",
+      recipeId: edamame.id,
+    }),
+    Instruction.create({
+      listOrder: 5,
+      specification:
+        "Serve the salted edamame immediately while they are still warm.",
+      recipeId: edamame.id,
+    }),
   ]);
 
-  const [
-    unsaltedButter,
-    granulatedSugar,
-    eggs,
-    vanillaExtract,
-    allPurposeFlour,
-    cocoaPowder,
-    salt,
-    chocolateChips,
-  ] = await Promise.all([
+  await Promise.all([
     Ingredient.create({
       name: "unsalted butter",
       amount: 1,
@@ -332,6 +417,24 @@ const syncAndSeed = async () => {
       amount: 1,
       recipeId: classicChocolateBrownies.id,
       measurementUnit: "cup",
+    }),
+    Ingredient.create({
+      name: "Edamame pods (frozen or fresh)",
+      amount: 1,
+      recipeId: edamame.id,
+      measurementUnit: "cup",
+    }),
+    Ingredient.create({
+      name: "Water",
+      amount: 2,
+      recipeId: edamame.id,
+      measurementUnit: "cups",
+    }),
+    Ingredient.create({
+      name: "Salt",
+      amount: 1,
+      recipeId: edamame.id,
+      measurementUnit: "sprinkle to taste",
     }),
   ]);
 

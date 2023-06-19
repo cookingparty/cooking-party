@@ -1,77 +1,79 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import SearchBar from './SearchBar';
-import Instafeed from 'instafeed.js';
-import { accessTokenIg } from '../../secrets';
-import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
-import { apiKeyMeal, apiKeyCocktail } from '../../secrets';
-import { Grid } from '@mui/material';
-import SearchResult from './SearchResults';
-import Filters from './Filters';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import SearchBar from "./SearchBar";
+import Instafeed from "instafeed.js";
+import { accessTokenIg } from "../../secrets";
+import axios from "axios";
+import { Link, useParams } from "react-router-dom";
+import { apiKeyMeal, apiKeyCocktail } from "../../secrets";
+import { Grid } from "@mui/material";
+import SearchResult from "./SearchResults";
+import Filters from "./Filters";
+import Box from "@mui/material/Box";
 
 const executeSearch = (filteredRecipes) => {
-	// Handle the filtered recipes here
-	console.log(filteredRecipes);
+  // Handle the filtered recipes here
+  console.log(filteredRecipes);
 };
 
 const styles = {
-	instafeedContainer: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		margin: '50px',
-	},
+  instafeedContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "50px",
+  },
 };
 
 const Recipes = () => {
-	const { auth } = useSelector((state) => state);
-	const dispatch = useDispatch();
-	const [open, setOpen] = useState(false);
-	const [searchResults, setSearchResults] = useState([]);
-	const [allergen, setAllergen] = useState([]);
-	const [activeFilter, setActiveFilter] = useState('');
+  const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [allergen, setAllergen] = useState([]);
+  const [activeFilter, setActiveFilter] = useState("");
 
-	let params = useParams();
-	const numberOfRecipeCards = 12;
+  let params = useParams();
+  const numberOfRecipeCards = 12;
 
-	useEffect(() => {
-		handleSearch(params.filter);
-		//   getAllergen(params.filter);
-		console.log('params', params.filter);
-	}, [params.filter]);
+  useEffect(() => {
+    handleSearch(params.filter);
+    //   getAllergen(params.filter);
+    console.log("params", params.filter);
+  }, [params.filter]);
 
-	// Fetch Allergen Recipes for filters
-	const getAllergen = async (searchQuery) => {
-		try {
-			const response = await axios.get(
-				'https://api.spoonacular.com/recipes/random',
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						'X-API-Key': apiKeyMeal,
-					},
-					params: {
-						tags: searchQuery,
-						number: numberOfRecipeCards,
-					},
-				}
-			);
-			const recipeResults = response.data.recipes;
-			setAllergen(recipeResults);
-			// reset search results
-			setSearchResults([]);
-			console.log('setAllergen', recipeResults);
-		} catch (error) {
-			console.error(error);
-		}
-	};
+  // Fetch Allergen Recipes for filters
+  const getAllergen = async (searchQuery) => {
+    try {
+      const response = await axios.get(
+        "https://api.spoonacular.com/recipes/random",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": apiKeyMeal,
+          },
+          params: {
+            tags: searchQuery,
+            number: numberOfRecipeCards,
+          },
+        }
+      );
+      const recipeResults = response.data.recipes;
+      setAllergen(recipeResults);
+      // reset search results
+      setSearchResults([]);
+      console.log("setAllergen", recipeResults);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-	const resetFilters = () => {
+  const resetFilters = () => {
 		setActiveFilter('');
 		console.log('success');
 		console.log('resetFilters function', activeFilter);
 	};
+
 
 	// Fetch Recipes for Search Bar (both meals and cocktails)
 	const handleSearch = async (searchQuery) => {
@@ -205,7 +207,7 @@ const Recipes = () => {
 			</Grid>
 			<div style={styles.instafeedContainer} id="instafeed-container"></div>
 		</div>
-	);
+	);  
 };
 
 export default Recipes;

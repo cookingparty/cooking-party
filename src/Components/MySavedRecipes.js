@@ -1,15 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import RecipeCard from "./RecipeCard";
-import { fetchFavorites } from "../store";
+import Box from "@mui/material/Box";
 
 const MySavedRecipes = () => {
   const { auth, favorites, recipes } = useSelector((state) => state);
   const dispatch = useDispatch();
-
-  console.log("favorites", favorites);
-  console.log("recipes", recipes);
-  console.log("auth", auth);
 
   if (!favorites) {
     return null;
@@ -33,29 +29,48 @@ const MySavedRecipes = () => {
       }
     });
 
-  console.log("savedRecipes", savedRecipes);
+  const carouselWidth = "85%";
+  const carouselBackground = "#d7dbd8";
 
   return (
-    <div>
-      <h1>My Saved Recipes</h1>
-      <ul>
-        {savedRecipes.map((recipe) => {
-          return (
-            <RecipeCard
-              key={recipe.id}
-              id={recipe.id}
-              title={recipe.title}
-              subheader={recipe.sourceName}
-              image={recipe.imageURL}
-              description={recipe.description ? recipe.description : ""}
-              readyInMinutes={recipe.readyInMinutes}
-              serves={recipe.servings}
-              avatar={"F"}
-              avatarColor={"red"}
-            />
-          );
-        })}
-      </ul>
+    <div style={{ margin: "50px", textAlign: "center" }}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginBottom={2}
+      >
+        <Box
+          sx={{
+            backgroundColor: carouselBackground,
+            margin: "60px",
+            marginBottom: "80px",
+            padding: "10px",
+            height: "auto",
+            width: carouselWidth,
+          }}
+        >
+          <h1>My Saved Recipes</h1>
+          <div className="recipe-grid">
+            {savedRecipes.map((recipe) => {
+              return (
+                <RecipeCard
+                  key={recipe.id}
+                  id={recipe.id}
+                  title={recipe.title}
+                  subheader={recipe.sourceName}
+                  image={recipe.imageURL}
+                  description={recipe.description ? recipe.description : ""}
+                  readyInMinutes={recipe.readyInMinutes}
+                  serves={recipe.servings}
+                  avatar={"F"}
+                  avatarColor={"red"}
+                />
+              );
+            })}
+          </div>
+        </Box>
+      </Box>
     </div>
   );
 };
