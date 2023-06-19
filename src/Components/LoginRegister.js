@@ -55,129 +55,99 @@ const Login = () => {
 
   return (
     <Box
-    sx={{marginBottom: '60px'}}
-    >
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      marginBottom="120px"
-    >
-      <Box
-        sx={{
-          backgroundColor: "almond",
-          margin: "60px",
-          marginBottom: "80px",
-          border: "40px solid almond",
-          height: "400px",
-          width: "700px",
-        }}
-      >
-        <Carousel autoPlay={true} animation="slide" interval={6000}>
-          {recipes.slice(0, 9).map((recipe, index) => (
-            <img
-              key={index}
-              src={recipe.imageURL}
-              alt={`Recipe ${index}`}
-              style={{ width: "700px", height: "400px", objectFit: "cover" }}
-            />
-          ))}
-        </Carousel>
+      sx={{
+        marginBottom: "60px",
 
-        <p
-          style={{
-            textAlign: "center",
-            marginTop: "0",
-            fontSize: "1.5rem",
-            fontWeight: "bold",
-          }}
-        >
-          Featured Recipes
-        </p>
-      </Box>
+        minHeight: "100vh",
+        display: "grid",
+        gridtemplaterows: "1fr auto",
+      }}
+    >
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
-        textAlign="center"
-        marginTop={10}
-        p={2}
-        // maxWidth={600}
-        mx="auto"
-        pt={4}
-        bgcolor="#F5F5F5"
-        sx={{ width: "700px" }}
+        marginBottom="120px"
       >
-        <div>
-          <h2>{account === "login" ? "Login" : "Register"}</h2>
-          <form
-            sx={{
-              backgroundColor: "almond",
-              paddingBottom: "100px",
-              margin: "60px",
-              marginBottom: "200px",
-              border: "40px solid almond",
-              height: "400px",
-              width: "700px",
-            }}
-            onSubmit={account === "login" ? login : _register}
-          >
-            <TextField
-              label="Username"
-              value={
-                credentials.username || credentials.facebook_username || ""
-              }
-              name="username"
-              onChange={onChange}
-            />
-            <div style={{ marginBottom: "1rem" }} />
-            <TextField
-              id="filled-password-input"
-              label="Password"
-              name="password"
-              type="password"
-              value={credentials.password || ""}
-              onChange={onChange}
-            />
+        <Box
+          sx={{
+            backgroundColor: "almond",
+            margin: "60px",
+            marginBottom: "80px",
+            border: "40px solid almond",
+            height: "400px",
+            width: "700px",
+          }}
+        >
+          <Carousel autoPlay={true} animation="slide" interval={6000}>
+            {recipes.slice(0, 9).map((recipe, index) => (
+              <img
+                key={index}
+                src={recipe.imageURL}
+                alt={`Recipe ${index}`}
+                style={{ width: "700px", height: "400px", objectFit: "cover" }}
+              />
+            ))}
+          </Carousel>
 
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="large"
+          <p
+            style={{
+              textAlign: "center",
+              marginTop: "0",
+              fontSize: "1.5rem",
+              fontWeight: "bold",
+            }}
+          >
+            Featured Recipes
+          </p>
+        </Box>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          textAlign="center"
+          marginTop={10}
+          p={2}
+          // maxWidth={600}
+          mx="auto"
+          pt={4}
+          bgcolor="#F5F5F5"
+          sx={{ width: "700px" }}
+        >
+          <div sx={{ marginBottom: "100px" }}>
+            <h2>{account === "login" ? "Login" : "Register"}</h2>
+            <form
               sx={{
-                mt: 2,
-                color: "#333",
-                backgroundColor: "#F9F6EE",
-                "&:hover": { backgroundColor: "#F5F5F5", color: "#888" },
+                backgroundColor: "almond",
+                paddingBottom: "100px",
+                margin: "60px",
+                marginBottom: "200px",
+                border: "40px solid almond",
+                height: "400px",
+                width: "700px",
               }}
+              onSubmit={account === "login" ? login : _register}
             >
-              {account === "login" ? "Login" : "Register"}{" "}
-            </Button>
-          </form>
-          {account === "login" ? (
-            <Button
-              type="submit"
-              onClick={handleLogin}
-              variant="contained"
-              color="primary"
-              size="large"
-              sx={{
-                mt: 2,
-                color: "#333",
-                backgroundColor: "#F9F6EE",
-                "&:hover": { backgroundColor: "#F5F5F5", color: "#888" },
-              }}
-            >
-              Login with Facebook
-            </Button>
-          ) : null}
-          {account === "login" ? (
-            <p>
-              No account? <br />
+              <TextField
+                label="Username"
+                value={
+                  credentials.username || credentials.facebook_username || ""
+                }
+                name="username"
+                onChange={onChange}
+              />
+              <div style={{ marginBottom: "1rem" }} />
+              <TextField
+                id="filled-password-input"
+                label="Password"
+                name="password"
+                type="password"
+                value={credentials.password || ""}
+                onChange={onChange}
+              />
+
               <Button
-                component={Link}
-                to="/auth/register"
+                type="submit"
                 variant="contained"
                 color="primary"
                 size="large"
@@ -188,13 +158,49 @@ const Login = () => {
                   "&:hover": { backgroundColor: "#F5F5F5", color: "#888" },
                 }}
               >
-                Sign up here
+                {account === "login" ? "Login" : "Register"}{" "}
               </Button>
-            </p>
-          ) : null}
-        </div>
+            </form>
+            {account === "login" ? (
+              <Button
+                type="submit"
+                onClick={handleLogin}
+                variant="contained"
+                color="primary"
+                size="large"
+                sx={{
+                  mt: 2,
+                  color: "#333",
+                  backgroundColor: "#F9F6EE",
+                  "&:hover": { backgroundColor: "#F5F5F5", color: "#888" },
+                }}
+              >
+                Login with Facebook
+              </Button>
+            ) : null}
+            {account === "login" ? (
+              <p>
+                No account? <br />
+                <Button
+                  component={Link}
+                  to="/auth/register"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  sx={{
+                    mt: 2,
+                    color: "#333",
+                    backgroundColor: "#F9F6EE",
+                    "&:hover": { backgroundColor: "#F5F5F5", color: "#888" },
+                  }}
+                >
+                  Sign up here
+                </Button>
+              </p>
+            ) : null}
+          </div>
+        </Box>
       </Box>
-    </Box>
     </Box>
   );
 };

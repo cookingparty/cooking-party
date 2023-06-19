@@ -43,10 +43,8 @@ useEffect(() => {
             label="Search input"
             InputProps={{
               ...params.InputProps,
-              
               type: 'Search',
-              
-              
+            
             }}
           />
         )}
