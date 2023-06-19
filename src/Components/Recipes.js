@@ -73,55 +73,6 @@ const Recipes = () => {
 		console.log('resetFilters function', activeFilter);
 	};
 
-
-  return (
-	<Box
-	sx={{
-        marginBottom: "60px",
-
-        minHeight: "100vh",
-        display: "grid",
-        gridtemplaterows: "1fr auto",
-      }}
-	>
-    <div style={styles.root}>
-      <div
-        style={{
-          position: "relative",
-          width: "100vw",
-          height: "400px",
-        }}
-      >
-        <img
-          src="static/images/citrus edit.jpg"
-          alt="search bar photo"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "400px",
-            objectFit: "cover",
-            zIndex: -1,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: 1,
-          }}
-        >
-          <SearchBar onSearch={executeSearch} inputProps={inputProps} />
-        </div>
-      </div>
-      <div style={styles.instafeedContainer} id="instafeed-container"></div>
-    </div>
-	</Box>
-  );
-
 	// Fetch Recipes for Search Bar (both meals and cocktails)
 	const handleSearch = async (searchQuery) => {
 		const apiKey1 = apiKeyMeal;
@@ -255,7 +206,6 @@ const Recipes = () => {
 			<div style={styles.instafeedContainer} id="instafeed-container"></div>
 		</div>
 	);
-
 };
 
 export default Recipes;

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createMessage, createFriendship } from "../store";
@@ -34,16 +33,20 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
   const [activeChatId, setActiveChatId] = useState(null);
   const [showChat, setShowChat] = useState(false);
 
-  const handleOpenChat = (chatId) => {
-    setActiveChatId(chatId);
-    setShowChat(true); // Set showChat to true when the chat is opened
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent form submission behavior
     event.stopPropagation(); // Stop event propagation
     setExpanded(true);
   };
+
+  const handleOpenChat = (chatId, ev) => {
+    ev.stopPropagation();
+  ev.preventDefault();
+  setActiveChatId(chatId);
+  setShowChat(true); // Set showChat to true when the chat is opened
+  };
+
+ 
 
   const handleMessage = (chat) => {
     const txt = ev.target.querySelector("textarea").value; // Changed input to textarea
@@ -281,10 +284,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                           aria-label="let's chat"
                           color="inherit"
                           onClick={(ev) => {
-                            setExpanded(true)
-                            ev.stopPropagation()
-                            ev.preventDefault()
-                            handleOpenChat(user.id);
+                            handleOpenChat(user.id, ev)
                             dispatch(
                               createMessage({
                                 toId: user.id,
@@ -302,10 +302,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                           aria-label="existing chat"
                           color="inherit"
                           onClick={(ev) => {
-                            setExpanded(true)
-                            ev.stopPropagation()
-                            ev.preventDefault()
-                            handleOpenChat(user.id);
+                            handleOpenChat(user.id, ev)
                           }}
                         >
                           <Chat/>
@@ -412,10 +409,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                           aria-label="Add Friend"
                           color="inherit"
                           onClick={(ev) => {
-                            setExpanded(true)
-                            ev.stopPropagation()
-                            ev.preventDefault()
-                            sendRequest(user.id);
+                            handleOpenChat(user.id, ev)
                           }}
                         ></PersonAddAlt1Icon>
                       )}
@@ -425,9 +419,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                           aria-label="let's chat"
                           color="inherit"
                           onClick={(ev) => {
-                            setExpanded(true)
-                            ev.stopPropagation()
-                            ev.preventDefault()
+                            handleOpenChat(user.id, ev)
                             dispatch(
                               createMessage({
                                 toId: user.id,
