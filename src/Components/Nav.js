@@ -57,7 +57,6 @@ const Nav = () => {
     "Home",
     "Recipes",
     "Planner",
-    "Grocery List",
     "About",
     "Friends",
     "Groups",
@@ -99,7 +98,7 @@ const Nav = () => {
 
   const handleSearch = (filteredRecipes) => {
     // Handle the filtered recipes here
-    console.log('searchAll', filteredRecipes);
+    console.log("searchAll", filteredRecipes);
   };
 
   //{* Chat Drawer *}
@@ -379,16 +378,13 @@ const Nav = () => {
                 display: "flex",
                 justifyContent: "flex-start",
                 paddingLeft: "20px",
-              
               }}
             >
               <SearchAll onSearch={handleSearch} />
             </Box>
 
             {/* Logo */}
-            <Box
-              sx={{ flexGrow: "1", display: "flex", alignItems: "center" }}
-            >
+            <Box sx={{ flexGrow: "1", display: "flex", alignItems: "center" }}>
               <Link to="/">
                 <img
                   src="static/images/cookingPartyCircleBullseye2.png"
@@ -467,7 +463,7 @@ const Nav = () => {
                   component={Link}
                   to="/auth/login"
                   style={{
-                    color: '#ed4218',
+                    color: "#ed4218",
                     textDecoration: "none",
                     paddingLeft: "10px",
                     paddingRight: "20px",
@@ -517,7 +513,7 @@ const Nav = () => {
               <Box
                 sx={{
                   justifyContent: open ? "inital" : "center",
-                  color:"#ed4218",
+                  color: "#ed4218",
                   fontSize: "10px",
                   font: "Helvetica",
                 }}
