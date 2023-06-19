@@ -69,192 +69,145 @@ const Recipes = () => {
   };
 
   const resetFilters = () => {
-    setActiveFilter("");
-    console.log("success");
-    console.log("resetFilters function", activeFilter);
-  };
+		setActiveFilter('');
+		console.log('success');
+		console.log('resetFilters function', activeFilter);
+	};
 
-  return (
-    <Box
-      sx={{
-        marginBottom: "60px",
 
-        minHeight: "100vh",
-        display: "grid",
-        gridtemplaterows: "1fr auto",
-      }}
-    >
-      <div style={styles.root}>
-        <div
-          style={{
-            position: "relative",
-            width: "100vw",
-            height: "400px",
-          }}
-        >
-          <img
-            src="static/images/citrus edit.jpg"
-            alt="search bar photo"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "400px",
-              objectFit: "cover",
-              zIndex: -1,
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 1,
-            }}
-          >
-            <SearchBar onSearch={executeSearch} inputProps={inputProps} />
-          </div>
-        </div>
-        <div style={styles.instafeedContainer} id="instafeed-container"></div>
-      </div>
-    </Box>
-  );
+	// Fetch Recipes for Search Bar (both meals and cocktails)
+	const handleSearch = async (searchQuery) => {
+		const apiKey1 = apiKeyMeal;
+		const apiKey2 = apiKeyCocktail;
+		try {
+			const mealResponse = await axios.get(
+				'https://api.spoonacular.com/recipes/complexSearch',
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						'X-API-Key': apiKey1,
+					},
+					params: {
+						query: searchQuery,
+						number: numberOfRecipeCards,
+					},
+				}
+			);
+			const cocktailResponse = await axios.get(
+				`https://www.thecocktaildb.com/api/json/v2/${apiKey2}/search.php?s=${searchQuery}`
+			);
 
-  // Fetch Recipes for Search Bar (both meals and cocktails)
-  const handleSearch = async (searchQuery) => {
-    const apiKey1 = apiKeyMeal;
-    const apiKey2 = apiKeyCocktail;
-    try {
-      const mealResponse = await axios.get(
-        "https://api.spoonacular.com/recipes/complexSearch",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": apiKey1,
-          },
-          params: {
-            query: searchQuery,
-            number: numberOfRecipeCards,
-          },
-        }
-      );
-      const cocktailResponse = await axios.get(
-        `https://www.thecocktaildb.com/api/json/v2/${apiKey2}/search.php?s=${searchQuery}`
-      );
+			const combinedData = {
+				meals: mealResponse.data.results || [],
+				cocktails: cocktailResponse.data.drinks || [],
+			};
+			console.log(combinedData);
+			setSearchResults([...combinedData.meals, ...combinedData.cocktails]);
+			// Reset allergen state
+			setAllergen([]);
+			resetFilters();
+			console.log('handleSearch resetFilters', resetFilters());
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
-      const combinedData = {
-        meals: mealResponse.data.results || [],
-        cocktails: cocktailResponse.data.drinks || [],
-      };
-      console.log(combinedData);
-      setSearchResults([...combinedData.meals, ...combinedData.cocktails]);
-      // Reset allergen state
-      setAllergen([]);
-      resetFilters();
-      console.log("handleSearch resetFilters", resetFilters());
-    } catch (error) {
-      console.error(error);
-    }
-  };
+	const handleDrawerToggle = () => {
+		setOpen(!open);
+	};
 
-  const handleDrawerToggle = () => {
-    setOpen(!open);
-  };
+	const inputProps = {
+		style: {
+			width: '800px',
+			height: '100px',
+			border: '2px solid #ed4218',
+			fontSize: '22px',
+			background: '#faf6e8',
+			opacity: '0.4',
+		},
+	};
 
-  const inputProps = {
-    style: {
-      width: "800px",
-      height: "100px",
-      border: "2px solid #ed4218",
-      fontSize: "22px",
-      background: "#faf6e8",
-      opacity: "0.4",
-    },
-  };
+	const sizeProps = {
+		style: {
+			height: '20px',
+		},
+	};
 
-  const sizeProps = {
-    style: {
-      height: "20px",
-    },
-  };
+	useEffect(() => {
+		const userFeed = new Instafeed({
+			get: 'user',
+			resolution: 'low_resolution',
+			limit: 4,
+			accessToken: accessTokenIg,
+			target: 'instafeed-container',
+		});
+		userFeed.run();
+	}, []);
 
-  useEffect(() => {
-    const userFeed = new Instafeed({
-      get: "user",
-      resolution: "low_resolution",
-      limit: 4,
-      accessToken: accessTokenIg,
-      target: "instafeed-container",
-    });
-    userFeed.run();
-  }, []);
-
-  return (
-    <div style={styles.root}>
-      <div
-        style={{
-          position: "relative",
-          width: "100vw",
-          height: "400px",
-        }}
-      >
-        <img
-          src="static/images/citrus edit.jpg"
-          alt="search bar photo"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "400px",
-            objectFit: "cover",
-            zIndex: -1,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: 1,
-          }}
-        >
-          <SearchBar
-            onSearch={handleSearch}
-            inputProps={inputProps}
-            activeFilter={activeFilter}
-            setActiveFilter={setActiveFilter}
-          />
-        </div>
-      </div>
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        spacing={2}
-        style={{ margin: "auto", width: "fit-content", marginTop: "150px" }}
-      >
-        {/* <Grid item>
+	return (
+		<div style={styles.root}>
+			<div
+				style={{
+					position: 'relative',
+					width: '100vw',
+					height: '400px',
+				}}
+			>
+				<img
+					src="static/images/citrus edit.jpg"
+					alt="search bar photo"
+					style={{
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						width: '100%',
+						height: '400px',
+						objectFit: 'cover',
+						zIndex: -1,
+					}}
+				/>
+				<div
+					style={{
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)',
+						zIndex: 1,
+					}}
+				>
+					<SearchBar
+						onSearch={handleSearch}
+						inputProps={inputProps}
+						activeFilter={activeFilter}
+						setActiveFilter={setActiveFilter}
+					/>
+				</div>
+			</div>
+			<Grid
+				container
+				direction="column"
+				alignItems="center"
+				spacing={2}
+				style={{ margin: 'auto', width: 'fit-content', marginTop: '150px' }}
+			>
+				{/* <Grid item>
 				<SearchBar onSearch={handleSearch} />
 			</Grid> */}
-        <Grid item>
-          <Filters
-            activeFilter={activeFilter}
-            setActiveFilter={setActiveFilter}
-            resetFilters={resetFilters}
-          />
-        </Grid>
-        <Grid item>
-          {searchResults.length > 0 && <SearchResult results={searchResults} />}
-          {allergen.length > 0 && <SearchResult results={allergen} />}
-        </Grid>
-      </Grid>
-      <div style={styles.instafeedContainer} id="instafeed-container"></div>
-    </div>
-  );
+				<Grid item>
+					<Filters
+						activeFilter={activeFilter}
+						setActiveFilter={setActiveFilter}
+						resetFilters={resetFilters}
+					/>
+				</Grid>
+				<Grid item>
+					{searchResults.length > 0 && <SearchResult results={searchResults} />}
+					{allergen.length > 0 && <SearchResult results={allergen} />}
+				</Grid>
+			</Grid>
+			<div style={styles.instafeedContainer} id="instafeed-container"></div>
+		</div>
+	);  
 };
 
 export default Recipes;
