@@ -59,7 +59,13 @@ const MealPlanner = () => {
   });
 
   return (
-    <div>
+    
+    <div style={{ margin: "50px", textAlign: "center", 
+    minHeight: "100vh",
+      display: "grid",
+      gridtemplaterows: "1fr auto"
+  }}
+    >
     <div className="mealPlannerCalendar">
       {/* calendar */}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
