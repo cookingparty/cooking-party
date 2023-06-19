@@ -102,15 +102,27 @@ const UploadRecipe = () => {
   const myGroups = groups.filter((group) => myGroupIds.includes(group.id));
 
   return (
+    <div style={{  textAlign: "center", 
+    minHeight: "100vh",
+      display: "grid",
+      gridtemplaterows: "1fr auto",
+
+  }}
+    >,
     <div
       style={{
-        textAlign: "center",
-        display: "flex",
-        justifyContent: "space-around",
-        flexDirection: "column",
-        alignItems: "center",
+        
+        display:"flex",
+        flexDirection:"column",
+        alignItems:"center",
+        marginBottom:"120px",
       }}
     >
+      <div
+      style={{
+        maxWidth: '700px'
+      }}
+      >
       <h2 style={{ textAlign: "center" }}>Upload Recipe</h2>
       <form onSubmit={create}>
         <TextField
@@ -228,6 +240,8 @@ const UploadRecipe = () => {
         </Box>
         <Button type="submit">upload</Button>
       </form>
+      </div>
+    </div>
     </div>
   );
 };
