@@ -82,10 +82,9 @@ opacity: 0.8;
 }
 
 .mealPlannerCalendar {
-  display: grid;
-  justify-content: space-around;
-  min-Height: "100vh";
-  grid-template-rows: "1fr auto"
+  display: flex;
+  justify-content: space-evenly;
+  
 }
 
 .mealsOfTheDay {
