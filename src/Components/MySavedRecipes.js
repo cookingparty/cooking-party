@@ -33,7 +33,11 @@ const MySavedRecipes = () => {
   const carouselBackground = "#d7dbd8";
 
   return (
-    <div style={{ margin: "50px", textAlign: "center" }}>
+    <div style={{ margin: "50px", textAlign: "center", 
+    minHeight: "100vh",
+      display: "grid",
+      gridtemplaterows: "1fr auto"
+    }}>
       <Box
         display="flex"
         flexDirection="column"
