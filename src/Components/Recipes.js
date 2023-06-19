@@ -36,11 +36,11 @@ const Recipes = () => {
   let params = useParams();
   const numberOfRecipeCards = 12;
 
-  useEffect(() => {
-    handleSearch(params.filter);
-    //   getAllergen(params.filter);
-    console.log("params", params.filter);
-  }, [params.filter]);
+	useEffect(() => {
+		handleSearch(params.filter);
+		getAllergen(params.filter);
+		console.log('params', params.filter);
+	}, [params.filter]);
 
   // Fetch Allergen Recipes for filters
   const getAllergen = async (searchQuery) => {
@@ -76,6 +76,7 @@ const Recipes = () => {
 
 
 	// Fetch Recipes for Search Bar (both meals and cocktails)
+
 	const handleSearch = async (searchQuery) => {
 		const apiKey1 = apiKeyMeal;
 		const apiKey2 = apiKeyCocktail;
