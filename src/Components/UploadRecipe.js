@@ -104,7 +104,6 @@ const UploadRecipe = () => {
   return (
     <div
       style={{
-        width: "80%",
         textAlign: "center",
         display: "flex",
         justifyContent: "space-around",
