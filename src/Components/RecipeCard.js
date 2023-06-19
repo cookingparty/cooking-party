@@ -179,7 +179,6 @@ export default function RecipeCard({
               {/* <MoreVertIcon /> */}
             </IconButton>
           )
-
         }
         title={
           <TitleTypography variant="h6" component="div">
@@ -188,7 +187,12 @@ export default function RecipeCard({
         }
       />
 
-      <CardMedia component="img" height="194" image={image} alt={title} />
+      <CardMedia
+        component="img"
+        height="194"
+        image={image}
+        alt={title}
+      ></CardMedia>
       <CardActions disableSpacing>
         {!!auth.id && !isFavorited(id) && (
           <IconButton

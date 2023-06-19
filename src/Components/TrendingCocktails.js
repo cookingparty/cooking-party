@@ -12,7 +12,7 @@ function TrendingCocktails() {
 	}, []);
 
 	const getTrendingCocktails = async () => {
-		
+
     const apiKey = apiKeyCocktail;
 		try {
 			const response = await axios.get(
@@ -27,7 +27,7 @@ function TrendingCocktails() {
 			console.error(error);
 		}
 	};
-  
+
   return (
     <div className="recipe-grid">
       {trendingCocktails.map((recipe) => (

@@ -7,6 +7,15 @@ const recipes = (state = [], action) => {
   if (action.type === "CREATE_RECIPE") {
     state = [...state, action.recipe];
   }
+  if (action.type === "UPDATE_RECIPE") {
+    return state.map((recipe) => {
+      if (recipe.id === action.recipe.id) {
+        return action.recipe;
+      } else {
+        return recipe;
+      }
+    });
+  }
   return state;
 };
 
@@ -48,6 +57,18 @@ export const seedCocktailRecipe = (cocktailId) => {
       recipe_id: cocktailId,
     });
     dispatch({ type: "CREATE_RECIPE", recipe: response.data });
+    return response.data;
+  };
+};
+
+export const updateRecipe = ({ recipe, _ingredients, _instructions }) => {
+  return async (dispatch) => {
+    const response = await axios.put(`/api/recipes/${recipe.id}`, {
+      recipe,
+      _ingredients,
+      _instructions,
+    });
+    dispatch({ type: "UPDATE_RECIPE", recipe: response.data });
     return response.data;
   };
 };

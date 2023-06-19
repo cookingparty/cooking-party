@@ -1,19 +1,24 @@
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { createRecipe } from "../store/recipes";
-import { Button, TextField } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import Box from "@mui/material/Box";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchIngredients, fetchInstructions, updateRecipe } from "../store";
 
-const UploadRecipe = () => {
-  const { auth, groups, memberships } = useSelector((state) => state);
+const UpdateRecipe = () => {
+  const { auth, groups, memberships, recipes, ingredients, instructions } =
+    useSelector((state) => state);
+  const { id } = useParams();
+  const ref = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const ref = useRef();
 
   const [recipe, setRecipe] = useState({
     title: "",
@@ -23,12 +28,13 @@ const UploadRecipe = () => {
     isCocktail: false,
     userId: auth.id,
     groupId: "",
+    id: id,
   });
-  const [ingredients, setIngredients] = useState([
+  const [_ingredients, setIngredients] = useState([
     { name: "", amount: 0, measurementUnit: "" },
   ]);
 
-  const [instructions, setInstructions] = useState([
+  const [_instructions, setInstructions] = useState([
     {
       listOrder: "",
       specification: "",
@@ -36,18 +42,34 @@ const UploadRecipe = () => {
   ]);
 
   useEffect(() => {
-    ref.current.addEventListener("change", (ev) => {
-      const file = ev.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.addEventListener("load", () => [
-        setRecipe((currentVal) => ({
-          ...currentVal,
-          image: reader.result,
-        })),
-      ]);
-    });
-  }, [ref]);
+    dispatch(fetchIngredients(id));
+    dispatch(fetchInstructions(id));
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      const _recipe = recipes.find((recipe) => recipe.id === id);
+
+      setRecipe({
+        title: _recipe.title || "",
+        description: _recipe.description || "",
+        image: _recipe.image || "",
+        imageURL:
+          _recipe.imageURL ===
+          "https://live.staticflickr.com/65535/52983207456_5c25daeb1e_d.jpg"
+            ? ""
+            : _recipe.imageURL,
+        isCocktail: _recipe.isCocktail,
+        userId: auth.id,
+        groupId: _recipe.groupId || "",
+        id: id,
+      });
+
+      setIngredients([...ingredients]);
+
+      setInstructions([...instructions]);
+    }
+  }, [id, recipes, instructions, ingredients, auth.id]);
 
   const onChangeRecipe = (ev) => {
     setRecipe({
@@ -57,7 +79,7 @@ const UploadRecipe = () => {
   };
   const onChangeIngredients = (ev, idx) => {
     const { name, value } = ev.target;
-    const copy = [...ingredients];
+    const copy = [..._ingredients];
     copy[idx] = {
       ...copy[idx],
       [name]: value,
@@ -68,7 +90,7 @@ const UploadRecipe = () => {
   const onChangeInstructions = (ev, idx) => {
     const { name, value } = ev.target;
 
-    const copy = [...instructions];
+    const copy = [..._instructions];
     copy[idx] = {
       ...copy[idx],
       [name]: value,
@@ -77,22 +99,23 @@ const UploadRecipe = () => {
   };
 
   const addIngredient = () => {
+    console.log("_ingredients", _ingredients);
     setIngredients([
-      ...ingredients,
+      ..._ingredients,
       { name: "", amount: 0, measurementUnit: "" },
     ]);
   };
 
   const addInstruction = () => {
-    setInstructions([...instructions, { listOrder: 1, specification: "" }]);
+    setInstructions([..._instructions, { listOrder: 1, specification: "" }]);
   };
 
-  const create = async (ev) => {
+  const edit = async (ev) => {
     ev.preventDefault();
-    const newRecipe = await dispatch(
-      createRecipe({ recipe, ingredients, instructions })
+    const updatedRecipe = await dispatch(
+      updateRecipe({ recipe, _ingredients, _instructions })
     );
-    navigate(`/recipes/${newRecipe.id}`);
+    navigate(`/recipes/${id}`);
   };
 
   const myMemberships = memberships.filter(
@@ -112,8 +135,8 @@ const UploadRecipe = () => {
         alignItems: "center",
       }}
     >
-      <h2 style={{ textAlign: "center" }}>Upload Recipe</h2>
-      <form onSubmit={create}>
+      <h2 style={{ textAlign: "center" }}>Update Recipe</h2>
+      <form onSubmit={edit}>
         <TextField
           label="title"
           value={recipe.title}
@@ -121,14 +144,14 @@ const UploadRecipe = () => {
           onChange={onChangeRecipe}
         />
         <TextField
-          label="description"
           multiline
+          label="description"
           value={recipe.description}
           name="description"
           onChange={onChangeRecipe}
         />
         <h4>Ingredients</h4>
-        {ingredients.map((ingredient, idx) => {
+        {_ingredients.map((ingredient, idx) => {
           return (
             <div
               style={{ display: "flex", justifyContent: "space-around" }}
@@ -163,7 +186,7 @@ const UploadRecipe = () => {
         </Button>
 
         <h4>Instructions</h4>
-        {instructions.map((instruction, idx) => {
+        {_instructions.map((instruction, idx) => {
           return (
             <div
               style={{ display: "flex", justifyContent: "space-around" }}
@@ -189,7 +212,6 @@ const UploadRecipe = () => {
         <Button onClick={addInstruction} aria-haspopup="true">
           add more
         </Button>
-
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <label>Image (PNG, JPEG, JPG only)</label>
           <input type="file" ref={ref} />
@@ -205,7 +227,6 @@ const UploadRecipe = () => {
           <label htmlFor="cocktail">Cocktail?</label>
           <input type="checkbox" name="isCocktail" onChange={onChangeRecipe} />
         </div>
-
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Group</InputLabel>
@@ -227,10 +248,10 @@ const UploadRecipe = () => {
             </Select>
           </FormControl>
         </Box>
-        <Button type="submit">upload</Button>
+        <Button type="submit">update</Button>
       </form>
     </div>
   );
 };
 
-export default UploadRecipe;
+export default UpdateRecipe;
