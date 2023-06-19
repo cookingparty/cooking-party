@@ -1,315 +1,486 @@
-// import React, { useEffect, useState } from "react";
+// import React, { useState, useEffect, useRef } from "react";
 // import { useSelector, useDispatch } from "react-redux";
-// import { logout } from "../store";
-// import OnlineUsers from "./OnlineUsers";
-// import OnlineFriends from "./OnlineFriends";
-// import Friends from "./Friends";
-// import Chat from "./Chat";
-// import Instafeed from "instafeed.js";
-// import Drawer from "@mui/material/Drawer";
-// import Button from "@mui/material/Button";
-// import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-// import PeopleIcon from "@mui/icons-material/People";
-// import PersonIcon from "@mui/icons-material/Person";
-// import GroupIcon from "@mui/icons-material/Group";
-// import ChatIcon from "@mui/icons-material/Chat";
-// import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-// import Badge from "@mui/material/Badge";
-// import MenuIcon from "@mui/icons-material/Menu";
-// import Divider from "@mui/material/Divider";
+// import { createMessage } from "../store";
+// import Chat from "@mui/icons-material/Chat";
+// import { Send, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+// import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+// import {
+//   IconButton,
+//   Accordion,
+//   AccordionSummary,
+//   AccordionDetails,
+//   Box,
+//   Typography,
+//   List,
+//   ListItem,
+//   TextField,
+// } from "@mui/material";
+// import { Badge } from "@mui/material";
 
-// const drawerwidth = "25%";
-
-// const styles = {
-//   root: {
-//     display: "flex",
-//     flexDirection: "column",
-//     minHeight: "100vh",
-//   },
-//   header: {
-//     display: "flex",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//     padding: "20px",
-//   },
-//   content: {
-//     flexGrow: 1,
-//     padding: "20px",
-//     display: "flex",
-//     flexDirection: "column",
-//   },
-//   drawer: {
-//     flexShrink: 0,
-//     width: drawerwidth,
-//     backgroundColor: "#f5f5f5",
-//   },
-//   drawerPaper: {
-//     width: drawerwidth,
-//     backgroundColor: "#f5f5f5",
-//   },
-//   drawerContainer: {
-//     position: "relative",
-//     width: "240px",
-//     display: "flex",
-//     flexDirection: "column",
-//     transition: "none !important",
-//   },
-//   chat: {
-//     marginTop: "20px",
-//     alignSelf: "flex-end",
-//   },
-//   instafeedContainer: {
-//     flexGrow: 1,
-//     padding: "20px",
-//   },
-//   listItemText: {
-//     marginLeft: "10px",
-//   },
-//   logoutButton: {
-//     marginTop: "auto",
-//   },
-// };
-
-// const Chatting = () => {
-//   const { auth } = useSelector((state) => state);
+// const Chatting = ({ drawerwidth, handleToggleMessages }) => {
+//   const { onlineUsers, friendships, messages, auth, users } = useSelector(
+//     (state) => state
+//   );
 //   const dispatch = useDispatch();
-//   const [open, setOpen] = useState(false);
 
-//   const handleDrawerToggle = () => {
-//     setOpen(!open);
+//   const [readMessages, setReadMessages] = useState({});
+//   const [messagesOpen, setMessagesOpen] = useState(false);
+//   const [expanded, setExpanded] = React.useState(true)
+
+//   const scrollRef = useRef(null);
+//   useEffect(() => {
+//     if (scrollRef.current) {
+//       scrollRef.current.scrollIntoView({ behaviour: "smooth" });
+//     }
+//   }, [messages]);
+
+//   useEffect(() => {
+//     setReadMessages([]);
+//   }, [messages]);
+
+
+//   const chatMap = messages.reduce((acc, message) => {
+//     const withUser = message.fromId === auth.id ? message.to : message.from;
+//     const online = onlineUsers.find((user) => user.id === withUser.id);
+//     acc[withUser.id] = acc[withUser.id] || { messages: [], withUser, online };
+//     acc[withUser.id].messages.push({
+//       ...message,
+//       mine: auth.id === message.fromId,
+//     });
+//     return acc;
+//   }, {});
+
+//   const chats = Object.values(chatMap);
+
+
+//   const friends = friendships
+//     .filter(
+//       (friendship) =>
+//         friendship.friendee_id === auth.id || friendship.friender_id === auth.id
+//     )
+//     .map((friendship) => {
+//       if (friendship.friendee_id === auth.id) {
+//         return users.find((user) => user.id === friendship.friender_id);
+//       }
+//       if (friendship.friender_id === auth.id) {
+//         return users.find((user) => user.id === friendship.friendee_id);
+//       }
+//     });
+
+//   const findFriendship = (friendId) => {
+//     const friendship = friendships.find(
+//       (friendship) =>
+//         (friendship.friendee_id === friendId &&
+//           friendship.friender_id === auth.id) ||
+//         (friendship.friendee_id === auth.id &&
+//           friendship.friender_id === friendId)
+//     );
+//     return friendship;
 //   };
 
- 
+//   const confirmedFriend = (user) => {
+//     const friend = friends.find((f) => f.id === user.id);
+//     if (!!friend && findFriendship(friend.id)) {
+//       if (findFriendship(friend.id).status === "CONFIRMED") {
+//         return true;
+//       }
+//     }
+//     return false;
+//   };
+
+//   const onlineFriends = onlineUsers.filter((user) => !!confirmedFriend(user));
+
+//   const hasChat = (user) => {
+//   if (
+//     messages.find(
+//       (message) =>
+//         (message.fromId === user.id || message.toId === user.id) &&
+//         message.status !== "DELETED"
+//     )
+//   ) {
+//     return true;
+//   }
+//   return false;
+// };
+
+// useEffect(() => {
+//     if (messagesOpen && scrollRef.current) {
+//       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+//     }
+//   }, [messagesOpen]);
+  
+
+//   const colors = [
+//     "#FF0000",
+//     "#00FF00",
+//     "#0000FF",
+//     "#FFFF00",
+//     "#00FFFF",
+//     "#FF00FF",
+//     "#C0C0C0",
+//     "#808080",
+//     "#800000",
+//     "#808000",
+//     "#008000",
+//     "#800080",
+//     "#008080",
+//     "#000080",
+//     "#FFA500",
+//     "#FF4500",
+//     "#DA70D6",
+//     "#FA8072",
+//     "#20B2AA",
+//     "#7B68EE",
+//   ];
 
 //   return (
-//     <div style={styles.root}>
-//       <div style={styles.header}>
-//         <div style={styles.chatLinks}>
-//           <Button onClick={handleDrawerToggle}>
-//             {open ? "Close Chats" : "Show Chats"}
-//           </Button>
-//         </div>
+//     <Box
+//       sx={{
+//         minHeight: "20px",
+//         marginTop: "5px",
+//         overflowY: "auto",
+//         padding: "10px",
+//         backgroundColor: "#f5f5f5",
+//         display: "flex",
+//         flexDirection: "column",
+//         width: drawerwidth - 40,
+//       }}
+//     >
+//       <div
+//         style={{ background: "#f5f5f5", padding: "10px", minHeight: "250px" }}
+//       >
+
+//             <Box maxHeight="80px" overflow="auto">
+//               <List>
+//                 {onlineFriends.map((user) => {
+//                   const randomIndex = Math.floor(Math.random() * colors.length);
+//                   const randomColor = colors[randomIndex];
+
+//                   const avatarStyle =
+//                     user && user.avatar
+//                       ? {
+//                           width: "20px",
+//                           height: "20px",
+//                           marginRight: "3px",
+//                         }
+//                       : {
+//                           width: "20px",
+//                           height: "20px",
+//                           marginRight: "3px",
+//                           color: randomColor,
+//                         };
+//                   return (
+//                     <ListItem
+//                       key={user.id}
+//                       sx={{
+//                         paddingRight: "8px",
+//                         paddingTop: "0",
+//                         paddingBottom: "0",
+//                       }}
+//                     >
+//                       <div
+//                         style={{
+//                           display: "flex",
+//                           alignItems: "center",
+//                           width: "100%",
+//                         }}
+//                       >
+//                         {user.avatar ? (
+//                           <img
+//                             src={user.avatar}
+//                             alt="User Avatar"
+//                             style={avatarStyle}
+//                           />
+//                         ) : (
+//                           <AccountCircleRoundedIcon style={avatarStyle} />
+//                         )}
+//                         <Typography
+//                           variant="body1"
+//                           style={{
+//                             paddingLeft: "5px",
+//                             paddingRight: "5px",
+//                             fontSize: "10px",
+//                             textTransform: "capitalize",
+//                             overflowWrap: "break-word",
+//                             wordWrap: "break-word",
+//                             hyphens: "auto",
+//                             whiteSpace: "normal",
+//                             width: "100%",
+//                             lineHeight: "10px",
+//                             maxHeight: "20px",
+//                             overflow: "hidden",
+//                           }}
+//                         >
+//                           {user.username || user.facebook_username}
+//                         </Typography>
+//                       </div>
+//                       {!hasChat(user) && (
+//   <IconButton
+//     aria-label="let's chat"
+//     color="inherit"
+//     onClick={() => {
+  
+//       dispatch(
+//         createMessage({
+//           toId: user.id,
+//           txt: "Let's Chat",
+//         })
+//       );
+//     }}
+//   >
+//     <Chat />
+//   </IconButton>
+// )}
+
+// {hasChat(user) && (
+//   <IconButton
+//     aria-label="existing chat"
+//     color="inherit"
+//     onClick={() => {
+     
+//     }}
+//   >
+//     <Chat />
+//   </IconButton>
+// )}
+
+//                     </ListItem>
+//                   );
+//                 })}
+//               </List>
+//             </Box>
+          
+    
 //       </div>
 
-      
-//       <Drawer
-//         style={styles.drawer}
-//         variant="persistent"
-//         anchor="right"
-//         open={open}
-//         classes={{
-//           paper: styles.drawerPaper,
-//         }}
-//         sx={{
-//           marginTop: "200px",
-//           width: drawerwidth,
-//           flexShrink: 0,
-//           [`& .MuiDrawer-paper`]: { width: drawerwidth, boxSizing: "border-box" },
+
+// //Chats///
+
+// <Box>
+// <Box>
+//       {/* <OnlineFriends/> */}
+//       <Typography
+//         variant="h1"
+//         style={{
+//           margin: "0px",
+//           padding: "0px",
+//           fontSize: "16px",
+//           fontFamily: "Helvetica",
+//           textAlign: "center",
 //         }}
 //       >
-//         <div style={styles.drawerContainer}>
-//           <List>
-//             <ListItem>
-//               <ListItemIcon>
-//                 <Badge badgeContent={2} color="primary">
-//                   <PeopleIcon />
-//                 </Badge>
-//               </ListItemIcon>
-//               <ListItemText primary="Online Users" style={styles.listItemText } />
-//               {!!auth.id && <OnlineUsers />}
-//             </ListItem>
-//             <ListItem>
-//               <ListItemIcon>
-//                 <Badge badgeContent={3} color="primary">
-//                   <GroupIcon />
-//                 </Badge>
-//               </ListItemIcon>
-//               <ListItemText primary="Online Friends" style={styles.listItemText} />
-//               {!!auth.id && <OnlineFriends />}
-//             </ListItem>
-//             <ListItem>
-//               <ListItemIcon>
-//                 <PersonIcon />
-//               </ListItemIcon>
-//               <ListItemText primary="Friends" style={styles.listItemText} />
-//               {!!auth.id && <Friends />}
-//             </ListItem>
-//             <ListItem>
-//               <ListItemIcon>
-//                 <Badge badgeContent={1} color="secondary">
-//                   <PersonIcon />
-//                 </Badge>
-//               </ListItemIcon>
-//               <ListItemText primary="Friend Requests" style={styles.listItemText} />
-//               {/* Add your Friend Requests component here */}
-//             </ListItem>
-//             <ListItem>
-//               <ListItemIcon>
-//                 <ChatIcon />
-//               </ListItemIcon>
-//               <ListItemText primary="Chat" style={styles.listItemText} />
-//               {!!auth.id && <Chat style={styles.chat} />}
-//             </ListItem>
-//           </List>
-//           <Divider />
-//         </div>
-//         <Button
-//           variant="outlined"
-//           color="secondary"
-//           startIcon={<ExitToAppIcon />}
-//           style={styles.logoutButton}
-//           onClick={() => dispatch(logout())}
-//         >
-//           Logout
-//         </Button>
-//       </Drawer>
+//         MESSAGES
+//       </Typography>
 
-      
-//     </div>
+//       <div id="chats" style={{ overflowY: "auto" }} >
+    
+//         {chats.map((chat, i) => {
+//           const withUserId = chat.withUser.id;
+//           // const unreadMessages = chat.messages.filter(
+//           //   (message) =>
+//           //     !readMessages[withUserId] &&
+//           //     ((message.fromId === auth.id && message.toId === withUserId) ||
+//           //       (message.fromId === withUserId && message.toId === auth.id))
+//           // );
+
+//           return (
+//             <Box
+//               key={i}
+//               id={`chat-${chat.withUser.id}`}
+//               className={chat.online ? "online" : ""}
+//               sx={{
+//                 marginTop: "15px",
+//                 overflowY: "auto", // adds scrolling to each chat
+//                 maxHeight: "240px",
+//                 // padding: "10px",
+//                 backgroundColor: "#f5f5f5",
+//                 display: "flex",
+//                 flexDirection: "column",
+//                 width: drawerwidth - 40,
+//               }}
+//             >
+//               <div
+//                 style={{
+//                   background: "#f5f5f5",
+//                   padding: "10px",
+//                   minHeight: "400px",
+//                 }}
+//               >
+//                     <Typography
+//                       variant="h3"
+//                       style={{
+//                         paddingLeft: "5px",
+//                         paddingRight: "5px",
+//                         fontSize: "12px",
+//                         fontWeight: "bold",
+//                         textTransform: "capitalize",
+//                         textAlign: "center",
+//                         height: "50%",
+//                       }}
+//                     >
+//                       Chat with{" "}
+//                       {chat.withUser.username ||
+//                         chat.withUser.facebook_username}
+//                     </Typography>
+//                     <Badge
+//                       badgeContent={!readMessages.length}
+//                       color="primary"
+//                       sx={{
+//                         position: "absolute",
+//                         top: "4px",
+//                         right: "4px",
+//                       }}
+//                     />
+                 
+//                   <Box>
+            
+//                     <List>
+//                       <Box>
+//                         {chat.messages.map((message, index) => {
+//                           console.log(chat.withUser);
+//                           return (
+//                             <Box>
+//                               <ListItem
+//                                 key={message.id}
+//                                 className={message.mine ? "mine" : "yours"}
+//                                 sx={{
+//                                   fontSize: "10px",
+//                                   backgroundColor: message.mine
+//                                     ? "#53c2f5"
+//                                     : "#c383f7",
+//                                   alignSelf: message.mine
+//                                     ? "flex-start"
+//                                     : "flex-end",
+//                                   borderRadius: "12px",
+//                                   // padding: "8px",
+//                                   marginBottom: "8px",
+//                                   wordBreak: "break-word",
+//                                   whiteSpace: "pre-wrap",
+//                                   maxWidth: "80%",
+//                                   marginTop: index === 0 ? "5px" : 0,
+//                                   marginLeft: message.mine ? 0 : "auto",
+//                                 }}
+//                               >
+//                                 <Typography
+//                                   variant="body1"
+//                                   sx={{
+//                                     fontSize: "10px",
+//                                     color: message.mine ? "#FFFFFF" : "#FFFFFF",
+//                                   }}
+//                                 >
+//                                   {message.txt}
+//                                 </Typography>
+//                               </ListItem>
+//                             </Box>
+//                           );
+//                         })}
+//                       </Box>
+//                     </List>
+
+//                     {confirmedFriend(chat.withUser) ? (
+//                       <form
+//                         onSubmit={(ev) => {
+//                           // setExpanded(true);
+//                           ev.preventDefault();
+//                           const txt = ev.target.querySelector("textarea").value; // Changed input to textarea
+//                           dispatch(
+//                             createMessage({ txt, toId: chat.withUser.id })
+//                           );
+//                           ev.target.querySelector("textarea").value = ""; // Changed input to textarea
+//                         }}
+//                         style={{
+//                           display: "flex",
+//                           width: "100%",
+//                           marginTop: "5px",
+//                           position: "relative",
+//                         }}
+//                       >
+//                         <TextField
+//                           placeholder={`Send a message to ${
+//                             chat.withUser.username ||
+//                             chat.withUser.facebook_username
+//                           }`}
+//                           sx={{
+//                             flex: "1",
+//                             marginRight: "10px",
+//                             height: "100%",
+//                             resize: "vertical",
+//                             overflow: "auto",
+//                             fontSize: "10px",
+//                             fontFamily: "Helvetica",
+//                             marginBottom: "10px",
+//                             position: "relative",
+//                           }}
+//                           multiline
+//                           InputProps={{
+//                             endAdornment: (
+//                               <IconButton
+//                                 type="submit"
+//                                 variant="contained"
+//                                 style={{
+//                                   position: "absolute",
+//                                   top: "50%",
+//                                   right: "5px",
+//                                   transform: "translateY(-50%)",
+//                                   textTransform: "none",
+//                                   width: "20px",
+//                                   height: "20px",
+//                                   padding: 0,
+//                                   backgroundColor: "#007aff",
+//                                   borderRadius: "5px",
+//                                 }}
+//                               >
+//                                 <Send
+//                                   sx={{ fontSize: "10px", color: "#ffffff" }}
+//                                 />
+//                               </IconButton>
+//                             ),
+//                             style: {
+//                               height: "100%",
+//                               fontSize: "10px",
+//                               resize: "vertical",
+//                               overflow: "auto",
+//                               maxHeight: "calc(100% - 16px)",
+//                               fontFamily: "Helvetica",
+//                               paddingRight: "48px",
+//                             },
+//                           }}
+//                         />
+//                       </form>
+//                     ) : (
+//                       <Typography
+//                         variant="body1"
+//                         style={{
+//                           fontSize: "10px",
+//                           backgroundColor: "limegreen",
+//                           color: "white",
+//                           padding: "8px",
+//                           borderRadius: "12px",
+//                           alignSelf: "flex-start",
+//                           // marginBottom: "8px",
+//                           wordBreak: "break-word",
+//                           whiteSpace: "pre-wrap",
+//                           maxWidth: "80%",
+//                         }}
+//                       >
+//                         You are no longer friends. Please add a friend to
+//                         continue the chat.
+//                       </Typography>
+//                     )}
+                  
+//                   </Box>
+              
+//               </div>
+//             </Box>
+//           );
+//         })}
+//       </div>
+//     </Box>
+//     </Box>      
+
+//     </Box>
+    
 //   );
 // };
 
 // export default Chatting;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // import React, { useEffect, useState } from "react";
-// // import { useSelector, useDispatch } from "react-redux";
-// // import { logout } from "../store";
-// // import OnlineUsers from "./OnlineUsers";
-// // import OnlineFriends from "./OnlineFriends";
-// // import Friends from "./Friends";
-// // import Chat from "./Chat";
-// // import Instafeed from "instafeed.js";
-// // import Drawer from "@mui/material/Drawer";
-// // import Button from "@mui/material/Button";
-
-
-// // const drawerwidth = "25%";
-
-// // const styles = {
-// //   root: {
-// //     display: "flex",
-// //     flexDirection: "column",
-// //     minHeight: "100vh",
-// //   },
-// //   header: {
-// //     display: "flex",
-// //     justifyContent: "space-between",
-// //     alignItems: "center",
-// //     padding: "20px",
-// //   },
-// //   content: {
-// //     flexGrow: 1,
-// //     padding: "20px",
-// //     display: "flex",
-// //     flexDirection: "column",
-// //   },
-// //   drawer: {
-// //     flexShrink: 0,
-// //     width: drawerwidth,
-// //     backgroundColor: "#f5f5f5",
-// //   },
-// //   drawerPaper: {
-// //     width: drawerwidth,
-// //     backgroundColor: "#f5f5f5",
-// //   },
-// //   drawerContainer: {
-    
-// //     position: 'relative',
-// //     width: '240px',
-// //     display: "flex",
-// //     flexDirection: "column",
-// //     transition: 'none !important'
-// //   },
-// //   chat: {
-// //     marginTop: "20px",
-// //     alignSelf: "flex-end",
-// //   },
-// //   instafeedContainer: {
-// //     flexGrow: 1,
-// //     padding: "20px",
-// //   },
-// //   chatLinks: {
-// //     display: "flex",
-// //     justifyContent: "center",
-// //     marginTop: "10px",
-// //     marginBottom: "10px",
-// //   },
-// // };
-
-// // const Chatting = () => {
-// //   const { auth } = useSelector((state) => state);
-// //   const dispatch = useDispatch();
-// //   const [open, setOpen] = useState(false);
-
-// //   const handleDrawerToggle = () => {
-// //     setOpen(!open);
-// //   };
-
-
-
-// //   return (
-// //     <div style={styles.root}>
-// //       <div style={styles.header}>
-// //       <div style={styles.chatLinks}>
-// //           <Button onClick={handleDrawerToggle}>
-// //             {open ? "Close Chats" : "Show Chats"}
-// //           </Button>
-// //         </div>
-       
-       
-// //       </div>
-
-// //  <Drawer
-        
-// //         style={styles.drawer}
-// //         variant="persistent"
-// //         anchor="right"
-// //         open={open}
-// //         classes={{
-// //           paper: styles.drawerPaper,
-// //         }}
-// //         sx={{
-// //             marginTop: "200px",
-// //           width: drawerwidth,
-// //           flexShrink: 0,
-// //           [`& .MuiDrawer-paper`]: { width: drawerwidth, boxSizing: 'border-box' },
-// //         }}
-// //         >
-// //         <div style={styles.drawerContainer}>
-// //           {!!auth.id && <Chat style={styles.chat} />}
-         
-// //        </div>
-// //       </Drawer>
-     
-// //     </div>
-// //   );
-// // };
-
-// // export default Chatting;
-
-

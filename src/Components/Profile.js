@@ -7,14 +7,22 @@ const Profile = () => {
   const authId = useParams();
 
   return (
-    <>
+    <div
+      style={{
+        width: "80%",
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "space-around",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <div>
         {" "}
         {auth.avatar ? (
           <img
             style={{
-              width: "50%",
-              height: "450px",
+              maxWidth: "200px",
             }}
             src={auth.avatar}
           />
@@ -24,7 +32,7 @@ const Profile = () => {
       </div>
       <h2>{auth.username || auth.facebook_username}</h2>
       <p>{auth.about}</p>
-    </>
+    </div>
   );
 };
 
