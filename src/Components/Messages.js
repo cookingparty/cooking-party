@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createMessage, createFriendship } from "../store";
@@ -18,8 +19,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Badge } from "@mui/material";
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 const Messages = ({ drawerwidth, handleToggleMessages }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
@@ -33,16 +33,22 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [activeChatId, setActiveChatId] = useState(null);
   const [showChat, setShowChat] = useState(false);
-  
+
   const handleOpenChat = (chatId) => {
     setActiveChatId(chatId);
     setShowChat(true); // Set showChat to true when the chat is opened
   };
 
-  
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent form submission behavior
-    //  form submission logic here
+    event.stopPropagation(); // Stop event propagation
+    setExpanded(true);
+  };
+
+  const handleMessage = (chat) => {
+    const txt = ev.target.querySelector("textarea").value; // Changed input to textarea
+    dispatch(createMessage({ txt, toId: chat.withUser.id }));
+    ev.target.querySelector("textarea").value = ""; // Changed input to textarea
   };
 
   const scrollRef = useRef(null);
@@ -142,8 +148,6 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
   //   }
   // }, [messagesOpen]);
 
-  
-
   const colors = [
     "#FF0000",
     "#00FF00",
@@ -183,7 +187,6 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
       <div
         style={{ background: "#f5f5f5", padding: "10px", minHeight: "250px" }}
       >
-      
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -277,8 +280,11 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                         <IconButton
                           aria-label="let's chat"
                           color="inherit"
-                          onClick={() => {
-                            handleOpenChat(user.id)
+                          onClick={(ev) => {
+                            setExpanded(true)
+                            ev.stopPropagation()
+                            ev.preventDefault()
+                            handleOpenChat(user.id);
                             dispatch(
                               createMessage({
                                 toId: user.id,
@@ -295,9 +301,14 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                         <IconButton
                           aria-label="existing chat"
                           color="inherit"
-                          onClick={() => handleOpenChat(user.id)}
+                          onClick={(ev) => {
+                            setExpanded(true)
+                            ev.stopPropagation()
+                            ev.preventDefault()
+                            handleOpenChat(user.id);
+                          }}
                         >
-                          <Chat />
+                          <Chat/>
                         </IconButton>
                       )}
                     </ListItem>
@@ -333,7 +344,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
           </AccordionSummary>
           <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
             <Box maxHeight="80px" overflow="auto">
-            <List>
+              <List>
                 {onlineUsers.map((user) => {
                   const randomIndex = Math.floor(Math.random() * colors.length);
                   const randomColor = colors[randomIndex];
@@ -400,7 +411,10 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                         <PersonAddAlt1Icon
                           aria-label="Add Friend"
                           color="inherit"
-                          onClick={() => {
+                          onClick={(ev) => {
+                            setExpanded(true)
+                            ev.stopPropagation()
+                            ev.preventDefault()
                             sendRequest(user.id);
                           }}
                         ></PersonAddAlt1Icon>
@@ -410,8 +424,10 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                         <IconButton
                           aria-label="let's chat"
                           color="inherit"
-                          onClick={() => {
-                            
+                          onClick={(ev) => {
+                            setExpanded(true)
+                            ev.stopPropagation()
+                            ev.preventDefault()
                             dispatch(
                               createMessage({
                                 toId: user.id,
@@ -430,234 +446,231 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
             </Box>
           </AccordionDetails>
         </Accordion>
- 
-
-
-
-
       </div>
       {showChat && (
-  <Box>
-    {/* <Messages/> */}
-    <Typography
-      variant="h1"
-      style={{
-        margin: "0px",
-        padding: "0px",
-        fontSize: "16px",
-        fontFamily: "Helvetica",
-        textAlign: "center",
-      }}
-    >
-      MESSAGES
-    </Typography>
+        <Box>
+          {/* <Messages/> */}
+          <Typography
+            variant="h1"
+            style={{
+              margin: "0px",
+              padding: "0px",
+              fontSize: "16px",
+              fontFamily: "Helvetica",
+              textAlign: "center",
+            }}
+          >
+            MESSAGES
+          </Typography>
 
-    <div id="chats" style={{ overflowY: "auto" }}>
-      {chats.map((chat, i) => {
-        const withUserId = chat.withUser.id;
+          <div id="chats" style={{ overflowY: "auto" }}>
+            {chats.map((chat, i) => {
+              const withUserId = chat.withUser.id;
 
-        if (withUserId === activeChatId) {
-          return (
-            <Box
-              key={i}
-              id={`chat-${chat.withUser.id}`}
-              className={chat.online ? "online" : ""}
-              sx={{
-                marginTop: "15px",
-                overflowY: "auto", // adds scrolling to each chat
-                maxHeight: "600px",
-                // padding: "10px",
-                backgroundColor: "#f5f5f5",
-                display: "flex",
-                flexDirection: "column",
-                width: drawerwidth - 40,
-              }}
-            >
-              <div
-                style={{
-                  background: "#f5f5f5",
-                  padding: "10px",
-                  minHeight: "400px",
-                }}
-              >
-                <Typography
-                  variant="h3"
-                  style={{
-                    paddingLeft: "5px",
-                    paddingRight: "5px",
-                    fontSize: "12px",
-                    fontWeight: "bold",
-                    textTransform: "capitalize",
-                    textAlign: "center",
-                    height: "50%",
-                  }}
-                >
-                  Chat with{" "}
-                  {chat.withUser.username ||
-                    chat.withUser.facebook_username}
-                </Typography>
-                <Badge
-                  badgeContent={!readMessages.length}
-                  color="primary"
-                  sx={{
-                    position: "absolute",
-                    top: "4px",
-                    right: "4px",
-                  }}
-                />
-
-                <Box>
-                  <List>
-                    <Box>
-                      {chat.messages.map((message, index) => {
-                        console.log(chat.withUser);
-                        return (
-                          <Box>
-                            <ListItem
-                              key={message.id}
-                              className={message.mine ? "mine" : "yours"}
-                              sx={{
-                                fontSize: "10px",
-                                backgroundColor: message.mine
-                                  ? "#53c2f5"
-                                  : "#c383f7",
-                                alignSelf: message.mine
-                                  ? "flex-start"
-                                  : "flex-end",
-                                borderRadius: "12px",
-                                // padding: "8px",
-                                marginBottom: "8px",
-                                wordBreak: "break-word",
-                                whiteSpace: "pre-wrap",
-                                maxWidth: "80%",
-                                marginTop: index === 0 ? "5px" : 0,
-                                marginLeft: message.mine ? 0 : "auto",
-                              }}
-                            >
-                              <Typography
-                                variant="body1"
-                                sx={{
-                                  fontSize: "10px",
-                                  fontWeight: "bold",
-                                  lineHeight: "12px",
-                                  color: message.mine ? "#FFF" : "#FFF",
-                                }}
-                              >
-                                {message.txt}
-                              </Typography>
-                            </ListItem>
-                          </Box>
-                        );
-                      })}
-                    </Box>
-                  </List>
-                </Box>
-                <div ref={scrollRef}></div>
-            
-                {confirmedFriend(chat.withUser) ? (
-                      <form
-                        onSubmit={(ev) => {
-                          setExpanded(true);
-                          ev.preventDefault();
-                          const txt = ev.target.querySelector("textarea").value; // Changed input to textarea
-                          dispatch(
-                            createMessage({ txt, toId: chat.withUser.id })
-                          );
-                          ev.target.querySelector("textarea").value = ""; // Changed input to textarea
-                        }}
+              if (withUserId === activeChatId) {
+                return (
+                  <Box
+                    key={i}
+                    id={`chat-${chat.withUser.id}`}
+                    className={chat.online ? "online" : ""}
+                    sx={{
+                      marginTop: "15px",
+                      overflowY: "auto", // adds scrolling to each chat
+                      maxHeight: "600px",
+                      // padding: "10px",
+                      backgroundColor: "#f5f5f5",
+                      display: "flex",
+                      flexDirection: "column",
+                      width: drawerwidth - 40,
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#f5f5f5",
+                        padding: "10px",
+                        minHeight: "400px",
+                      }}
+                    >
+                      <Typography
+                        variant="h3"
                         style={{
-                          display: "flex",
-                          width: "100%",
-                          marginTop: "5px",
-                          position: "relative",
+                          paddingLeft: "5px",
+                          paddingRight: "5px",
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          textTransform: "capitalize",
+                          textAlign: "center",
+                          height: "50%",
                         }}
                       >
-                        <TextField
-                          placeholder={`Send a message to ${
-                            chat.withUser.username ||
-                            chat.withUser.facebook_username
-                          }`}
-                          sx={{
-                            flex: "1",
-                            marginRight: "10px",
-                            height: "100%",
-                            resize: "vertical",
-                            overflow: "auto",
-                            fontSize: "10px",
-                            fontFamily: "Helvetica",
-                            marginBottom: "10px",
+                        Chat with{" "}
+                        {chat.withUser.username ||
+                          chat.withUser.facebook_username}
+                      </Typography>
+                      <Badge
+                        badgeContent={!readMessages.length}
+                        color="primary"
+                        sx={{
+                          position: "absolute",
+                          top: "4px",
+                          right: "4px",
+                        }}
+                      />
+
+                      <Box>
+                        <List>
+                          <Box>
+                            {chat.messages.map((message, index) => {
+                              console.log(chat.withUser);
+                              return (
+                                <Box
+                                  ref={scrollRef} // this isn't working yet
+                                >
+                                  <ListItem
+                                    key={message.id}
+                                    className={message.mine ? "mine" : "yours"}
+                                    sx={{
+                                      fontSize: "10px",
+                                      backgroundColor: message.mine
+                                        ? "#53c2f5"
+                                        : "#c383f7",
+                                      alignSelf: message.mine
+                                        ? "flex-start"
+                                        : "flex-end",
+                                      borderRadius: "12px",
+                                      // padding: "8px",
+                                      marginBottom: "8px",
+                                      wordBreak: "break-word",
+                                      whiteSpace: "pre-wrap",
+                                      maxWidth: "80%",
+                                      marginTop: index === 0 ? "5px" : 0,
+                                      marginLeft: message.mine ? 0 : "auto",
+                                    }}
+                                  >
+                                    <Typography
+                                      variant="body1"
+                                      sx={{
+                                        fontSize: "10px",
+                                        fontWeight: "bold",
+                                        lineHeight: "12px",
+                                        color: message.mine ? "#FFF" : "#FFF",
+                                      }}
+                                    >
+                                      {message.txt}
+                                    </Typography>
+                                  </ListItem>
+                                </Box>
+                              );
+                            })}
+                          </Box>
+                        </List>
+                      </Box>
+                      <div ref={scrollRef}></div>
+
+                      {confirmedFriend(chat.withUser) ? (
+                        <form
+                          onSubmit={(ev) => {
+                            setExpanded(true)
+                            ev.stopPropagation()
+                            ev.preventDefault()
+                            const txt =
+                              ev.target.querySelector("textarea").value; // Changed input to textarea
+                            dispatch(
+                              createMessage({ txt, toId: chat.withUser.id })
+                            );
+                            ev.target.querySelector("textarea").value = ""; // Changed input to textarea
+                          }}
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            marginTop: "5px",
                             position: "relative",
                           }}
-                          multiline
-                          InputProps={{
-                            endAdornment: (
-                              <IconButton
-                                type="submit"
-                                variant="contained"
-                                style={{
-                                  position: "absolute",
-                                  top: "50%",
-                                  right: "5px",
-                                  transform: "translateY(-50%)",
-                                  textTransform: "none",
-                                  width: "20px",
-                                  height: "20px",
-                                  padding: 0,
-                                  backgroundColor: "#007aff",
-                                  borderRadius: "5px",
-                                }}
-                              >
-                                <Send
-                                  sx={{ fontSize: "10px", color: "#ffffff" }}
-                                />
-                              </IconButton>
-                            ),
-                            style: {
+                        >
+                          <TextField
+                            placeholder={`Send a message to ${
+                              chat.withUser.username ||
+                              chat.withUser.facebook_username
+                            }`}
+                            sx={{
+                              flex: "1",
+                              marginRight: "10px",
                               height: "100%",
-                              fontSize: "10px",
                               resize: "vertical",
                               overflow: "auto",
-                              maxHeight: "calc(100% - 16px)",
+                              fontSize: "10px",
                               fontFamily: "Helvetica",
-                              paddingRight: "48px",
-                            },
+                              marginBottom: "10px",
+                              position: "relative",
+                            }}
+                            multiline
+                            InputProps={{
+                              endAdornment: (
+                                <IconButton
+                                  type="submit"
+                                  variant="contained"
+                                  style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    right: "5px",
+                                    transform: "translateY(-50%)",
+                                    textTransform: "none",
+                                    width: "20px",
+                                    height: "20px",
+                                    padding: 0,
+                                    backgroundColor: "#007aff",
+                                    borderRadius: "5px",
+                                  }}
+                                >
+                                  <Send
+                                    sx={{ fontSize: "10px", color: "#ffffff" }}
+                                  />
+                                </IconButton>
+                              ),
+                              style: {
+                                height: "100%",
+                                fontSize: "10px",
+                                resize: "vertical",
+                                overflow: "auto",
+                                maxHeight: "calc(100% - 16px)",
+                                fontFamily: "Helvetica",
+                                paddingRight: "48px",
+                              },
+                            }}
+                          />
+                        </form>
+                      ) : (
+                        <Typography
+                          variant="body1"
+                          style={{
+                            fontSize: "10px",
+                            backgroundColor: "limegreen",
+                            color: "white",
+                            padding: "8px",
+                            borderRadius: "12px",
+                            alignSelf: "flex-start",
+                            // marginBottom: "8px",
+                            wordBreak: "break-word",
+                            whiteSpace: "pre-wrap",
+                            maxWidth: "80%",
                           }}
-                        />
-                      </form>
-                    ) : (
-                      <Typography
-                        variant="body1"
-                        style={{
-                          fontSize: "10px",
-                          backgroundColor: "limegreen",
-                          color: "white",
-                          padding: "8px",
-                          borderRadius: "12px",
-                          alignSelf: "flex-start",
-                          // marginBottom: "8px",
-                          wordBreak: "break-word",
-                          whiteSpace: "pre-wrap",
-                          maxWidth: "80%",
-                        }}
-                      >
-                        You are no longer friends. Please add a friend to
-                        continue the chat.
-                      </Typography>
-                    )}
-              </div>
-            </Box>
-          );
-        } else {
-          return null;
-        }
-      })}
-    </div>
-  </Box>
-)}
-
+                        >
+                          You are no longer friends. Please add a friend to
+                          continue the chat.
+                        </Typography>
+                      )}
+                    </div>
+                  </Box>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </div>
+        </Box>
+      )}
     </Box>
   );
 };
 
 export default Messages;
-
