@@ -181,10 +181,7 @@ const RecipePage = () => {
             }}
           />
         </Box>
-
-        <img
-          src={recipe.imageURL || recipe.image}
-          alt="Recipe Image"
+          <Box
           style={{
             margin: "15px",
             padding: "30px",
@@ -192,7 +189,18 @@ const RecipePage = () => {
             width: carouselWidth,
             alignItems: "center",
           }}
+          >
+        <img
+          src={recipe.imageURL || recipe.image}
+          alt="Recipe Image"
+          style={{
+            margin: "15px",
+            padding: "30px",
+            maxWidth: '700px',
+            maxHeight: "500px"
+          }}
         />
+        </Box>
         <Box
           sx={{
             backgroundColor: carouselBackground,

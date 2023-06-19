@@ -18,14 +18,31 @@ const Logout = () => {
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      textAlign="center"
-      p={2}
-      maxWidth={600}
-      mx="auto"
+      sx={{
+        marginBottom: "60px",
+
+        minHeight: "100vh",
+        display: "grid",
+        gridtemplaterows: "1fr auto",
+      }}
     >
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginBottom="120px"
+      >
+        <Box
+          sx={{
+            textAlign: "center",
+            backgroundColor: "almond",
+            margin: "60px",
+            marginBottom: "80px",
+            border: "40px solid almond",
+            height: "400px",
+            width: "700px",
+          }}
+        >
      
 
       {auth.id ? (
@@ -47,6 +64,8 @@ const Logout = () => {
           </Typography>
         </div>
       )}
+    </Box>
+    </Box>
     </Box>
   );
 };

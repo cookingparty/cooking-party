@@ -37,18 +37,15 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
   const handleSubmit = (event, chat, chatId) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log("let's all eat")
+    console.log("let's all eat");
     const txt = event.target.querySelector("textarea").value;
     dispatch(createMessage({ txt, toId: chat.withUser.id }));
 
     event.target.querySelector("textarea").value = "";
     event.target.querySelector("textarea").focus();
 
-    setShowChat(true)
-   
+    setShowChat(true);
   };
-
-
 
   const handleOpenChat = (chatId, ev) => {
     ev.stopPropagation();
@@ -57,9 +54,6 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
     setShowChat(true);
     console.log("Hey fam! Food's ready!");
   };
-
-
- 
 
   const handleMessage = (chat, event) => {
     const txt = event.target.querySelector("textarea").value;
@@ -79,14 +73,11 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
     setReadMessages([]);
   }, [messages]);
 
-
   //function to scroll the message log
-  const _scroll = (() =>{
-    const log = document.getElementById('log');
+  const _scroll = () => {
+    const log = document.getElementById("log");
     log.scrollTop = log.scrollHeight;
-  })
-    
-  
+  };
 
   const chatMap = messages.reduce((acc, message) => {
     const withUser = message.fromId === auth.id ? message.to : message.from;
@@ -306,7 +297,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                           aria-label="let's chat"
                           color="inherit"
                           onClick={(ev) => {
-                            handleOpenChat(user.id, ev)
+                            handleOpenChat(user.id, ev);
                             dispatch(
                               createMessage({
                                 toId: user.id,
@@ -324,10 +315,10 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                           aria-label="existing chat"
                           color="inherit"
                           onClick={(ev) => {
-                            handleOpenChat(user.id, ev)
+                            handleOpenChat(user.id, ev);
                           }}
                         >
-                          <Chat/>
+                          <Chat />
                         </IconButton>
                       )}
                     </ListItem>
@@ -431,7 +422,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                           aria-label="Add Friend"
                           color="inherit"
                           onClick={(ev) => {
-                            handleOpenChat(user.id, ev)
+                            handleOpenChat(user.id, ev);
                           }}
                         ></PersonAddAlt1Icon>
                       )}
@@ -441,7 +432,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                           aria-label="let's chat"
                           color="inherit"
                           onClick={(ev) => {
-                            handleOpenChat(user.id, ev)
+                            handleOpenChat(user.id, ev);
                             dispatch(
                               createMessage({
                                 toId: user.id,
@@ -534,119 +525,119 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                       <Box>
                         <List>
                           {/* <Box> */}
-                            {chat.messages.map((message, index) => {
-                              console.log(chat.withUser);
-                              return (
-                                <Box
-                                  ref={scrollRef} // this isn't working yet
+                          {chat.messages.map((message, index) => {
+                            console.log(chat.withUser);
+                            return (
+                              <Box
+                                ref={scrollRef} // this isn't working yet
+                              >
+                                <ListItem
+                                  key={message.id}
+                                  className={message.mine ? "mine" : "yours"}
+                                  sx={{
+                                    fontSize: "10px",
+                                    backgroundColor: message.mine
+                                      ? "#53c2f5"
+                                      : "#c383f7",
+                                    alignSelf: message.mine
+                                      ? "flex-start"
+                                      : "flex-end",
+                                    borderRadius: "12px",
+                                    // padding: "8px",
+                                    marginBottom: "8px",
+                                    wordBreak: "break-word",
+                                    whiteSpace: "pre-wrap",
+                                    maxWidth: "80%",
+                                    marginTop: index === 0 ? "5px" : 0,
+                                    marginLeft: message.mine ? 0 : "auto",
+                                  }}
                                 >
-                                  <ListItem
-                                    key={message.id}
-                                    className={message.mine ? "mine" : "yours"}
+                                  <Typography
+                                    variant="body1"
                                     sx={{
                                       fontSize: "10px",
-                                      backgroundColor: message.mine
-                                        ? "#53c2f5"
-                                        : "#c383f7",
-                                      alignSelf: message.mine
-                                        ? "flex-start"
-                                        : "flex-end",
-                                      borderRadius: "12px",
-                                      // padding: "8px",
-                                      marginBottom: "8px",
-                                      wordBreak: "break-word",
-                                      whiteSpace: "pre-wrap",
-                                      maxWidth: "80%",
-                                      marginTop: index === 0 ? "5px" : 0,
-                                      marginLeft: message.mine ? 0 : "auto",
+                                      fontWeight: "bold",
+                                      lineHeight: "12px",
+                                      color: message.mine ? "#FFF" : "#FFF",
                                     }}
                                   >
-                                    <Typography
-                                      variant="body1"
-                                      sx={{
-                                        fontSize: "10px",
-                                        fontWeight: "bold",
-                                        lineHeight: "12px",
-                                        color: message.mine ? "#FFF" : "#FFF",
-                                      }}
-                                    >
-                                      {message.txt}
-                                    </Typography>
-                                  </ListItem>
-                                </Box>
-                              );
-                            })}
+                                    {message.txt}
+                                  </Typography>
+                                </ListItem>
+                              </Box>
+                            );
+                          })}
                           {/* </Box> */}
                         </List>
                       </Box>
                       <div ref={scrollRef}></div>
 
                       {confirmedFriend(chat.withUser) ? (
-                      <form
-                      
-                      style={{
-                        
-                        display: "flex",
-                        width: "100%",
-                        marginTop: "5px",
-                        position: "relative",
-                      }}
-                      onSubmit={(ev) => {
-                        ev.preventDefault(); // Prevent the form from closing
-                        handleSubmit(ev, chat);
-                        console.log("Molly is cooking fluffy eggs...");
-                      }}
-                    >
-                      <TextField
-                        placeholder={`Send a message to ${
-                          chat.withUser.username || chat.withUser.facebook_username
-                        }`}
-                        sx={{
-                          flex: "1",
-                          marginRight: "10px",
-                          height: "100%",
-                          resize: "vertical",
-                          overflow: "auto",
-                          fontSize: "10px",
-                          fontFamily: "Helvetica",
-                          marginBottom: "10px",
-                          position: "relative",
-                        }}
-                        multiline
-                        InputProps={{
-                          endAdornment: (
-                            <IconButton
-                              type="submit"
-                              variant="contained"
-                              style={{
-                                position: "absolute",
-                                top: "50%",
-                                right: "5px",
-                                transform: "translateY(-50%)",
-                                textTransform: "none",
-                                width: "20px",
-                                height: "20px",
-                                padding: 0,
-                                backgroundColor: "#007aff",
-                                borderRadius: "5px",
-                              }}
-                            >
-                              <Send sx={{ fontSize: "10px", color: "#ffffff" }} />
-                            </IconButton>
-                          ),
-                          style: {
-                            height: "100%",
-                            fontSize: "10px",
-                            resize: "vertical",
-                            overflow: "auto",
-                            maxHeight: "calc(100% - 16px)",
-                            fontFamily: "Helvetica",
-                            paddingRight: "48px",
-                          },
-                        }}
-                      />
-                    </form>
-                    
+                        <form
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            marginTop: "5px",
+                            position: "relative",
+                          }}
+                          onSubmit={(ev) => {
+                            ev.preventDefault(); // Prevent the form from closing
+                            handleSubmit(ev, chat);
+                            console.log("Molly is cooking fluffy eggs...");
+                          }}
+                        >
+                          <TextField
+                            placeholder={`Send a message to ${
+                              chat.withUser.username ||
+                              chat.withUser.facebook_username
+                            }`}
+                            sx={{
+                              flex: "1",
+                              marginRight: "10px",
+                              height: "100%",
+                              resize: "vertical",
+                              overflow: "auto",
+                              fontSize: "10px",
+                              fontFamily: "Helvetica",
+                              marginBottom: "10px",
+                              position: "relative",
+                            }}
+                            multiline
+                            InputProps={{
+                              endAdornment: (
+                                <IconButton
+                                  type="submit"
+                                  variant="contained"
+                                  style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    right: "5px",
+                                    transform: "translateY(-50%)",
+                                    textTransform: "none",
+                                    width: "20px",
+                                    height: "20px",
+                                    padding: 0,
+                                    backgroundColor: "#007aff",
+                                    borderRadius: "5px",
+                                  }}
+                                >
+                                  <Send
+                                    sx={{ fontSize: "10px", color: "#ffffff" }}
+                                  />
+                                </IconButton>
+                              ),
+                              style: {
+                                height: "100%",
+                                fontSize: "10px",
+                                resize: "vertical",
+                                overflow: "auto",
+                                maxHeight: "calc(100% - 16px)",
+                                fontFamily: "Helvetica",
+                                paddingRight: "48px",
+                              },
+                            }}
+                          />
+                        </form>
                       ) : (
                         <Typography
                           variant="body1"
