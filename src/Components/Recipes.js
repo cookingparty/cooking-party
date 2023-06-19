@@ -37,7 +37,7 @@ const Recipes = () => {
 
 	useEffect(() => {
 		handleSearch(params.filter);
-		//   getAllergen(params.filter);
+		getAllergen(params.filter);
 		console.log('params', params.filter);
 	}, [params.filter]);
 
@@ -74,6 +74,7 @@ const Recipes = () => {
 	};
 
 	// Fetch Recipes for Search Bar (both meals and cocktails)
+
 	const handleSearch = async (searchQuery) => {
 		const apiKey1 = apiKeyMeal;
 		const apiKey2 = apiKeyCocktail;
