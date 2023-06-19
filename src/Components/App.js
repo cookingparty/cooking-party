@@ -17,8 +17,7 @@ import About from "./About";
 import TermsAndConditions from "./TermsAndConditions";
 import FAQ from "./FAQ";
 import ContactUs from "./ContactUs";
-
-//import RecipeSearchPage from "./RecipeSearchPage";
+// import RecipeSearchPage from "./RecipeSearchPage";
 import RecipePage from "./RecipePage";
 import Messages from "./Messages";
 import { useSelector, useDispatch } from "react-redux";
