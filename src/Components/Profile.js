@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 const Profile = () => {
   const { auth } = useSelector((state) => state);
   const authId = useParams();
-
+  const carouselWidth = "50%";
   return (
     <Box
     sx={{
@@ -17,12 +17,23 @@ const Profile = () => {
       gridtemplaterows: "1fr auto",
     }}
   >
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      marginBottom="120px"
-    >
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginBottom={2}
+      >
+        <img
+          src="static/images/saladprofile.jpg"
+          alt="fruit cocktails"
+          style={{
+            top: 0,
+            left: 0,
+            width: carouselWidth,
+            height: "auto",
+            objectFit: "cover",
+          }}
+        />
       <Box
         sx={{
           backgroundColor: "almond",
@@ -42,6 +53,9 @@ const Profile = () => {
         alignItems: "center",
       }}
     >
+      <h1
+        style={{font: 'Helvetica', textAlign: "center"}}
+        >Profile</h1>
       <div>
         {" "}
         {auth.avatar ? (

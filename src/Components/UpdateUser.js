@@ -3,14 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateAuth } from "../store";
-
+import Box from "@mui/material/Box";
 const UpdateUser = () => {
   const { auth } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const ref = useRef();
-
+  const carouselWidth = "50%";
   const [account, setAccount] = useState({
     username: "",
     password: "",
@@ -62,15 +62,24 @@ const UpdateUser = () => {
         gridtemplaterows: "1fr auto",
       }}
     >
-      ,
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginBottom: "120px",
-        }}
+      
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginBottom={2}
       >
+        <img
+          src="static/images/lunch.jpg"
+          alt="fruit cocktails"
+          style={{
+            top: 0,
+            left: 0,
+            width: carouselWidth,
+            height: "auto",
+            objectFit: "cover",
+          }}
+        />
         <div
           style={{
             maxWidth: "700px",
@@ -112,8 +121,9 @@ const UpdateUser = () => {
             </Button>
           </form>
         </div>
+        </Box>
       </div>
-    </div>
+   
   );
 };
 
