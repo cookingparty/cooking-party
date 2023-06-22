@@ -207,27 +207,6 @@ if(!friends){
             );
           })}
      </List>
-      {/* <h1>Friend Requests</h1> */}
-      {/* <ul>
-        {friends
-          .filter(
-            (friend) =>
-              findFriendship(friend.id).friendee_id === auth.id &&
-              findFriendship(friend.id).status === "PENDING"
-          )
-          .map((friend) => {
-            if (!friend) {
-              return null;
-            }
-            return (
-              <li key={friend.id}>
-                {friend.username || friend.facebook_username}
-                <button onClick={() => acceptRequest(friend.id)}>accept</button>
-                <button onClick={() => removeFriend(friend.id)}>ignore</button>
-              </li>
-            );
-          })}
-      </ul> */}
      </Box>
             </AccordionDetails>
           </Accordion>

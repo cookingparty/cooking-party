@@ -92,8 +92,8 @@ const Home = () => {
                 marginBottom: '80px',
                 height: '600px',
                 width: carouselWidth,
-                maxWidth: "100%", // Add this line
-                overflow: "hidden", // Add this line
+                maxWidth: "100%", 
+                overflow: "hidden", 
               }}
             >
               <Carousel autoPlay={true} animation="slide" interval={6000}>

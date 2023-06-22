@@ -17,8 +17,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import Search from "./Search";
-import { Container, TextField } from "@mui/material";
 import Dashboard from "./Dashboard";
 import SearchAll from "./SearchAll";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -43,7 +41,7 @@ import Friends from "./Friends";
 import FriendRequests from "./FriendRequests";
 import SearchBar from "./Search";
 
-// add this if needed into Nav=({handleToggleMessages})
+
 
 const Nav = () => {
   const { auth, recipes, onlineUsers, messages, users, friendships } =
@@ -675,12 +673,7 @@ const Nav = () => {
                     drawerwidth={drawerwidth}
                   />
                 )}
-                {/* {!!auth.id && onlineUsersOpen && findFriendship === "PENDING" && (
-                  <OnlineUsers
-                    handleToggleFriendRequests={handleToggleFriendRequests}
-                    drawerwidth={drawerwidth}
-                  />
-                )} */}
+               
               </Box>
             </ListItem>
           </StyledDrawer>

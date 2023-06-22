@@ -8,9 +8,6 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 
 import {
   IconButton,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Box,
   Typography,
   List,
@@ -18,33 +15,23 @@ import {
   TextField,
 } from "@mui/material";
 import { Badge } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
-const Messages = ({ drawerwidth, handleToggleMessages }) => {
+
+const Messages = ({ drawerwidth }) => {
   const { onlineUsers, friendships, messages, auth, users } = useSelector(
     (state) => state
   );
   const dispatch = useDispatch();
 
   const [readMessages, setReadMessages] = useState({});
-  // const [messagesOpen, setMessagesOpen] = useState(false);
-  const [expanded, setExpanded] = React.useState(true);
-  const [selectedChatId, setSelectedChatId] = useState(null);
+
+
   const [activeChatId, setActiveChatId] = useState(null);
   const [showChat, setShowChat] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
+  const [text, setText] = useState("");
+  console.log(showChat);
   const handleSubmit = (event, chat, chatId) => {
-    event.preventDefault();
-    event.stopPropagation();
-    console.log("let's all eat");
-    const txt = event.target.querySelector("textarea").value;
-    dispatch(createMessage({ txt, toId: chat.withUser.id }));
-
-    event.target.querySelector("textarea").value = "";
-    event.target.querySelector("textarea").focus();
-
-    setShowChat(true);
+    dispatch(createMessage({ txt: text, toId: chat.withUser.id }));
   };
 
   const handleOpenChat = (chatId, ev) => {
@@ -55,23 +42,19 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
     console.log("Hey fam! Food's ready!");
   };
 
-  const handleMessage = (chat, event) => {
-    const txt = event.target.querySelector("textarea").value;
-    dispatch(createMessage({ txt, toId: chat.withUser.id }));
-    event.target.querySelector("textarea").value = "";
-  };
+  
 
   const scrollRef = useRef(null);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
+  // useEffect(() => {
+  //   if (scrollRef.current) {
+  //     scrollRef.current.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // }, [messages]);
 
-  useEffect(() => {
-    setReadMessages([]);
-  }, [messages]);
+  // useEffect(() => {
+  //   setReadMessages([]);
+  // }, [messages]);
 
   //function to scroll the message log
   const _scroll = () => {
@@ -203,254 +186,233 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
       <div
         style={{ background: "#f5f5f5", padding: "10px", minHeight: "250px" }}
       >
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            sx={{
-              position: "relative",
-              margin: "0",
-              padding: "2px 0",
-            }}
-          >
-            <Typography
-              variant="h3"
-              style={{
-                fontSize: "12px",
-                fontWeight: "bold",
-                textTransform: "capitalize",
-                textAlign: "center",
-                marginLeft: "20px",
-              }}
-            >
-              See Online Friends
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
-            <Box maxHeight="80px" overflow="auto">
-              <List>
-                {onlineFriends.map((user) => {
-                  const randomIndex = Math.floor(Math.random() * colors.length);
-                  const randomColor = colors[randomIndex];
+        <Typography
+          variant="h3"
+          style={{
+            fontSize: "12px",
+            fontWeight: "bold",
+            textTransform: "capitalize",
+            textAlign: "center",
+            marginLeft: "20px",
+          }}
+        >
+          See Online Friends
+        </Typography>
 
-                  const avatarStyle =
-                    user && user.avatar
-                      ? {
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "3px",
-                        }
-                      : {
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "3px",
-                          color: randomColor,
-                        };
-                  return (
-                    <ListItem
-                      key={user.id}
-                      sx={{
-                        paddingRight: "8px",
-                        paddingTop: "0",
-                        paddingBottom: "0",
+        <Box maxHeight="80px" overflow="auto">
+          <List>
+            {onlineFriends.map((user) => {
+              const randomIndex = Math.floor(Math.random() * colors.length);
+              const randomColor = colors[randomIndex];
+
+              const avatarStyle =
+                user && user.avatar
+                  ? {
+                      width: "20px",
+                      height: "20px",
+                      marginRight: "3px",
+                    }
+                  : {
+                      width: "20px",
+                      height: "20px",
+                      marginRight: "3px",
+                      color: randomColor,
+                    };
+              return (
+                <ListItem
+                  key={user.id}
+                  sx={{
+                    paddingRight: "8px",
+                    paddingTop: "0",
+                    paddingBottom: "0",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                  >
+                    {user.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt="User Avatar"
+                        style={avatarStyle}
+                      />
+                    ) : (
+                      <AccountCircleRoundedIcon style={avatarStyle} />
+                    )}
+
+                    <Typography
+                      variant="body1"
+                      style={{
+                        paddingLeft: "5px",
+                        paddingRight: "5px",
+                        fontSize: "10px",
+                        textTransform: "capitalize",
+                        overflowWrap: "break-word",
+                        wordWrap: "break-word",
+                        hyphens: "auto",
+                        whiteSpace: "normal",
+                        width: "100%",
+                        lineHeight: "10px",
+                        maxHeight: "20px",
+                        overflow: "hidden",
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          width: "100%",
+                      {user.username || user.facebook_username}
+                    </Typography>
+                  </div>
+                  <div>
+                    {!hasChat(user) && (
+                      <IconButton
+                        aria-label="let's chat"
+                        color="inherit"
+                        onClick={(ev) => {
+                          handleOpenChat(user.id, ev);
+                          dispatch(
+                            createMessage({
+                              toId: user.id,
+                              txt: "Let's Chat",
+                            })
+                          );
                         }}
                       >
-                        {user.avatar ? (
-                          <img
-                            src={user.avatar}
-                            alt="User Avatar"
-                            style={avatarStyle}
-                          />
-                        ) : (
-                          <AccountCircleRoundedIcon style={avatarStyle} />
-                        )}
+                        <Chat />
+                      </IconButton>
+                    )}
 
-                        <Typography
-                          variant="body1"
-                          style={{
-                            paddingLeft: "5px",
-                            paddingRight: "5px",
-                            fontSize: "10px",
-                            textTransform: "capitalize",
-                            overflowWrap: "break-word",
-                            wordWrap: "break-word",
-                            hyphens: "auto",
-                            whiteSpace: "normal",
-                            width: "100%",
-                            lineHeight: "10px",
-                            maxHeight: "20px",
-                            overflow: "hidden",
-                          }}
-                        >
-                          {user.username || user.facebook_username}
-                        </Typography>
-                      </div>
+                    {hasChat(user) && (
+                      <IconButton
+                        aria-label="existing chat"
+                        color="inherit"
+                        onClick={(ev) => {
+                          handleOpenChat(user.id, ev);
+                        }}
+                      >
+                        <Chat />
+                      </IconButton>
+                    )}
+                  </div>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Box>
 
-                      {!hasChat(user) && (
-                        <IconButton
-                          aria-label="let's chat"
-                          color="inherit"
-                          onClick={(ev) => {
-                            handleOpenChat(user.id, ev);
-                            dispatch(
-                              createMessage({
-                                toId: user.id,
-                                txt: "Let's Chat",
-                              })
-                            );
-                          }}
-                        >
-                          <Chat />
-                        </IconButton>
-                      )}
+        <Typography
+          variant="h3"
+          style={{
+            fontSize: "12px",
+            fontWeight: "bold",
+            textTransform: "capitalize",
+            textAlign: "center",
 
-                      {hasChat(user) && (
-                        <IconButton
-                          aria-label="existing chat"
-                          color="inherit"
-                          onClick={(ev) => {
-                            handleOpenChat(user.id, ev);
-                          }}
-                        >
-                          <Chat />
-                        </IconButton>
-                      )}
-                    </ListItem>
-                  );
-                })}
-              </List>
-            </Box>
-          </AccordionDetails>
-        </Accordion>
+            marginLeft: "20px",
+          }}
+        >
+          See Who's Online
+        </Typography>
 
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            sx={{
-              position: "relative",
-              margin: "0",
-              padding: "2px 0",
-            }}
-          >
-            <Typography
-              variant="h3"
-              style={{
-                fontSize: "12px",
-                fontWeight: "bold",
-                textTransform: "capitalize",
-                textAlign: "center",
+        <Box maxHeight="80px" overflow="auto">
+          <List>
+            {onlineUsers.map((user) => {
+              const randomIndex = Math.floor(Math.random() * colors.length);
+              const randomColor = colors[randomIndex];
 
-                marginLeft: "20px",
-              }}
-            >
-              See Who's Online
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails style={{ margin: "-5px 0 0", padding: 0 }}>
-            <Box maxHeight="80px" overflow="auto">
-              <List>
-                {onlineUsers.map((user) => {
-                  const randomIndex = Math.floor(Math.random() * colors.length);
-                  const randomColor = colors[randomIndex];
-
-                  const avatarStyle =
-                    user && user.avatar
-                      ? {
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "3px",
-                        }
-                      : {
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "3px",
-                          color: randomColor,
-                        };
-                  return (
-                    <ListItem
-                      key={user.id}
-                      sx={{
-                        paddingRight: "8px",
-                        paddingTop: "0",
-                        paddingBottom: "0",
+              const avatarStyle =
+                user && user.avatar
+                  ? {
+                      width: "20px",
+                      height: "20px",
+                      marginRight: "3px",
+                    }
+                  : {
+                      width: "20px",
+                      height: "20px",
+                      marginRight: "3px",
+                      color: randomColor,
+                    };
+              return (
+                <ListItem
+                  key={user.id}
+                  sx={{
+                    paddingRight: "8px",
+                    paddingTop: "0",
+                    paddingBottom: "0",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                  >
+                    {user.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt="User Avatar"
+                        style={avatarStyle}
+                      />
+                    ) : (
+                      <AccountCircleRoundedIcon style={avatarStyle} />
+                    )}
+                    <Typography
+                      variant="body1"
+                      style={{
+                        paddingLeft: "5px",
+                        paddingRight: "5px",
+                        fontSize: "10px",
+                        textTransform: "capitalize",
+                        overflowWrap: "break-word",
+                        wordWrap: "break-word",
+                        hyphens: "auto",
+                        whiteSpace: "normal",
+                        width: "100%",
+                        lineHeight: "10px",
+                        maxHeight: "20px",
+                        overflow: "hidden",
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          width: "100%",
+                      {user.username || user.facebook_username}
+                    </Typography>
+                  </div>
+                  <div>
+                    {!isRequested(user) && (
+                      <PersonAddAlt1Icon
+                        aria-label="Add Friend"
+                        color="inherit"
+                        onClick={(ev) => {
+                          handleOpenChat(user.id, ev);
+                        }}
+                      ></PersonAddAlt1Icon>
+                    )}
+
+                    {isRequested(user) && (
+                      <IconButton
+                        aria-label="let's chat"
+                        color="inherit"
+                        onClick={(ev) => {
+                          handleOpenChat(user.id, ev);
+                          dispatch(
+                            createMessage({
+                              toId: user.id,
+                              txt: "Let's Chat",
+                            })
+                          );
                         }}
                       >
-                        {user.avatar ? (
-                          <img
-                            src={user.avatar}
-                            alt="User Avatar"
-                            style={avatarStyle}
-                          />
-                        ) : (
-                          <AccountCircleRoundedIcon style={avatarStyle} />
-                        )}
-                        <Typography
-                          variant="body1"
-                          style={{
-                            paddingLeft: "5px",
-                            paddingRight: "5px",
-                            fontSize: "10px",
-                            textTransform: "capitalize",
-                            overflowWrap: "break-word",
-                            wordWrap: "break-word",
-                            hyphens: "auto",
-                            whiteSpace: "normal",
-                            width: "100%",
-                            lineHeight: "10px",
-                            maxHeight: "20px",
-                            overflow: "hidden",
-                          }}
-                        >
-                          {user.username || user.facebook_username}
-                        </Typography>
-                      </div>
-                      {!isRequested(user) && (
-                        <PersonAddAlt1Icon
-                          aria-label="Add Friend"
-                          color="inherit"
-                          onClick={(ev) => {
-                            handleOpenChat(user.id, ev);
-                          }}
-                        ></PersonAddAlt1Icon>
-                      )}
-
-                      {isRequested(user) && (
-                        <IconButton
-                          aria-label="let's chat"
-                          color="inherit"
-                          onClick={(ev) => {
-                            handleOpenChat(user.id, ev);
-                            dispatch(
-                              createMessage({
-                                toId: user.id,
-                                txt: "Let's Chat",
-                              })
-                            );
-                          }}
-                        >
-                          <Chat />
-                        </IconButton>
-                      )}
-                    </ListItem>
-                  );
-                })}
-              </List>
-            </Box>
-          </AccordionDetails>
-        </Accordion>
+                        <Chat />
+                      </IconButton>
+                    )}
+                  </div>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Box>
       </div>
       {showChat && (
         <Box>
@@ -524,7 +486,6 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
 
                       <Box>
                         <List>
-                          {/* <Box> */}
                           {chat.messages.map((message, index) => {
                             console.log(chat.withUser);
                             return (
@@ -543,7 +504,7 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                                       ? "flex-start"
                                       : "flex-end",
                                     borderRadius: "12px",
-                                    // padding: "8px",
+
                                     marginBottom: "8px",
                                     wordBreak: "break-word",
                                     whiteSpace: "pre-wrap",
@@ -567,97 +528,101 @@ const Messages = ({ drawerwidth, handleToggleMessages }) => {
                               </Box>
                             );
                           })}
-                          {/* </Box> */}
                         </List>
                       </Box>
                       <div ref={scrollRef}></div>
-
-                      {confirmedFriend(chat.withUser) ? (
-                        <form
-                          style={{
-                            display: "flex",
-                            width: "100%",
-                            marginTop: "5px",
-                            position: "relative",
-                          }}
-                          onSubmit={(ev) => {
-                            ev.preventDefault(); // Prevent the form from closing
-                            handleSubmit(ev, chat);
-                            console.log("Molly is cooking fluffy eggs...");
-                          }}
-                        >
-                          <TextField
-                            placeholder={`Send a message to ${
-                              chat.withUser.username ||
-                              chat.withUser.facebook_username
-                            }`}
-                            sx={{
-                              flex: "1",
-                              marginRight: "10px",
-                              height: "100%",
-                              resize: "vertical",
-                              overflow: "auto",
-                              fontSize: "10px",
-                              fontFamily: "Helvetica",
-                              marginBottom: "10px",
+                      <div>
+                        {confirmedFriend(chat.withUser) ? (
+                          <form
+                            style={{
+                              display: "flex",
+                              width: "100%",
+                              marginTop: "5px",
                               position: "relative",
                             }}
-                            multiline
-                            InputProps={{
-                              endAdornment: (
-                                <IconButton
-                                  type="submit"
-                                  variant="contained"
-                                  style={{
-                                    position: "absolute",
-                                    top: "50%",
-                                    right: "5px",
-                                    transform: "translateY(-50%)",
-                                    textTransform: "none",
-                                    width: "20px",
-                                    height: "20px",
-                                    padding: 0,
-                                    backgroundColor: "#007aff",
-                                    borderRadius: "5px",
-                                  }}
-                                >
-                                  <Send
-                                    sx={{ fontSize: "10px", color: "#ffffff" }}
-                                  />
-                                </IconButton>
-                              ),
-                              style: {
+                          >
+                            <TextField
+                              placeholder={`Send a message to ${
+                                chat.withUser.username ||
+                                chat.withUser.facebook_username
+                              }`}
+                              value={text}
+                              onChange={(ev) => {
+                                setText(ev.target.value);
+                              }}
+                              sx={{
+                                flex: "1",
+                                marginRight: "10px",
                                 height: "100%",
-                                fontSize: "10px",
                                 resize: "vertical",
                                 overflow: "auto",
-                                maxHeight: "calc(100% - 16px)",
+                                fontSize: "10px",
                                 fontFamily: "Helvetica",
-                                paddingRight: "48px",
-                              },
+                                marginBottom: "10px",
+                                position: "relative",
+                              }}
+                              multiline
+                              InputProps={{
+                                endAdornment: (
+                                  <IconButton
+                                    onClick={(ev) => {
+                                      handleSubmit(ev, chat);
+                                    }}
+                                    variant="contained"
+                                    style={{
+                                      position: "absolute",
+                                      top: "50%",
+                                      right: "5px",
+                                      transform: "translateY(-50%)",
+                                      textTransform: "none",
+                                      width: "20px",
+                                      height: "20px",
+                                      padding: 0,
+                                      backgroundColor: "#007aff",
+                                      borderRadius: "5px",
+                                    }}
+                                  >
+                                    <Send
+                                      sx={{
+                                        fontSize: "10px",
+                                        color: "#ffffff",
+                                      }}
+                                    />
+                                  </IconButton>
+                                ),
+                                style: {
+                                  height: "100%",
+                                  fontSize: "10px",
+                                  resize: "vertical",
+                                  overflow: "auto",
+                                  maxHeight: "calc(100% - 16px)",
+                                  fontFamily: "Helvetica",
+                                  paddingRight: "48px",
+                                },
+                              }}
+                            />
+                          </form>
+                        ) : (
+                          <Typography
+                            variant="body1"
+                            style={{
+                              fontSize: "10px",
+                              backgroundColor: "limegreen",
+                              color: "white",
+                              padding: "8px",
+                              borderRadius: "12px",
+                              alignSelf: "flex-start",
+
+                              wordBreak: "break-word",
+                              whiteSpace: "pre-wrap",
+                              maxWidth: "80%",
                             }}
-                          />
-                        </form>
-                      ) : (
-                        <Typography
-                          variant="body1"
-                          style={{
-                            fontSize: "10px",
-                            backgroundColor: "limegreen",
-                            color: "white",
-                            padding: "8px",
-                            borderRadius: "12px",
-                            alignSelf: "flex-start",
-                            // marginBottom: "8px",
-                            wordBreak: "break-word",
-                            whiteSpace: "pre-wrap",
-                            maxWidth: "80%",
-                          }}
-                        >
-                          You are no longer friends. Please add a friend to
-                          continue the chat.
-                        </Typography>
-                      )}
+                          >
+                            You are no longer friends. Please add a friend to
+                            continue the chat.
+                          </Typography>
+                        )}
+                      </div>
                     </div>
                   </Box>
                 );
