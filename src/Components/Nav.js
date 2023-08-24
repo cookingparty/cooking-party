@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled, useTheme } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
-
+import { attemptLogin } from "../store";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
 import Button from "@mui/material/Button";
@@ -40,8 +40,6 @@ import OnlineUsers from "./OnlineUsers";
 import Friends from "./Friends";
 import FriendRequests from "./FriendRequests";
 import SearchBar from "./Search";
-
-
 
 const Nav = () => {
   const { auth, recipes, onlineUsers, messages, users, friendships } =
@@ -294,6 +292,16 @@ const Nav = () => {
     setReadFriendRequests(friendRequests.map((request) => request.id));
   };
 
+  const loginDemo = async () => {
+    console.log("login demo");
+    await dispatch(
+      attemptLogin({
+        username: "moe",
+        password: "123",
+      })
+    );
+  };
+
   useEffect(() => {
     setReadMessages([]);
   }, [messages]);
@@ -373,7 +381,9 @@ const Nav = () => {
             </Box>
 
             {/* Logo */}
-            <Box sx={{ flexGrow: "1.175", display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{ flexGrow: "1.175", display: "flex", alignItems: "center" }}
+            >
               <Link to="/">
                 <img
                   src="static/images/cookingPartyCircleBullseye2.png"
@@ -447,20 +457,37 @@ const Nav = () => {
 
               {/* Login link */}
               {!auth.id && (
-                <Typography
-                  variant="button"
-                  component={Link}
-                  to="/auth/login"
-                  style={{
-                    color: "#ed4218",
-                    textDecoration: "none",
-                    paddingLeft: "10px",
-                    paddingRight: "20px",
-                    fontFamily: "Helvetica",
-                  }}
-                >
-                  Login / Register
-                </Typography>
+                <div>
+                  <Typography
+                    variant="button"
+                    component={Link}
+                    to="/auth/login"
+                    style={{
+                      color: "#ed4218",
+                      textDecoration: "none",
+                      paddingLeft: "10px",
+                      paddingRight: "20px",
+                      fontFamily: "Helvetica",
+                    }}
+                  >
+                    Login / Register
+                  </Typography>
+                  <Typography
+                    variant="button"
+                    component={Link}
+                    onClick={loginDemo}
+                    style={{
+                      color: "#ed4218",
+                      textDecoration: "none",
+                      paddingLeft: "10px",
+                      paddingRight: "20px",
+                      fontFamily: "Helvetica",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Demo
+                  </Typography>
+                </div>
               )}
             </Box>
           </Toolbar>
@@ -673,7 +700,6 @@ const Nav = () => {
                     drawerwidth={drawerwidth}
                   />
                 )}
-               
               </Box>
             </ListItem>
           </StyledDrawer>
